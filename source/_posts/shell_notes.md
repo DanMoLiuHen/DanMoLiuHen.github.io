@@ -3,28 +3,10 @@ title: shell学习笔记
 date: 2022/8/23 14:14:12
 updated: 2022/9/23 15:34:00
 categories: learning-notes
-excerpt: 记录shell学习笔记
+excerpt: 记录shell学习笔记，笔记类主要是给作者看，因此访客不必在笔记上花费太多时间阅读理解
 hide: false
 tag: markdown
 ---
-
-## md部分语法说明
-> 这里是引用
-
----
-
-`using namespace std;//这里是代码`
-
----
-
-|clo1|clo2|
-|---|---|
-|1|2|
-
----
-
-## 常用指令
-- `ps -f`查看当前所有进程
 
 ## shell注意事项
 - 重定向

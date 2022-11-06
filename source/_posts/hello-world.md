@@ -3,7 +3,7 @@ title: Hello World
 date: 2013/7/13 20:46:25
 categories: learning-notes
 excerpt: 这是摘要
-hide: false
+hide: true
 sticky: 100
 index_img: /img/4.jpg
 ---
