@@ -105,6 +105,5 @@ language: zh-CN  # 指定语言，会影响主题显示的语言，按需修改
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: <repository url> #https://bitbucket.org/JohnSmith/johnsmith.bitbucket.io
-  branch: [branch]
-  message: [message]
+  repo: https://github.com/DanMoLiuHen/DanMoLiuHen.github.io.git
+  branch: gh-pages
