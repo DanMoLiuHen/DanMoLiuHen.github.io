@@ -1,0 +1,914 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon-ye1.png">
+  <link rel="icon" href="/img/favicon-ye2.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="YeBao">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="记录爬虫的学习笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="爬虫学习">
+<meta property="og:url" content="https://danmoliuhen.github.io./2022/09/27/%E7%88%AC%E8%99%AB%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="YeBao&#39;blog">
+<meta property="og:description" content="记录爬虫的学习笔记">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://danmoliuhen.github.io./img/regular-expression.png">
+<meta property="article:published_time" content="2022-09-27T15:59:12.615Z">
+<meta property="article:modified_time" content="2022-10-27T16:05:15.335Z">
+<meta property="article:author" content="YeBao">
+<meta property="article:tag" content="markdown">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://danmoliuhen.github.io./img/regular-expression.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>爬虫学习 - YeBao&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"danmoliuhen.github.io.","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>YeBao</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/2.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="爬虫学习"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-09-27 23:59" pubdate>
+          2022年9月27日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          11k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          95 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">爬虫学习</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：2022年10月28日 凌晨
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <p>使用python完成爬虫，《python网络数据采集》学习笔记</p>
+<div class="note note-warning">
+            <p>使用时需要关闭网络代理</p>
+          </div> 
+
+<h1 id="python使用"><a href="#python使用" class="headerlink" title="python使用"></a>python使用</h1><h2 id="使用虚拟环境安装包"><a href="#使用虚拟环境安装包" class="headerlink" title="使用虚拟环境安装包"></a>使用虚拟环境安装包</h2><p><strong>使用好处</strong></p>
+<ol>
+<li>可以避免已安装的包产生冲突，若不使用则默认安装在root下（linux中）</li>
+<li>可以打包整个环境发送给他人（项目关联的所有库单独放在一个虚拟环境）</li>
+</ol>
+<p><strong>使用方法</strong></p>
+<p>创建了一个叫作 scrapingEnv 的新环境</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">virtualenv scrapingEnv<br></code></pre></td></tr></table></figure>
+<p>执行activate文件，以激活新环境（部分版本是scripts目录不是bin目录）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> scrapingEnv <br><span class="hljs-built_in">source</span> bin/activate<br></code></pre></td></tr></table></figure>
+<p>激活环境后环境名称出现在命令行提示符前，此后的任意安装包或执行程序都在该环境下（如下所示）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">(scrapingEnv)ryan$ </span><span class="language-bash">pip install beautifulsoup4</span><br></code></pre></td></tr></table></figure>
+<p>退出虚拟环境</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">(scrapingEnv)ryan$ </span><span class="language-bash">deactivate</span><br></code></pre></td></tr></table></figure>
+
+<p>生成依赖项清单<br><code>pip freeze &gt; requirements.txt</code></p>
+<p>读取并安装依赖项<br><code>pip install -r requirements.txt</code></p>
+<h1 id="爬虫"><a href="#爬虫" class="headerlink" title="爬虫"></a>爬虫</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><ul>
+<li>先请求网络（即根据url等信息打开网页），再解析网页html（个人理解）</li>
+<li>网络请求可用requests或urllib(python自带)</li>
+<li>解析html和xml文档可用BeautifulSoup或lxml（处理速度很快）或<a target="_blank" rel="noopener" href="https://docs.python.org/3/library/html.parser.html">HTML parser</a>(python自带)</li>
+<li>Requests 库擅长处理复杂的HTTP请求、cookie、header（响应头和请求头）等内容<br>本次用到的包为urllib(进行网络请求)和BeautifulSoup（解析）,安装方式：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># pip install requests</span><br>pip install beautifulsoup4<br></code></pre></td></tr></table></figure>
+requests使用<br>requests返回对象中包含的内容<table>
+<thead>
+<tr>
+<th>属性或方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>apparent_encoding</td>
+<td>编码方式</td>
+</tr>
+<tr>
+<td>close()</td>
+<td>关闭与服务器的连接</td>
+</tr>
+<tr>
+<td>content</td>
+<td>返回响应的内容，以字节为单位</td>
+</tr>
+<tr>
+<td>cookies</td>
+<td>返回一个 CookieJar 对象，包含了从服务器发回的 cookie</td>
+</tr>
+<tr>
+<td>elapsed</td>
+<td>返回一个 timedelta 对象，包含了从发送请求到响应到达之间经过的时间量，可以用于测试响应速度。比如 r.elapsed.microseconds 表示响应到达需要多少微秒。</td>
+</tr>
+<tr>
+<td>encoding</td>
+<td>解码 r.text 的编码方式</td>
+</tr>
+<tr>
+<td>headers</td>
+<td>返回响应头，字典格式</td>
+</tr>
+<tr>
+<td>history</td>
+<td>返回包含请求历史的响应对象列表（url）</td>
+</tr>
+<tr>
+<td>is_permanent_redirect</td>
+<td>如果响应是永久重定向的 url，则返回 True，否则返回 False</td>
+</tr>
+<tr>
+<td>is_redirect</td>
+<td>如果响应被重定向，则返回 True，否则返回 False</td>
+</tr>
+<tr>
+<td>iter_content()</td>
+<td>迭代响应</td>
+</tr>
+<tr>
+<td>iter_lines()</td>
+<td>迭代响应的行</td>
+</tr>
+<tr>
+<td>json()</td>
+<td>返回结果的 JSON 对象 (结果需要以 JSON 格式编写的，否则会引发错误)</td>
+</tr>
+<tr>
+<td>links</td>
+<td>返回响应的解析头链接</td>
+</tr>
+<tr>
+<td>next</td>
+<td>返回重定向链中下一个请求的 PreparedRequest 对象</td>
+</tr>
+<tr>
+<td>ok</td>
+<td>检查 “status_code” 的值，如果小于400，则返回 True，如果不小于 400，则返回 False</td>
+</tr>
+<tr>
+<td>raise_for_status()</td>
+<td>如果发生错误，方法返回一个 HTTPError 对象</td>
+</tr>
+<tr>
+<td>reason</td>
+<td>响应状态的描述，比如 “Not Found” 或 “OK”</td>
+</tr>
+<tr>
+<td>request</td>
+<td>返回请求此响应的请求对象</td>
+</tr>
+<tr>
+<td>status_code</td>
+<td>返回 http 的状态码，比如 404 和 200（200 是 OK，404 是 Not Found）</td>
+</tr>
+<tr>
+<td>text</td>
+<td>返回响应的内容，unicode 类型数据</td>
+</tr>
+<tr>
+<td>url</td>
+<td>返回响应的 URL</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<p>参数说明<br><code>requests.post(url, data=&#123;key: value&#125;, json=&#123;key: value&#125;, args)</code></p>
+<blockquote>
+<p>url 请求 url。<br>data 参数为要发送到指定 url 的字典、元组列表、字节或文件对象。<br>json 参数为要发送到指定 url 的 JSON 对象。<br>args 为其他参数，比如 cookies、headers、verify等。</p>
+</blockquote>
+<h2 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h2><p>异常情况：</p>
+<ul>
+<li>404、500抛出HTMLError</li>
+<li>BeautifulSoup获取的标签不存在返回None</li>
+<li>requests请求超时<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> urllib.request <span class="hljs-keyword">import</span> urlopen <br><span class="hljs-keyword">from</span> urllib.error <span class="hljs-keyword">import</span> HTTPError <br><span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup <br><span class="hljs-keyword">def</span> <span class="hljs-title function_">getTitle</span>(<span class="hljs-params">url</span>): <br>    <span class="hljs-keyword">try</span>:<br>        html = urlopen(url,timeout=<span class="hljs-number">5</span>)<br>    <span class="hljs-keyword">except</span> HTTPError <span class="hljs-keyword">as</span> e: <br>        <span class="hljs-comment"># 打印异常</span><br>        <span class="hljs-built_in">print</span>(e)<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span><br>    <span class="hljs-comment"># 请求超时</span><br>    <span class="hljs-keyword">except</span> requests.exceptions.RequestException <span class="hljs-keyword">as</span> e:<br>        <span class="hljs-built_in">print</span>(e)<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span><br><br>    <span class="hljs-keyword">try</span>:<br>        bsObj = BeautifulSoup(html.read()) <br>        title = bsObj.body.h1<br>    <span class="hljs-keyword">except</span> AttributeError <span class="hljs-keyword">as</span> e:     <br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span><br>    <span class="hljs-keyword">return</span> title<br><br>title = getTitle(<span class="hljs-string">&quot;http://www.pythonscraping.com/pages/page1.html&quot;</span>) <br><span class="hljs-keyword">if</span> title == <span class="hljs-literal">None</span>: <br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Title could not be found&quot;</span>)<br><span class="hljs-keyword">else</span>:<br>    <span class="hljs-built_in">print</span>(title)<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="BeautifulSoup方法"><a href="#BeautifulSoup方法" class="headerlink" title="BeautifulSoup方法"></a>BeautifulSoup方法</h2><p>BeautifulSoup返回对象方法findAll()可以根据属性查找所需标签<code>findAll(tag, attributes, recursive, text, limit, keywords)</code></p>
+<ul>
+<li><code>recursive</code>是一个布尔变量，为<code>Ture</code>查找标签参数的所有子标签，以及子标签的子标签，默认值是<code>True</code></li>
+<li><code>text</code>用文本内容去匹配，设置<code>text=&#39;the prince&#39;</code>是查找网页中包含“the prince”内容的标签数量</li>
+<li><code>limit</code>范围限制参数,<code>find</code>等价于<code>findAll</code>的<code>limit</code>等于1时的情形 </li>
+<li><code>keyword</code>选择那些具有指定属性的标签，如<code>findAll(id=&quot;text&quot;)</code>其等价于<code>findAll(&quot;&quot;, &#123;&quot;id&quot;:&quot;text&quot;&#125;)</code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python">html = urlopen(<span class="hljs-string">&quot;http://www.pythonscraping.com/pages/warandpeace.html&quot;</span>) <br>bsObj = BeautifulSoup(html)<br><span class="hljs-comment"># 获取span标签中class属性为green的所有对象</span><br>nameList = bsObj.findAll(<span class="hljs-string">&quot;span&quot;</span>, &#123;<span class="hljs-string">&quot;class&quot;</span>:<span class="hljs-string">&quot;green&quot;</span>&#125;) <br><span class="hljs-keyword">for</span> name <span class="hljs-keyword">in</span> nameList:<br>    <span class="hljs-comment"># get_text()只保留文本</span><br>    <span class="hljs-built_in">print</span>(name.get_text())<br><br>---<br><br><span class="hljs-comment"># 标签列表作为参数</span><br>.findAll(&#123;<span class="hljs-string">&quot;h1&quot;</span>,<span class="hljs-string">&quot;h2&quot;</span>,<span class="hljs-string">&quot;h3&quot;</span>,<span class="hljs-string">&quot;h4&quot;</span>,<span class="hljs-string">&quot;h5&quot;</span>,<span class="hljs-string">&quot;h6&quot;</span>&#125;)<br><span class="hljs-comment"># 属性列表做参数,返回所有属性为green和red的span标签</span><br>.findAll(<span class="hljs-string">&quot;span&quot;</span>, &#123;<span class="hljs-string">&quot;class&quot;</span>:&#123;<span class="hljs-string">&quot;green&quot;</span>, <span class="hljs-string">&quot;red&quot;</span>&#125;&#125;)<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="子标签、后代标签与兄弟标签"><a href="#子标签、后代标签与兄弟标签" class="headerlink" title="子标签、后代标签与兄弟标签"></a>子标签、后代标签与兄弟标签</h2><ul>
+<li>子标签：一个父标签的下一级<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 只取下一级</span><br><span class="hljs-keyword">from</span> urllib.request <span class="hljs-keyword">import</span> urlopen <br><span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup<br>html = urlopen(<span class="hljs-string">&quot;http://www.pythonscraping.com/pages/page3.html&quot;</span>) <br>bsObj = BeautifulSoup(html)<br><span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> bsObj.find(<span class="hljs-string">&quot;table&quot;</span>,&#123;<span class="hljs-string">&quot;id&quot;</span>:<span class="hljs-string">&quot;giftList&quot;</span>&#125;).children:<br>    <span class="hljs-built_in">print</span>(child)<br>---<br><span class="hljs-comment"># 与后代有区别（获取所有后代）</span><br><span class="hljs-keyword">for</span> child <span class="hljs-keyword">in</span> bsObj.find(<span class="hljs-string">&quot;table&quot;</span>,&#123;<span class="hljs-string">&quot;id&quot;</span>:<span class="hljs-string">&quot;giftList&quot;</span>&#125;).descendants:<br>    <span class="hljs-built_in">print</span>(child)<br></code></pre></td></tr></table></figure></li>
+<li>后代标签：一个父标签下面所有级别的标签</li>
+<li>兄弟标签：与自己平级的标签（不包含自己），常用于表格处理中<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 取与tr平级的所有标签</span><br><span class="hljs-keyword">from</span> urllib.request <span class="hljs-keyword">import</span> urlopen <br><span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup<br>html = urlopen(<span class="hljs-string">&quot;http://www.pythonscraping.com/pages/page3.html&quot;</span>) <br>bsObj = BeautifulSoup(html)<br><span class="hljs-keyword">for</span> sibling <span class="hljs-keyword">in</span> bsObj.find(<span class="hljs-string">&quot;table&quot;</span>,&#123;<span class="hljs-string">&quot;id&quot;</span>:<span class="hljs-string">&quot;giftList&quot;</span>&#125;).tr.next_siblings:<br>    <span class="hljs-built_in">print</span>(sibling)<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><p>大多数支持字符串参数的函数可用正则表达式实现，如下抓取所有以<code>../img/gifts/img</code>开头，以<code>.jpg</code>结尾的字符串</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> urllib.request <span class="hljs-keyword">import</span> urlopen <br><span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup <br><span class="hljs-keyword">import</span> re<br>html = urlopen(<span class="hljs-string">&quot;http://www.pythonscraping.com/pages/page3.html&quot;</span>) <br>bsObj = BeautifulSoup(html)<br>images = bsObj.findAll(<span class="hljs-string">&quot;img&quot;</span>,&#123;<span class="hljs-string">&quot;src&quot;</span>:re.<span class="hljs-built_in">compile</span>(<span class="hljs-string">&quot;\.\.\/img\/gifts/img.*\.jpg&quot;</span>)&#125;) <br><span class="hljs-keyword">for</span> image <span class="hljs-keyword">in</span> images:<br>    <span class="hljs-built_in">print</span>(image[<span class="hljs-string">&quot;src&quot;</span>])<br></code></pre></td></tr></table></figure>
+<p>常用正则表达式<br><a target="_blank" rel="noopener" href="https://www.runoob.com/regexp/regexp-syntax.html">参考链接</a><br><img src="/../img/regular-expression.png" srcset="/img/loading.gif" lazyload alt="常用正则表达式"></p>
+<h2 id="网站信息采集"><a href="#网站信息采集" class="headerlink" title="网站信息采集"></a>网站信息采集</h2><p>通过递归爬取一个有多页面的网站信息，策略：若获取的新链接不在全局变量集合中，则加入全局变量并爬取这个页面的信息，若已存在则跳过，python的递归限制为1000次</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> urllib.request <span class="hljs-keyword">import</span> urlopen <br><span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup <br><span class="hljs-keyword">import</span> re<br>pages = <span class="hljs-built_in">set</span>() <br><span class="hljs-keyword">def</span> <span class="hljs-title function_">getLinks</span>(<span class="hljs-params">pageUrl</span>): <br>    <span class="hljs-keyword">global</span> pages<br>    html = urlopen(<span class="hljs-string">&quot;http://en.wikipedia.org&quot;</span>+pageUrl) <br>    bsObj = BeautifulSoup(html) <br>    <span class="hljs-keyword">for</span> link <span class="hljs-keyword">in</span> bsObj.findAll(<span class="hljs-string">&quot;a&quot;</span>, href=re.<span class="hljs-built_in">compile</span>(<span class="hljs-string">&quot;^(/wiki/)&quot;</span>)): <br>        <span class="hljs-keyword">if</span> <span class="hljs-string">&#x27;href&#x27;</span> <span class="hljs-keyword">in</span> link.attrs: <br>            <span class="hljs-keyword">if</span> link.attrs[<span class="hljs-string">&#x27;href&#x27;</span>] <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> pages: <span class="hljs-comment"># 我们遇到了新页面</span><br>                newPage = link.attrs[<span class="hljs-string">&#x27;href&#x27;</span>]    <br>                <span class="hljs-built_in">print</span>(newPage) <br>                pages.add(newPage) <br>                getLinks(newPage)<br>getLinks(<span class="hljs-string">&quot;&quot;</span>)<br></code></pre></td></tr></table></figure>
+<p>以下代码从 <a target="_blank" rel="noopener" href="http://oreilly.com/">http://oreilly.com</a> 开始，随机地从一个外链跳到另一个外链，但没有异常处理</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> urllib.request <span class="hljs-keyword">import</span> urlopen <br><span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup <br><span class="hljs-keyword">import</span> re <br><span class="hljs-keyword">import</span> datetime <br><span class="hljs-keyword">import</span> random<br>pages = <span class="hljs-built_in">set</span>() <br>random.seed(datetime.datetime.now())<br><br><span class="hljs-comment"># 获取页面所有内链的列表 </span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">getInternalLinks</span>(<span class="hljs-params">bsObj, includeUrl</span>): <br>    internalLinks = [] <br>    <span class="hljs-comment"># 找出所有以&quot;/&quot;开头的链接 .</span><br>    <span class="hljs-keyword">for</span> link <span class="hljs-keyword">in</span> bsObj.findAll(<span class="hljs-string">&quot;a&quot;</span>, href=re.<span class="hljs-built_in">compile</span>(<span class="hljs-string">&quot;^(/|.*&quot;</span>+includeUrl+<span class="hljs-string">&quot;)&quot;</span>)): <br>        <span class="hljs-keyword">if</span> link.attrs[<span class="hljs-string">&#x27;href&#x27;</span>] <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>: <br>            <span class="hljs-keyword">if</span> link.attrs[<span class="hljs-string">&#x27;href&#x27;</span>] <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> internalLinks: <br>                internalLinks.append(link.attrs[<span class="hljs-string">&#x27;href&#x27;</span>])<br>    <span class="hljs-keyword">return</span> internalLinks<br><br><span class="hljs-comment"># 获取页面所有外链的列表 </span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">getExternalLinks</span>(<span class="hljs-params">bsObj, excludeUrl</span>): <br>    externalLinks = [] <br>    <span class="hljs-comment"># 找出所有以&quot;http&quot;或&quot;www&quot;开头且不包含当前URL的链接 </span><br>    <span class="hljs-keyword">for</span> link <span class="hljs-keyword">in</span> bsObj.findAll(<span class="hljs-string">&quot;a&quot;</span>,href=re.<span class="hljs-built_in">compile</span>(<span class="hljs-string">&quot;^(http|www)((?!&quot;</span>+excludeUrl+<span class="hljs-string">&quot;).)*$&quot;</span>)):<br>        <span class="hljs-keyword">if</span> link.attrs[<span class="hljs-string">&#x27;href&#x27;</span>] <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>: <br>            <span class="hljs-keyword">if</span> link.attrs[<span class="hljs-string">&#x27;href&#x27;</span>] <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> externalLinks: <br>                externalLinks.append(link.attrs[<span class="hljs-string">&#x27;href&#x27;</span>])<br>    <span class="hljs-keyword">return</span> externalLinks <br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">splitAddress</span>(<span class="hljs-params">address</span>):<br>    addressParts = address.replace(<span class="hljs-string">&quot;http://&quot;</span>, <span class="hljs-string">&quot;&quot;</span>).split(<span class="hljs-string">&quot;/&quot;</span>) <br>    <span class="hljs-keyword">return</span> addressParts<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">getRandomExternalLink</span>(<span class="hljs-params">startingPage</span>): <br>    html = urlopen(startingPage) <br>    bsObj = BeautifulSoup(html)<br>    externalLinks = getExternalLinks(bsObj, splitAddress(startingPage)[<span class="hljs-number">0</span>]) <br>    <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(externalLinks) == <span class="hljs-number">0</span>:<br>        internalLinks = getInternalLinks(startingPage) <br>        <span class="hljs-keyword">return</span> getNextExternalLink(internalLinks[random.randint(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(internalLinks)-<span class="hljs-number">1</span>)])<br>    <span class="hljs-keyword">else</span>: <br>        <span class="hljs-keyword">return</span> externalLinks[random.randint(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(externalLinks)-<span class="hljs-number">1</span>)] <br>        <br><span class="hljs-keyword">def</span> <span class="hljs-title function_">followExternalOnly</span>(<span class="hljs-params">startingSite</span>):<br>    externalLink = getRandomExternalLink(<span class="hljs-string">&quot;http://oreilly.com&quot;</span>) <br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;随机外链是：&quot;</span>+externalLink) <br>    followExternalOnly(externalLink)<br><br>followExternalOnly(<span class="hljs-string">&quot;http://oreilly.com&quot;</span>)<br></code></pre></td></tr></table></figure>
+<p>可以使用scrapy完成爬虫</p>
+<h2 id="scrapy使用"><a href="#scrapy使用" class="headerlink" title="scrapy使用"></a>scrapy使用</h2><p>scrapy是一个爬虫框架，相关教程可以参考<a target="_blank" rel="noopener" href="https://docs.scrapy.org/en/latest/">scrapy教程</a>（另有一份<a target="_blank" rel="noopener" href="https://scrapy-chs.readthedocs.io/zh_CN/1.0/intro/tutorial.html">中文版</a>但不是最新且项目已废弃，可参考）这里只记录一点常用的指令和个人理解。</p>
+<ol>
+<li>安装<br><code>pip install scrapy</code>即可</li>
+<li>创建一个命名为name的项目<br><code>scrapy startproject &lt;name&gt;</code></li>
+<li>创建一个命名为douban域名为movie.douban.com的spider（也可以手动创建，继承Spider类即可）<br><code>scrapy genspider &lt;douban&gt; &lt;movie.douban.com&gt;</code></li>
+<li>启动命名为name的spider<br><code>scrapy crawl &lt;name&gt;</code></li>
+</ol>
+<ul>
+<li>scrapy shell功能有助于快速了解网页内容<br><code>scrapy shell &lt;&quot;https://www.amazon.com/dp/B00004CQT3/&quot;&gt;</code></li>
+<li>运行quotes输出到quotes.json中，-O覆盖，-o续写<br><code>scrapy crawl &lt;quotes&gt; -O &lt;quotes.json&gt;</code></li>
+</ul>
+<h2 id="处理复杂的http请求"><a href="#处理复杂的http请求" class="headerlink" title="处理复杂的http请求"></a>处理复杂的http请求</h2><p>urllib在处理复杂的http请求（比如涉及传参）时有些不足，requests为更优选择</p>
+<p>进行post请求，并传递参数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br>params = &#123;<span class="hljs-string">&#x27;firstname&#x27;</span>: <span class="hljs-string">&#x27;Ryan&#x27;</span>, <span class="hljs-string">&#x27;lastname&#x27;</span>: <span class="hljs-string">&#x27;Mitchell&#x27;</span>&#125;<br>r = requests.post(<span class="hljs-string">&quot;http://pythonscraping.com/files/processing.php&quot;</span>, data=params)<br><span class="hljs-built_in">print</span>(r.text)<br></code></pre></td></tr></table></figure>
+<p>跟踪cookies</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 此处代码不完整</span><br>r = requests.post(<span class="hljs-string">&quot;http://pythonscraping.com/pages/cookies/welcome.php&quot;</span>, params) <br><span class="hljs-built_in">print</span>(r.cookies.get_dict()) <br></code></pre></td></tr></table></figure>
+<p>当网站cookies经常变动，可以使用session完成</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests <br>session = requests.Session()<br>params = &#123;<span class="hljs-string">&#x27;username&#x27;</span>: <span class="hljs-string">&#x27;username&#x27;</span>, <span class="hljs-string">&#x27;password&#x27;</span>: <span class="hljs-string">&#x27;password&#x27;</span>&#125; <br>s = session.post(<span class="hljs-string">&quot;http://pythonscraping.com/pages/cookies/welcome.php&quot;</span>, params) <br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Cookie is set to:&quot;</span>) <br><span class="hljs-built_in">print</span>(s.cookies.get_dict()) <br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;-----------&quot;</span>) <br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Going to profile page...&quot;</span>)<br>s = session.get(<span class="hljs-string">&quot;http://pythonscraping.com/pages/cookies/profile.php&quot;</span>)<br><span class="hljs-built_in">print</span>(s.text)<br></code></pre></td></tr></table></figure>
+<h2 id="处理javascript"><a href="#处理javascript" class="headerlink" title="处理javascript"></a>处理javascript</h2><p>一般javascript不会被采集，因此对于一些动态的网站采集的数据与网站上显示的内容可能不一致，因此使用<a target="_blank" rel="noopener" href="http://www.seleniumhq.org/">Selenium</a>库(可直接使用指令<code>pip install selenium</code>完成安装)，一般配合无头浏览器<a target="_blank" rel="noopener" href="https://phantomjs.org/download.html">PhantomJS</a>(不是python库，所以安装需要在官网下载)使用，遇到Google Analytics时需要设置cookie</p>
+<div class="note note-warning">
+            <p>新版Selenium不支持phantomjs（可通过安装低版本使用<code>pip install selenium==2.48.0</code>），也可以用谷歌浏览器</p>
+          </div> 
+<h3 id="selenium-Chrome配置"><a href="#selenium-Chrome配置" class="headerlink" title="selenium+Chrome配置"></a>selenium+Chrome配置</h3><ol>
+<li>在谷歌浏览器网址中输入<code>chrome://version/</code>，查看版本信息</li>
+<li>在<code>https://chromedriver.chromium.org/home</code>网站下载对应版本的驱动</li>
+<li>将下载后的exe文件放入python路径中的Scripts即可，如<code>...\Python\Python38\Scripts</code>路径</li>
+<li>执行以下代码不报错说明成功<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> selenium <span class="hljs-keyword">import</span> webdriver<br>driver = webdriver.Chrome()<br>driver.get(<span class="hljs-string">&#x27;https://www.baidu.com&#x27;</span>)<br>driver.quit()<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="爬虫进阶"><a href="#爬虫进阶" class="headerlink" title="爬虫进阶"></a>爬虫进阶</h2><ol>
+<li>修改请求头，以达到爬虫更像人<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">headers = &#123;<span class="hljs-string">&quot;User-Agent&quot;</span>:<span class="hljs-string">&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit 537.36 (KHTML, like Gecko) Chrome&quot;</span>, <span class="hljs-string">&quot;Accept&quot;</span>:<span class="hljs-string">&quot;text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8&quot;</span>&#125;<br></code></pre></td></tr></table></figure>
+使用use-gent：<code>iPhone; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Version/7.0 Mobile/11D257Safari/9537.53</code>相当于使用移动设备访问网站（内容更简化没有广告等干扰）</li>
+<li>处理cookie<br>需要使用Selenium 和 PhantomJS，可以实现获取cookie或者保存cookie<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> selenium <span class="hljs-keyword">import</span> webdriver <br>driver = webdriver.PhantomJS(executable_path=<span class="hljs-string">&#x27;&lt;Path to Phantom JS&gt;&#x27;</span>) <br>driver.get(<span class="hljs-string">&quot;http://pythonscraping.com&quot;</span>) <br>driver.implicitly_wait(<span class="hljs-number">1</span>)<br><span class="hljs-built_in">print</span>(driver.get_cookies())<br></code></pre></td></tr></table></figure></li>
+<li>处理隐含字段<br>如下html网页，含有三个隐含字段，若填充并提交会被服务器判为机器人封杀，</li>
+</ol>
+<ul>
+<li>第一个链接通过CSS属性设置display:None</li>
+<li>name&#x3D;”phone” 一个隐含的输入字段 </li>
+<li>name&#x3D;”email” 将元素向右移动 50 000 像素（超出电脑显示器的边界）并隐藏滚动条<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span> <br><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>A bot-proof form<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css"> <span class="hljs-selector-tag">body</span> &#123;</span><br><span class="language-css">    <span class="hljs-attribute">overflow-x</span>:hidden; &#125; </span><br><span class="language-css">    <span class="hljs-selector-class">.customHidden</span> &#123;</span><br><span class="language-css">    <span class="hljs-attribute">position</span>:absolute; </span><br><span class="language-css">    <span class="hljs-attribute">right</span>:<span class="hljs-number">50000px</span>;</span><br><span class="language-css">    &#125;</span><br><span class="language-css"></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span> <br><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>A bot-proof form<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span> <br>    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;http://pythonscraping.com/dontgohere&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;display:none;&quot;</span>&gt;</span>Go here!<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;http://pythonscraping.com&quot;</span>&gt;</span>Click me!<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span> <br>    <span class="hljs-tag">&lt;<span class="hljs-name">form</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;hidden&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;phone&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;valueShouldNotBeModified&quot;</span>/&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>/&gt;</span> <br>        <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;customHidden&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;intentionallyBlank&quot;</span>/&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>/&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;firstName&quot;</span>/&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>/&gt;</span> <br>        <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;lastName&quot;</span>/&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>/&gt;</span> <br>        <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;Submit&quot;</span>/&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>/&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span><br></code></pre></td></tr></table></figure>
+使用selenium解决，通过link.is_displayed()自动判断<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> selenium <span class="hljs-keyword">import</span> webdriver <br><span class="hljs-keyword">from</span> selenium.webdriver.remote.webelement <span class="hljs-keyword">import</span> WebElement<br>driver = webdriver.PhantomJS(executable_path=<span class="hljs-string">&#x27;&#x27;</span>) <br>driver.get(<span class="hljs-string">&quot;http://pythonscraping.com/pages/itsatrap.html&quot;</span>) <br>links = driver.find_elements_by_tag_name(<span class="hljs-string">&quot;a&quot;</span>) <br><span class="hljs-keyword">for</span> link <span class="hljs-keyword">in</span> links: <br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> link.is_displayed(): <br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;The link &quot;</span>+link.get_attribute(<span class="hljs-string">&quot;href&quot;</span>)+<span class="hljs-string">&quot; is a trap&quot;</span>)<br><br>fields = driver.find_elements_by_tag_name(<span class="hljs-string">&quot;input&quot;</span>) <br><span class="hljs-keyword">for</span> field <span class="hljs-keyword">in</span> fields: <br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> field.is_displayed():<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Do not change value of &quot;</span>+field.get_attribute(<span class="hljs-string">&quot;name&quot;</span>))<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="杂项"><a href="#杂项" class="headerlink" title="杂项"></a>杂项</h1><h2 id="http消息"><a href="#http消息" class="headerlink" title="http消息"></a>http消息</h2><p>http消息由头字段（header field）和数据字段（data field）组成，常用的头字段有</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>含义</th>
+<th>实例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>User-Agent</td>
+<td>字符串，表示发出请求的浏览器和操作系统信息</td>
+<td>Mozilla&#x2F;5.0 (X11; Ubuntu; Linux x86_64; rv:28.0) Gecko&#x2F;20100101 Firefox&#x2F;28.0</td>
+</tr>
+<tr>
+<td>Cookie</td>
+<td>变量，被网络应用用来存储会话数据和其他信息</td>
+<td>实例略</td>
+</tr>
+<tr>
+<td>Status</td>
+<td>表示网页请求状态</td>
+<td>“200”（成功），“404”（文件未找到）</td>
+</tr>
+</tbody></table>
+<h2 id="关于《python网络数据采集》"><a href="#关于《python网络数据采集》" class="headerlink" title="关于《python网络数据采集》"></a>关于《python网络数据采集》</h2><p>书中还介绍了图像识别与文字处理（用于部分验证码）这部分笔记中未记录，以及很多技术比如lambda，“无头”（headless）浏览器PhantomJS等，这些没有详细展开</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>python网络数据采集
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://docs.scrapy.org/en/latest/">scrapy教程</a>
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/learning-notes/" class="category-chain-item">learning-notes</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/markdown/">#markdown</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>爬虫学习</div>
+      <div>https://danmoliuhen.github.io./2022/09/27/爬虫学习/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>YeBao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年9月27日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/11/26/ubuntu-server%E4%BD%BF%E7%94%A8/" title="socket网络编程">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">socket网络编程</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/09/26/%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="云原生学习笔记">
+                        <span class="hidden-mobile">云原生学习笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>YeBao</span> <i class="iconfont icon-love"></i> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,900 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon-ye1.png">
+  <link rel="icon" href="/img/favicon-ye2.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="YeBao">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="记录shell学习笔记，笔记类主要是给作者看，因此访客不必在笔记上花费太多时间阅读理解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="shell学习笔记">
+<meta property="og:url" content="https://danmoliuhen.github.io./2022/08/23/shell_notes/index.html">
+<meta property="og:site_name" content="YeBao&#39;blog">
+<meta property="og:description" content="记录shell学习笔记，笔记类主要是给作者看，因此访客不必在笔记上花费太多时间阅读理解">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://danmoliuhen.github.io./img/note-picture/4.png">
+<meta property="og:image" content="https://danmoliuhen.github.io./img/note-picture/3.png">
+<meta property="article:published_time" content="2022-08-23T06:14:12.000Z">
+<meta property="article:modified_time" content="2022-09-23T07:34:00.000Z">
+<meta property="article:author" content="YeBao">
+<meta property="article:tag" content="markdown">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://danmoliuhen.github.io./img/note-picture/4.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>shell学习笔记 - YeBao&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"danmoliuhen.github.io.","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>YeBao</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/2.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="shell学习笔记"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-08-23 14:14" pubdate>
+          2022年8月23日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          28 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">shell学习笔记</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：2022年9月23日 下午
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="shell注意事项"><a href="#shell注意事项" class="headerlink" title="shell注意事项"></a>shell注意事项</h2><ul>
+<li><p>重定向<br>  标准输入文件，stdin文件描述符0<br>  标准输出文件，stdout文件描述符1<br>  标准错误文件，stderr文件描述符2<br>  重定向到&#x2F;dev&#x2F;null文件&#x3D;禁止输出（任何内容均丢弃）</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">将hello.txt文件中的内容传给<span class="hljs-built_in">cat</span> ,然后再传给hello2.txt（覆盖原内容）</span><br>cat &lt; hello.txt &gt; hello2.txt<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">将hello.txt文件中的内容传给<span class="hljs-built_in">cat</span> ,再追加给hello2.txt（不覆盖原内容）</span><br>cat &lt; hello.txt &gt;&gt; hello2.txt<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">将错误信息重定向到文件</span><br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">command</span> 2&gt;file</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">将错误信息和标准输出信息重定向到文件</span><br><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">command</span> &gt; file 2&gt;&amp;1</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p><code>let</code>指令无法使用，将开头的<code>#!/bin/sh</code>换为<code>#!/bin/bash</code><br>语法</p>
+</li>
+<li><p>变量名和等号之间不能有空格</p>
+</li>
+<li><p>0代表true，1代表false</p>
+</li>
+</ul>
+<h2 id="执行脚本"><a href="#执行脚本" class="headerlink" title="执行脚本"></a>执行脚本</h2><p>以下两种启动子shell执行脚本，执行完成后回到父shell，子shell可以使用父shell的变量<br>绝对&#x2F;相对路径（需要x权限）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">./hello.sh<br>绝对路径/hello.sh<br></code></pre></td></tr></table></figure>
+<p>使用bash执行（不需要x权限）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">sh hello.sh<br></code></pre></td></tr></table></figure>
+
+<p>使用source执行，不启动子shell</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">. hello.sh<br>source hello.sh<br><span class="hljs-meta prompt_"># </span><span class="language-bash"><span class="hljs-built_in">source</span>是shell中内嵌的，<span class="hljs-built_in">source</span>中不会启动子shell</span><br></code></pre></td></tr></table></figure>
+<p><img src="/img/note-picture/4.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="权限说明"><a href="#权限说明" class="headerlink" title="权限说明"></a>权限说明</h2><p><img src="/img/note-picture/3.png" srcset="/img/loading.gif" lazyload></p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>d</th>
+<th>-</th>
+<th>l</th>
+<th>r</th>
+<th>w</th>
+<th>x</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>含义</td>
+<td>文件夹</td>
+<td>文件</td>
+<td>链接</td>
+<td>可读</td>
+<td>可写</td>
+<td>可执行</td>
+</tr>
+</tbody></table>
+<ul>
+<li>第一个字符是类型，后每三个为一组，分别表示文件的<strong>拥有者</strong>，文件的<strong>所属组</strong>，文件的<strong>其他用户</strong>所拥有的权限</li>
+<li>第一个yede表示拥有者，第二个为这个拥有者所在组</li>
+</ul>
+<p>赋于执行权限</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">chmod +x ./filename # 使脚本具有执行权限<br>./filename # 执行脚步<br></code></pre></td></tr></table></figure>
+
+<h2 id="变量说明"><a href="#变量说明" class="headerlink" title="变量说明"></a>变量说明</h2><ul>
+<li><code>export variable_name</code>将局部变量提升为全局变量（不需要$），子bash中的修改只对子bash有效</li>
+<li><code>set</code>包含所有系统和用户定义的全局变量、局部变量；<br>  <code>env</code>中是系统中的全局变量；<br>  局部变量在子shell中无效</li>
+<li><code>readonly variable_name</code>设置变量只读  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">myUrl=&quot;https://www.google.com&quot;<br>readonly myUrl<br></code></pre></td></tr></table></figure></li>
+<li><code>unset variable_name</code>删除变量，测试之后需要及时删除以免占用内存,<code>readonly</code>无法<code>unset</code>  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">unset variable_name<br></code></pre></td></tr></table></figure></li>
+<li>特殊变量<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$#</td>
+<td>参数个数</td>
+</tr>
+<tr>
+<td>$*</td>
+<td>所有参数，以”$1 $2 … $n”的形式输出所有参数</td>
+</tr>
+<tr>
+<td>$@</td>
+<td>所有参数，以”$1”,”$2” … “$n” 的形式输出所有参数</td>
+</tr>
+<tr>
+<td>$$</td>
+<td>脚本运行的当前进程ID号</td>
+</tr>
+<tr>
+<td>$!</td>
+<td>后台运行的最后一个进程的ID号</td>
+</tr>
+<tr>
+<td>$?</td>
+<td>最后命令的退出状态。0没有错误，其他值有错</td>
+</tr>
+</tbody></table>
+</li>
+<li>字符串<br>  单引号内任何字符都会原样输出，转义符无效；双引号里可以有变量，有转义字符;也可以不要引号</li>
+<li>数组<br>  定义方式array_name&#x3D;(value0 value1 value2 value3)，用空格分开  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">读取某一元素的值</span><br>valuen=$&#123;array_name[n]&#125;<br><span class="hljs-meta prompt_"># </span><span class="language-bash"> @可以获取数组中的所有元素</span><br>echo $&#123;array_name[@]&#125;<br><span class="hljs-meta prompt_"># </span><span class="language-bash">取得数组元素的个数</span><br>length=$&#123;#array_name[@]&#125;<br>length=$&#123;#array_name[*]&#125;<br><span class="hljs-meta prompt_"># </span><span class="language-bash">取得数组单个元素的长度</span><br>lengthn=$&#123;#array_name[n]&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="运算"><a href="#运算" class="headerlink" title="运算"></a>运算</h2><ul>
+<li>使用<code>expr</code>完成计算</li>
+<li>使用<code>$[]</code>或者<code>$(())</code></li>
+<li>关系运算符,使用如右<code>[ $a -eq $b ]</code><table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-eq</td>
+<td>equal 相等</td>
+</tr>
+<tr>
+<td>-ne</td>
+<td>not equal 不相等</td>
+</tr>
+<tr>
+<td>-lt</td>
+<td>less than 小于</td>
+</tr>
+<tr>
+<td>-le</td>
+<td>less equal 小于等于</td>
+</tr>
+<tr>
+<td>-gt</td>
+<td>greater than 大于</td>
+</tr>
+<tr>
+<td>-ge</td>
+<td>greater equal 大于等于</td>
+</tr>
+<tr>
+<td>!</td>
+<td>非</td>
+</tr>
+<tr>
+<td>-r</td>
+<td>or 或</td>
+</tr>
+<tr>
+<td>-a</td>
+<td>and 与</td>
+</tr>
+</tbody></table>
+</li>
+<li>逻辑运算符&amp;&amp; ,||可借此形成三元表达式</li>
+<li>字符串运算符，文件测试运算符，不常用,见<a target="_blank" rel="noopener" href="https://www.runoob.com/linux/linux-shell-basic-operators.html">链接</a></li>
+</ul>
+<p>示例</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">expression</span><br>a=`expr 1 + 2`<br>echo $a<br><br>expr 4 \* 2 # 乘法运算<br>echo $[ 1+2 ]<br>echo $((3*5))<br><br>echo $[ 3 == 3 ]<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">在比较运算中使用[]不能用&lt;&gt;，但(())中可以使用&lt;&gt;（测试中好像都行）</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">进行加一操作的两种方法</span><br>let a++<br>let a+=1<br>a=$[$a+1]<br><br></code></pre></td></tr></table></figure>
+<p>注意：</p>
+<ul>
+<li>在<code>expr</code>表达式和运算符之间要有空格</li>
+<li>条件表达式注意空格<code>[ 2 == 3 ]</code>（测试中主要是[]两侧的空格）</li>
+<li>表达式中的&#x3D;可用于检测字符串是否相等，&#x3D;&#x3D;检测</li>
+</ul>
+<h2 id="if-for-while-case-until语句"><a href="#if-for-while-case-until语句" class="headerlink" title="if,for,while,case,until语句"></a>if,for,while,case,until语句</h2><p><strong>if</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">if-slse</span><br>if condition<br>then<br>    command1 <br>    command2<br>    ...<br>    commandN<br>else<br>    command<br>fi<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">if-elif-else</span><br>if condition1<br>then<br>    command1<br>elif condition2 <br>then <br>    command2<br>else<br>    commandN<br>fi<br></code></pre></td></tr></table></figure>
+
+<p><strong>for</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs shell">for var in item1 item2 ... itemN<br>do<br>    command1<br>    command2<br>    ...<br>    commandN<br>done<br><br>for ((初始值;循环控制条件;变量变化))<br>do<br>    command<br>done<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">实例</span><br>for loop in 1 2 3 4 5<br>do<br>    echo &quot;The value is: $loop&quot;<br>done<br></code></pre></td></tr></table></figure>
+
+<p><strong>while</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">while condition<br>do<br>    command<br>done<br></code></pre></td></tr></table></figure>
+
+<p><strong>多选择语句</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">;;相当于<span class="hljs-built_in">break</span></span><br>case 值 in<br>模式1)<br>    command1<br>    command2<br>    ...<br>    commandN<br>    ;;<br>模式2)<br>    command1<br>    command2<br>    ...<br>    commandN<br>    ;;<br>esac<br></code></pre></td></tr></table></figure>
+
+<h2 id="读取输入read"><a href="#读取输入read" class="headerlink" title="读取输入read"></a>读取输入read</h2><p>-t 指定等待时间，不加则一直等待<br>-p 指定提示语</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">实例，name表示输入数据名称</span><br>read -t 10 -p &quot;please input your name: &quot; name<br>echo $name<br></code></pre></td></tr></table></figure>
+
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p>系统函数<br>basename获取当前文件名<br>dirname获取路径</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">函数的格式，[]内的是可省略部分</span><br>[ function ] funname [()]<br>&#123;<br><br>    action;<br><br>    [return int;]<br><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>注意：<br>return后的数值n(0-255)</p>
+<h2 id="字符串处理"><a href="#字符串处理" class="headerlink" title="字符串处理"></a>字符串处理</h2><p><strong>字符串截取</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">从start开始，截取长度为length的字符串<br>格式：$&#123;str:start:length&#125;  <br>echo $&#123;str:5:8&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="指令"><a href="#指令" class="headerlink" title="指令"></a>指令</h2><ul>
+<li><p>wc 统计文件信息</p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-l</td>
+<td>统计行数</td>
+</tr>
+<tr>
+<td>-m</td>
+<td>统计字符数</td>
+</tr>
+<tr>
+<td>-w</td>
+<td>统计字数</td>
+</tr>
+<tr>
+<td>-c</td>
+<td>统计字节数</td>
+</tr>
+</tbody></table>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">统计3个文件的信息，输出分别表示行数、单词数、字节数</span><br>wc filename1 filename2 filename3<br>3 94 234 filename1<br>...<br></code></pre></td></tr></table></figure></li>
+<li><p>uptime 获取服务器信息</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs shell">uptime<br>08:21:34 up 36 min,  2 users,  load average: 0.00, 0.00, 0.00<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">当前服务器时间：    08:21:34</span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">当前服务器运行时长  36 min</span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">当前用户数          2 <span class="hljs-built_in">users</span></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">当前的负载均衡      load average  0.00, 0.00, 0.00，分别取1min,5min,15min的均值</span><br></code></pre></td></tr></table></figure></li>
+<li><p>date 有关日期的指令</p>
+</li>
+<li><p>head </p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">查看第一行内容</span><br>head -1 filename<br></code></pre></td></tr></table></figure></li>
+<li><p>tail<br>  与head类似</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">查看最后一行内容</span><br>tail -1 filename<br></code></pre></td></tr></table></figure></li>
+<li><p>ssh 远程连接</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">连接远程服务器并执行以下指令</span><br>ssh user@公网ip &quot;cd /home ; ./a.sh&quot;<br></code></pre></td></tr></table></figure></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/learning-notes/" class="category-chain-item">learning-notes</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/markdown/">#markdown</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>shell学习笔记</div>
+      <div>https://danmoliuhen.github.io./2022/08/23/shell_notes/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>YeBao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年8月23日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/08/23/hexo+githubPage%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2/" title="hexo+githubPage创建博客">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">hexo+githubPage创建博客</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/08/23/%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/" title="常用指令汇总">
+                        <span class="hidden-mobile">常用指令汇总</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>YeBao</span> <i class="iconfont icon-love"></i> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
