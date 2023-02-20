@@ -9,7 +9,7 @@ tag: markdown
 # ubuntu-server使用
 ## 换源
 
-使用`vim /stc/apt/sources.list`修改源配置文件，在首行添加以下内容
+使用`vim /etc/apt/sources.list`修改源配置文件，在首行添加以下内容
 ```bash
 # 阿里源
 deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse
