@@ -24,7 +24,7 @@
 <meta property="og:description" content="主要记录作者学习云原生的笔记，笔记类主要是给作者看，因此访客不必在笔记上花费太多时间阅读理解">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-09-26T12:14:12.000Z">
-<meta property="article:modified_time" content="2022-11-27T07:09:24.926Z">
+<meta property="article:modified_time" content="2022-12-10T07:56:09.076Z">
 <meta property="article:author" content="YeBao">
 <meta property="article:tag" content="markdown">
 <meta name="twitter:card" content="summary_large_image">
@@ -224,7 +224,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          8.9k 字
+          9k 字
         
       </span>
     
@@ -286,7 +286,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2022年11月27日 下午
+                    本文最后更新于：2022年12月10日 下午
                   
                 
               </p>
@@ -294,7 +294,8 @@
             
               <div class="markdown-body">
                 
-                <h1 id="概述："><a href="#概述：" class="headerlink" title="概述："></a>概述：</h1><h1 id="docker"><a href="#docker" class="headerlink" title="docker"></a>docker</h1><h2 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h2><p>运行在虚拟机ubuntu20.04上</p>
+                <h1 id="概述："><a href="#概述：" class="headerlink" title="概述："></a>概述：</h1><p>记录云原生项目部署中的一些事项，从k8s部署到镜像打包推送（使用docker）</p>
+<h1 id="docker"><a href="#docker" class="headerlink" title="docker"></a>docker</h1><h2 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h2><p>运行在虚拟机ubuntu20.04上</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 构建容器镜像，.表示在当前文件夹内，需要先有一个dockerfile</span><br>docker build -t getting-started .<br><br><span class="hljs-comment"># docker run运行docker，-d在后台运行，-p 80:6379，将主机的端口80映射到容器中的端口80</span><br><span class="hljs-comment"># --name给容命名</span><br>docker run -d -p 80:6379 --name redis redis:lastest<br></code></pre></td></tr></table></figure>
 <p>更新源码后，需要先删除旧容器，再启动新容器</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 获取容器的 ID </span><br>docker ps<br><br><span class="hljs-comment"># 使用docker stop命令停止容器。</span><br><span class="hljs-comment"># 用docker ps查询的ip更换&lt;the-container-id&gt;</span><br>docker stop &lt;the-container-id&gt;<br><br><span class="hljs-comment"># 容器停止后，使用docker rm命令将其删除</span><br>docker <span class="hljs-built_in">rm</span> &lt;the-container-id&gt;<br><br><span class="hljs-comment"># 将停止和删除命令合并，通过force指令</span><br>docker <span class="hljs-built_in">rm</span> -f &lt;the-container-id&gt;<br><br><span class="hljs-comment"># 启动更新后的容器</span><br>docker run -dp 3000:3000 getting-started<br></code></pre></td></tr></table></figure>
