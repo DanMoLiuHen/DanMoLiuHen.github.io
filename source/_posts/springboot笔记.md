@@ -72,7 +72,6 @@ spring.mvc.pathmatch.matching-strategy=ant_path_matcher
 ```
 
 ## Mysql使用
-密码：Ydx15877470609
 1. 在项目中添加依赖
 ```xml
         <!--        MyBatisPlus依赖-->

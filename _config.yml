@@ -103,10 +103,10 @@ language: zh-CN  # 指定语言，会影响主题显示的语言，按需修改
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
-# deploy:
-# # - type: git
-# #   repo: https://github.com/DanMoLiuHen/DanMoLiuHen.github.io.git
-# #   branch: gh-pages
+deploy:
+- type: git
+  repo: https://github.com/DanMoLiuHen/DanMoLiuHen.github.io.git
+  branch: gh-pages
 # - type: sftp
 #   host: 81.68.225.236
 #   user: root
