@@ -1,0 +1,51 @@
+---
+title: C++学习笔记
+date: 2023/3/3 19:02:23
+categories: learning-notes
+excerpt: 记录C++中的细枝末节
+hide: true
+tag: markdown，C++
+---
+
+## 动态申请
+申请与释放一维数组
+```C++
+//一维数组
+int *a=new int[10];
+delete[] a;
+
+//二维数组(申请10行9列二维数组)
+int **a=new int*[10];
+for(int i=0;i<10;i++)
+  a[i]=new int[9];
+
+for(int i=0;i<10;i++)
+  delete[] a[i];
+delete[] a;
+```
+
+## 析构函数
+1. 析构函数没有参数，没有返回值，不能重载。
+2. 虚构函数必须是public权限
+3. 纯虚析构函数必须有定义
+```C++
+class test3 {
+public:
+	virtual  ~test3() = 0;
+};
+test3::~test3() { cout << "test3" << endl; }
+
+class test4 :public test3 {
+public:
+	~test4() { cout << "test4" << endl; }
+};
+
+int main() {
+	test4 t;
+	return 0;
+}
+//输出：
+//test4
+//test3
+//缺少~test3()实现则会报错
+```
