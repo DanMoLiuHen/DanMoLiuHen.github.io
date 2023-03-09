@@ -9,6 +9,8 @@ tag: markdown，C++，C
 ## 注意事项
 1. `a.begin() + a.size() == a.end()`a为vector或者string等含有迭代器
 2. 示例代码并不是全部代码，只是核心部分
+3. 忽略某个警告，如忽略4305警告`#pragma warning(disable:4305)`
+4. 有关迭代器的相关内容在C++学习笔记中会有详细说明
 
 ## algorithm
 在使用时需要`#include<algorithm>`
@@ -62,7 +64,6 @@ vector<int> v7(5, -1); //申请含5个-1的数组，即-1,-1,-1,-1,-1。
 vector<int> v9(10); 
 vector<int> v10(4); 
 ```
-
 ### vector元素访问或遍历
 1. 下标访问，与数组类似
 ```C++
@@ -108,7 +109,7 @@ a.empty();
 ---
 
 ## string
-vector<char>可以处理字符，但不如string方便，有添加，删除，查找和比较的功能，使用需要加`#include<string>`
+`vector<char>`可以处理字符，但不如string方便，有添加，删除，查找和比较的功能，使用需要加`#include<string>`
 ### 赋值与创建
 直接创建缺省为""
 ```C++
@@ -123,7 +124,7 @@ char a[20]="hello";
 string b=a;
 ```
 ### 尾部添加
-可以直接用`+`给string对象尾部添加字符或字符串，也可以用`append()`添加字符串（不能是字符）
+可以直接用`+`给string对象尾部添加**字符或字符串**，也可以用`append()`添加字符串（不能是字符）
 ```C++
 //使用+添加
 string s;
@@ -184,37 +185,7 @@ string s = "1234";
 string a = "a";
 printf(s.c_str());
 ```
-
-### string对象与数值相互转化
-需要`#include<sstream>`，注意两个自定义的函数
-```C++
-#include<iostream>
-#include<sstream>
-#include<string>
-using namespace std;
-//数值转化为string
-string convertToString(double x) {
-	ostringstream o; 
-	if (o << x) 
-		return o.str();
-	return "conversion error";//if error
-}
-//string转化为数值
-double convertFromString(const string& s) {
-	istringstream i(s); 
-	double x; 
-	if (i >> x) 
-		return x; 
-	return 0.0;//if error
-}
-int main() {
-	string s = convertToString(1947.9);
-	int p = convertFromString("2048") + 4;
-	cout << s << "*\n" << p << endl;
-
-}
-```
-
+### 其他
 ```C++
 /*
 * str: 指向要填充的内存块。
@@ -230,18 +201,427 @@ size_t copy (char* s, size_t len, size_t pos = 0) const;
 
 ---
 
-## map使用方式
-C++中的map与python中的字典比较类似，表现为键值对
-map初始化方式
+## set使用
+- set集合容器实现了红黑树（Red-Black Tree）的平衡二叉检索树的数据结构，每个子树根节点键值大于左子树所有节点的键值，而小于右子树所有节点的键值，并且根节点左子树高度与右子树高度相同，**不会重复插入相同键值元素**。
+- 平衡二叉检索树的检索使用中序遍历，效率高于vector,list,deque等容器
+- set中的键值不能直接修改。一旦修改将根据新的键值旋转子树，以达到平衡，因此修改的键值可能不在原位置，构建set集合主要是为了快速检索
+- multiset,map,multimap的内部结构也是平衡二叉检索树
+- 使用需要`#include<set>`
+### 创建
+与其他容器类似，元素的排列按默认的比较规则（由小到大，在比较规则函数未自定义时）
 ```C++
-std:map<int, string> personnel;
+set<int> a;
 ```
-map使用迭代器输出
+### 插入与中序遍历
+`insert()`将元素插入集合，默认是按照由小到大插入，使用前向迭代器对集合中序遍历，结果即为排序结果
 ```C++
-map<int,int> res;
-for (map<int, int>::iterator it = res.begin(); it != res.end(); it++)
-  cout << it->first << " " << it->second << endl;;
+set<int>a;
+a.insert(4);
+a.insert(2);
+a.insert(9);
+a.insert(2);//第二次插入无效
+for (set<int>::iterator it = a.begin(); it != a.end(); it++) {
+  cout << *it << " ";
+}
+//输出为2 4 9
 ```
+### 反向遍历
+反向迭代器`reverse_iterator`能够反向遍历集合，输出为集合反向排序结果，其中`rbegin()`和`rend()`两个方法，分别给出反向遍历的开始位置和结束位置
+```C++
+set<int>a;
+a.insert(4);
+a.insert(2);
+a.insert(9);
+a.insert(2);
+for (set<int>::reverse_iterator it = a.rbegin(); it != a.rend(); it++) {
+  cout << *it << " ";
+}
+```
+### 元素删除
+`erase()`方法可以删除某个迭代器位置上的元素，等于某键值的元素，一个区间上的元素和清空集合。删除的效率也比较高，同时自动调整内部的红黑树平衡
+```C++
+set<int>a;
+a.insert(4);
+a.insert(2);
+a.insert(9);
+a.insert(8);
+a.erase(2);//删除键值为2的元素
+for (set<int>::reverse_iterator it = a.rbegin(); it != a.rend(); it++) {
+  cout << *it << " ";
+}
+cout << endl;
+a.erase(a.begin());//删除第一个元素(键值最小的元素)
+for (set<int>::iterator it = a.begin(); it != a.end(); it++) {
+  cout << *it << " ";
+}
+```
+### 元素检索
+`find()`方法对集合进行搜索，如果查到键值，返回该键值的迭代器位置，否则，返回集合最后一个元素后面的一个位置，即`end()`。
+```C++
+set<int>a;
+a.insert(4);
+a.insert(2);
+a.insert(9);
+a.insert(8);
+auto it = a.find(4);//返回键值为4的迭代器位置
+if (it != a.end())
+  cout << "find ";
+```
+### 自定义比较函数
+在插入操作`insert()`中集合根据比较函数放置元素，缺省按照由小到大的顺序，也可以自己编写，有两种编写比较函数的方法：
+1. 元素不是结构体。写一个结构体然后重载`()`操作符(不懂为什么重载`()`)
+```C++
+#include <set> 
+#include <iostream>
+using namespace std; 
+//自定义比较函数 myComp，重载“()”操作符 
+struct myComp {
+	bool operator()(const int& a, const int& b)const {//形参类型int必须与set中的值类型一致
+		if (a != b)
+			return a > b;
+		else
+			return a > b;
+	}
+};
+int main() {
+	set<int,myComp> s; //第二个类型必须是结构体
+	s.insert(1); 
+	s.insert(12); 
+	s.insert(6); 
+	s.insert(8);
+	set<int,myComp>::iterator it;
+	for (it = s.begin(); it != s.end(); it++) {
+		cout << *it << " ";
+	}
+}
+```
+2. 元素是结构体。将比较函数写在结构体内，重载`<`符号自定义排序规则
+```C++
+#include <set> 
+#include <iostream>
+using namespace std; 
+//自定义比较函数 myComp，重载“()”操作符 
+struct Info {
+	string name;
+	float score;
+	Info(string n, float s) :name(n), score(s) {}
+	bool operator<(const Info &a) const {//形参类型int必须与set中的值类型一致
+		//按照score从大到小排序
+		return a.score < score;
+	}
+};
+int main() {
+	set<Info> s; //第二个类型必须是结构体
+	Info a("yede", 3.5);
+	s.insert(a);
+	a.name = "y2";
+	a.score = 7.9;
+	s.insert(a); 
+	a.name = "y3";
+	a.score = 8.9;
+	s.insert(a); 
+	set<Info>::iterator it;
+	for (it = s.begin(); it != s.end(); it++) {
+		cout << (*it).name<<":"<<(*it).score << " ";
+	}
+}
+//输出y3:8.9 y2:7.9 yede:3.5
+```
+
+## multiset 多重集合容器
+- `multiset`与`set`一样，也使用红黑树来组织元素数据的，唯一不同的是，`multiset`允许重复的元素键值插入，而`set`则不允许。
+- 需要声明头文件`#include<set>`
+### multiset插入
+除了可以插入键值重复的元素，其余与set一致
+```C++
+multiset<string>a;
+a.insert("nihao");
+a.insert("1234");
+a.insert("1234");
+a.insert("12fe");
+for (auto it = a.begin(); it != a.end(); it++) {
+  cout << *it << " ";
+}
+//输出1234 1234 12fe nihao
+```
+### multiset删除
+`erase()`删除与set略微不同，它可以删除`multiset`对象中的某个迭代器位置上的元素返回下一个元素的迭代器、某段迭代器区间中的元素返回下一个元素迭代器，也可以删除键值等于某个值的**所有重复元素同时返回删除元素的个数**。此外`clear()`可以清空元素 
+```C++
+multiset<string>a;
+a.insert("nihao");
+a.insert("1234");
+a.insert("1234");
+a.insert("12fe");
+a.insert("1237");
+int tmp = a.erase("1234");//删除所有"1234"元素，并返回元素总数2
+cout << "delete " << tmp << " elements" << endl;
+
+auto it=a.erase(a.begin());//删除第一个元素，返回下一个元素的迭代
+cout << *it << endl;
+for (auto it = a.begin(); it != a.end(); it++) {
+  cout << *it << " ";
+}
+```
+### 查找
+`find()`与set中类似，若找到返回该元素的迭代器位置（若元素存在重复，返回第一个重复元素迭代器位置），未找到返回`end()`迭代器位置
+```C++
+multiset<string>a;
+a.insert("nihao");
+a.insert("1234");
+a.insert("1234");
+a.insert("1237");
+a.insert("12fe");
+auto it = a.find("1234");//找到"1234"返回第一个"1234"的位置
+cout << *it << endl;
+```
+
+## map映照容器
+- 元素数据由一个键值(key)和一个映照数据(value)组成的，键值与映照数据之间具有一一映照的关系。
+- 采用红黑树来实现的，插入元素的键值**不允许重复**，比较函数只对元素的键值进行比较，元素的各项数据可通过键值检索出来。`map` 与 `set`采用的都是红黑树的数据结构，用法基本相似。
+- 使用需要包括`#include<map>`
+### 创建、插入和遍历
+创建时key和value需要自己定义，比较规则缺省为key的由小到大顺序插入红黑树
+```C++
+map<string, float> a;
+a["yede"] = 8.9;
+a["nide"] = 34.5;
+a["hello"] = 4.6;
+for (auto it = a.begin(); it != a.end(); it++) {//这里使用auto也可以使用map<string, float>::iterator
+  //(*it)的括号是不可省略的，否则相当于*(it.first)，原因考虑优先级
+  cout << (*it).first << " : " << (*it).second << " ";
+}
+```
+在上述代码中已包含了前向遍历的方法，map容器还可以通过反向迭代器，进行反向遍历map元素
+```C++
+map<string, float> a;
+a["yede"] = 8.9;
+a["nide"] = 34.5;
+a["hello"] = 4.6;
+map<string, float>::reverse_iterator it;
+for (it = a.rbegin(); it != a.rend(); it++) {
+  cout << (*it).first << " : " << (*it).second << " ";
+}
+```
+
+### 删除
+与set类似，`erase()`可以删除某个迭代器上的元素，等于某个键值的元素，一个迭代器区间上的所有元素。使用`clear()`清空
+```C++
+map<string, float> a;
+a["yede"] = 8.9;
+a["nide"] = 34.5;
+a["hello"] = 4.6;
+a.erase("nide");//删除键值为nide的元素
+for (auto it = a.begin(); it != a.end(); it++) {
+  cout << (*it).first << " : " << (*it).second << " ";
+}
+//输出为hello : 4.6 yede : 8.9
+```
+### 搜索
+`find()`方法用于搜索某个键值，若找到返回键值所在迭代器的位置，否则返回`end()`位置，搜索效率极高
+```C++
+map<string, float> a;
+a["yede"] = 8.9;
+a["nide"] = 34.5;
+a["hello"] = 4.6;
+auto it = a.find("nide");
+if (it != a.end())
+  cout << "find" << endl;
+else
+  cout << "not found it " << endl;
+```
+### 自定义比较函数
+与set类似，比较函数缺省时按照升序排列，有两种自定义比较规则的方式
+1. 元素不是结构体，创建结构体，在结构体中重载()
+```C++
+struct myComp {
+	bool operator()(const int& a, const int& b)const {
+		if (a != b)
+			return a > b; 
+		else
+			return a > b;
+	}
+};
+int main(int argc, char* argv[]) {
+	map<int, char, myComp> m; 
+	m[25] = 'm';
+	m[28] = 'k';
+	m[10] = 'x';
+	m[30] = 'a'; 
+	map<int, char, myComp>::iterator it;
+	for (it = m.begin(); it != m.end(); it++) {
+		cout << (*it).first << " : " << (*it).second << endl;
+	}
+	return 0;
+}
+```
+2. 元素是结构体，在结构体中实现比较函数
+```C++
+struct Info {
+	string name;
+	float score;
+	bool operator<(const Info &a)const {
+		return a.score < score;//按降序排列
+	}
+};
+int main(int argc, char* argv[]) {
+	map<Info,int> m; 
+	Info in;
+	in.score = 60;
+	in.name = "jack";
+	m[in] = 25;
+	in.score = 70;
+	in.name = "yede";
+	m[in] = 40;
+	in.score = 40;
+	in.name = "nide";
+	m[in] = 20;
+	for (auto it = m.begin(); it != m.end(); it++) {
+		cout << (*it).second << " : ";
+		cout << ((*it).first).name << " " << ((*it).first).score << endl;
+	}
+	return 0;
+}
+//输出
+// 40 : yede 70
+// 25 : jack 60
+// 20 : nide 40
+```
+
+## multimap 多重映照容器
+- `multimap`允许插入重复键值的元素
+- `multimap`的元素插入、删除、查找都与`map`不相同
+- 使用需要`#include<map>`
+### multimap创建，插入
+```C++
+multimap<string, double>m;
+m.insert(pair<string, double>("nide", 500));
+m.insert(pair<string, double>("hello", 600));
+m.insert(pair<string, double>("wide", 450));
+m.insert(pair<string, double>("wide", 450));//重复插入
+for (auto it = m.begin(); it != m.end(); it++)
+  cout << (*it).first << " : " << (*it).second << endl;
+```
+### 删除
+与multiset类似，对于有重复的键值，删除操作会将其全部删除返回删除元素的数量；其他与map一直也可以删除某个迭代器位置上的元素，一个区间上的元素等
+```C++
+multimap<string, double>m;
+m.insert(pair<string, double>("nide", 500));
+m.insert(pair<string, double>("hello", 600));
+m.insert(pair<string, double>("wide", 450));
+m.insert(pair<string, double>("wide", 450));//重复插入
+int a=m.erase("wide");//删除所有键值为wide的元素（哪怕value不一样）返回2
+cout << a << endl;
+for (auto it = m.begin(); it != m.end(); it++)
+  cout << (*it).first << " : " << (*it).second << endl;
+```
+### 查找
+`find()`返回重复键值中的第一个元素的迭代器位置，如果没有找到该键值，则返回end()迭代器位置
+```C++
+multimap<string, double>m;
+m.insert(pair<string, double>("nide", 500));
+m.insert(pair<string, double>("hello", 600));
+m.insert(pair<string, double>("wide", 500));
+m.insert(pair<string, double>("wide", 450));//重复插入
+auto f = m.find("wide");
+```
+
+## deque使用
+- 与`vector`类似采用线性表顺序存储结构，不同的是，`deque`采用分块的线性存储结构来存储数据
+- 每块大小一般512字节，称为一个`deque`块，所有`deque`块使用一个`Map`块进行管理，每个`Map`数据项记录各个`deque`块首地址
+- `deque`在首尾插入或删除的时间复杂度是常数
+- 考虑到容器元素的内存分配策略和操作的性能时，`deque` 相对于 `vector` 更有优势
+- 使用需要`#include<deque>`
+### 创建deque对象
+三种创建方式，与`vector`类似
+```C++
+deque<int> a;
+deque<int> b(10);//创建10个int型元素deque对象b
+deque<double> d(10,8.5);//创建10个double型元素的deque对象并初始化为8.5
+```
+### 插入元素
+{% note warning %}
+参考资料中指明从**头部和中间**插入元素，不会增加新元素，只将原有的元素覆盖；使用`push_back()`从尾部插入元素，会不断扩张队列。不理解
+{% endnote %} 
+使用`push_back()`方法从尾部插入元素，使用`push_front()`从头部插入元素，也可以使用`insert()`插入元素
+```C++
+deque<int> q;
+q.push_back(1);
+q.push_back(2);//从尾部插入两个元素
+q.push_back(5);
+q.push_front(10);
+q.push_front(20); //从头部插入元素
+q.insert(q.begin() + 4, 90);//在第5个元素前插入元素90
+for (int i = 0; i < q.size(); i++)//以数组方式输出元素
+	cout << q[i]<<" ";
+```
+### 遍历方式
+1. 使用下标访问与数组相同，参考上段代码
+2. 以前向迭代器方式遍历
+```C++
+deque<int> q;
+q.push_back(1);
+q.push_back(2);//从尾部插入两个元素
+q.push_back(5);
+q.push_front(10);
+q.push_front(20); //从头部插入元素
+q.insert(q.begin() + 4, 90);//在第5个元素前插入元素90
+for (deque<int>::iterator i = q.begin(); i != q.end(); i++)
+	cout << *i << " ";
+```
+3. 以反向迭代器方式遍历
+```C++
+for (deque<int>::reverse_iterator i = q.rbegin(); i != q.rend(); i++)
+	cout << *i << " ";
+```
+### 删除元素
+可以从队列的首部，尾部，中部删除元素，并可以清空容器，
+1. 使用`pop_front()`元素从头部删除元素
+```C++
+deque<int> q;
+q.push_back(1);
+q.push_back(2);
+q.push_back(5);
+q.push_front(10);
+q.push_front(20); 
+q.pop_front();//从头部删除元素
+for (auto i = q.begin(); i != q.end(); i++)
+	cout << *i << " ";
+//输出10 1 2 5
+```
+2. 使用`pop_back()`方法从尾部删除元素
+```C++
+deque<int> q;
+q.push_back(1);
+q.push_back(2);
+q.push_back(5);
+q.push_front(10);
+q.push_front(20); 
+q.pop_back();//从尾部删除元素
+for (auto i = q.begin(); i != q.end(); i++)
+	cout << *i << " ";
+// 输出20 10 1 2
+```
+3. 使用`erase()`方法从中间删除元素
+```C++
+q.push_back(1);
+q.push_back(2);
+q.push_back(5);
+q.push_front(10);
+q.push_front(20); 
+q.erase(q.begin() + 3);//删除第4个元素2
+for (auto i = q.begin(); i != q.end(); i++)
+	cout << *i << " ";
+//输出 20 10 1 5
+```
+4. 使用`clear()`方法清空`deque`对象
+
+## list双向链表容器
+- `list`数据结构为双向循环链表，每个节点有前驱指针，数据，后继指针
+- 对链表的任意位置元素进行插入，删除和查找都很快
+- list对象节点不要求在一段连续的内存中，所以对于迭代器只能使用`++`或者`--`进行移动
+- 使用需要`#incldue<list>`
+### 创建list对象
+
 
 ## cmath使用方式
 ```C++
