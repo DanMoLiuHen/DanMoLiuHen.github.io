@@ -182,7 +182,7 @@ string a = "a";
 cout << s.compare(a);
 ```
 ### string对象与字符数组互操作
-C语言中使用`printf()`输出时，不能直接输出string对象，需要使用`c_str()`方法
+C语言中使用`printf()`输出时，不能直接输出string对象，需要使用`c_str()`方法，将string对象转为了const char*
 ```C++
 string s = "1234";
 string a = "a";
@@ -259,7 +259,7 @@ for (set<int>::iterator it = a.begin(); it != a.end(); it++) {
 }
 ```
 ### 元素检索
-`find()`方法对集合进行搜索，如果查到键值，返回该键值的迭代器位置，否则，返回集合最后一个元素后面的一个位置，即`end()`。
+`find()`方法（不是算法函数`find()`，算法函数时间复杂度为线性即逐个比较）对集合进行搜索，时间复杂度为`logn`，如果查到键值，返回该键值的迭代器位置，否则，返回集合最后一个元素后面的一个位置，即`end()`。
 ```C++
 set<int>a;
 a.insert(4);
