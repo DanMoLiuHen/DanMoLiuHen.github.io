@@ -2,9 +2,12 @@
 title: C++STL泛型
 date: 2023/2/19 14:14:12
 categories: learning-notes
-excerpt: 总结C++中vector,string,cmath,set,list,map等STL使用方式
+excerpt: 总结C++中vector,string,set,list,map等STL使用方式
 hide: false
-tag: markdown，C++，C
+tag: 
+- markdown
+- C++
+- C
 ---
 ## 注意事项
 1. `a.begin() + a.size() == a.end()`a为vector或者string等含有迭代器
@@ -621,6 +624,236 @@ for (auto i = q.begin(); i != q.end(); i++)
 - list对象节点不要求在一段连续的内存中，所以对于迭代器只能使用`++`或者`--`进行移动
 - 使用需要`#incldue<list>`
 ### 创建list对象
+与`vector`容器类似
+```C++
+list<int> l;//创建空链表
+list<int> l(10);//创建一个具有10个元素的链表
+```
+### 插入与遍历
+有三种方法进行插入，三种方法插入后链表自动扩张
+1. 使用`push_back()`从尾部插入元素
+2. `push_front()`从首部插入元素
+3. `insert()`在迭代器位置插入元素
+```C++
+list<int> q;
+q.push_back(1);
+cout << q.size() << endl;//输出链表大小方便与后续对比
+q.push_back(5);
+cout << q.size() << endl;
+q.push_front(10);
+q.push_front(20);
+q.insert(++q.begin(),90);
+for (auto i = q.begin(); i != q.end(); i++)
+	cout << *i << " ";
+// 输出
+// 1
+// 2
+// 20 90 10 1 5
+```
+遍历可以使用前向迭代器对链表遍历，也可以使用反向迭代器遍历与之前的大部分遍历相同，不再赘述
+### 元素删除
+1. 使用`remove()`方法删除链表中的一个元素，值相同的元素都会被删除
+2. 使用`pop_back()`删除链尾元素，或使用`pop_front`删除链首元素
+3. 使用`erase()`删除迭代器位置上的元素
+4. 使用`clear()`方法清空链表
+```C++
+list<int> q;
+//先构建链表
+q.push_back(1);
+q.push_back(5);
+q.push_back(5);
+q.push_back(34);
+q.push_front(10);
+q.push_front(20);
+q.insert(++q.begin(),90);
+
+q.pop_back();//删除尾部元素34
+q.pop_front();//删除首部元素20
+q.remove(5);//删除所有为5的元素
+for (auto i = q.begin(); i != q.end(); i++)
+	cout << *i << " ";
+q.clear();//清空链表
+```
+### 元素查找
+使用`find()`查找算法（不是链表的成员），查到返回迭代器位置，否则返回`end()`迭代器，使用需要`#incldue<algorithm>`
+```C++
+list<int> q;
+//先构建链表
+q.push_back(1);
+q.push_back(5);
+q.push_back(34);
+q.push_front(10);
+auto it = find(q.begin(), q.end(), 5);
+if (it != q.end())
+	cout << "find"<<endl;
+// 输出find
+```
+### 元素排序
+使用`sort()`方法（不是`algorithm`中的`sort()`）对链表元素进行升序排列
+```C++
+q.push_back(1);
+q.push_back(16);
+q.push_back(34);
+q.push_front(10);
+q.sort();
+for (auto i = q.begin(); i != q.end(); i++)
+	cout << *i << " ";
+// 输出1 10 16 34
+```
+### 删除连续重复元素
+`unique()`方法可以删除**连续重复**(与重复含义不同)的元素只保留一个
+```C++
+q.push_back(1);
+q.push_back(16);
+q.push_back(9);
+q.push_back(16);
+q.push_back(16);
+q.push_back(34);
+q.push_front(10);
+//执行删除重复之前为10 1 16 9 16 16 34
+q.unique();//删除之后为10 1 16 9 16 34
+for (auto i = q.begin(); i != q.end(); i++)
+	cout << *i << " ";
+```
+
+## bitset位集合容器
+- 每个元素只占一个bit位，取值为0或1
+- 使用需要`#include<bitset>`
+- 第0位是最低位，第n位是最高位
+
+| 方 法          | 功能                               |
+|--------------|----------------------------------|
+| b.any()      | b 中是否存在置为 1 的二进制位                |
+| b.none()     | b 中不存在置为 1 的二进制位                 |
+| b.count()    | b 中置为 1 的二进制位的个数                 |
+| b.size()     | b 中二进制位的个数                       |
+| b.test(pos)  | b 中在 pos 处的二进制位是否为 1             |
+| b.set()      | 把 b 中所有二进制位都置为 1                 |
+| b..set(pos)  | 把 b 中在 pos 处的二进制位置为 1            |
+| b.reset()    | 把 b 中所有二进制位都置为 0                 |
+| b.reset(pos) | 把 b 中在 pos 处的二进制位置为 0            |
+| b.flip()     | 把 b 中所有二进制位逐位取反                  |
+| b.flip(pos)  | 把 b 中在 pos 处的二进制位取反              |
+| b.to_ulong() | 用 b 中同样的二进制位返回一个 unsigned long 值 |
+| os << b      | 把 b 中的位集输出到 os 流                 |
+### 创建bitset对象
+创建bitset对象时，必须指定容器大小，且大小一旦指定就不能修改
+```C++
+bitset<1000> b;
+cout << b;
+//输出1000个0
+```
+### 为元素赋值
+1. 使用下标`b[0]=1;`
+2. 使用`set()`方法`b.set();`将所有元素设置为1
+3. 使用`set(pos)`方法`b.set(1,1);`将第2个元素设置为1
+4. 使用`reset(pos)`方法`b.reset(3)`将第4个元素设置为0
+### 元素输出
+1. 使用下标输出，与数组类似
+2. 向输出流输出全部元素
+```C++
+bitset<10> b;
+cout << b;
+// 输出0000000000
+```
+
+
+## stack堆栈容器
+- 后进先出（LIFO）线性表，插入和删除元素都只在表的一端进行。
+- 使用需要`#include<stack>`
+- 只提供入栈、出栈、栈顶元素访问和判断是否为空等几种方法。
+	- `push()`方法将元素入栈；
+	- `pop()`方法出栈；
+	- `top()`方法访问栈顶元素；
+	- `empty()`方法判断堆栈是否为空，为空的，返回1，否则返回0。
+	- `size()`方法返回当前堆栈中有几个元素。
+
+## queue队列容器
+- 先进先出（FIFO）线性存储表，插入只能在队尾，删除只能在队首
+- 使用需要`#include<queue>`
+- 成员函数与栈（stack）类似
+	- `push()`入队
+	- `pop()`出队
+	- `front()`读取队首元素
+	- `back()`读取队尾元素
+	- `empty()`队列是否为空
+	- `size()`获取元素数目
+```C++
+queue<string> q;
+q.push("first");//队尾插入元素
+q.push("second");
+cout<<q.front()<<endl;//输出队首元素first
+q.pop();//队首出队
+cout<<q.front()<<endl;//输出second
+```
+
+## priority_queue优先队列容器
+- 与`queue`一样，只能队尾插入元素，队首删除，不同在于队列中最大的元素总是位于队首。表现上相当于给队列中的元素由大到小排序
+- 元素比较规则默认为由大到小，可以自定义比较规则
+- 使用需要`#include<queue>`，使用方式除了比较规则外与`queue`一致
+### 自定义比较规则
+1. 元素类型为结构体，重载`<`修改队列优先性（也可以按照2的方法）
+```C++
+#include<queue>
+#include <iostream>
+#include<string>
+using namespace std; 
+struct Info {
+	string name;
+	int va;
+	bool operator<(const Info& a)const {
+		return a.va < va;///按va由小到大排列。如果要由大到小排列，使用“>”号即可
+	}
+};
+int main(int argc, char* argv[]) {
+	priority_queue<Info>q;
+	Info a;
+	a.name = "nihao";
+	a.va = 40;
+	q.push(a);
+	a.name="yede";
+	a.va = 30;
+	q.push(a);
+	a.name = "tade";
+	a.va = 50;
+	q.push(a);
+	while (!q.empty()){
+		cout << q.top().name << " : " << q.top().va << endl;
+		q.pop();
+	}
+}
+// 输出为
+// yede : 30
+// nihao : 40
+// tade : 50
+```
+2. 元素不是结构体类型，重载`()`定义优先级
+```C++
+#include<queue>
+#include <iostream>
+#include<string>
+using namespace std; 
+struct com{
+	//参数类型需要与实例化的类型一致
+	bool operator()(const int& a, const int& b)const {
+		return a > b;////由小到大排列采用“>”号；如果要由大到小排列，则采用“<”号
+	}
+};
+int main(int argc, char* argv[]) {
+	//定义优先队列，元素类型为 Info 结构体，显式说明内部结构是 vector
+	priority_queue<int, vector<int>, com>q;
+	q.push(3);
+	q.push(40);
+	q.push(20);
+	q.push(24);
+	while (!q.empty()) {
+		cout << q.top()<< " ";
+		q.pop();
+	}
+
+}
+// 输出为3 20 24 40
+```
 
 
 ## cmath使用方式
@@ -637,18 +870,3 @@ exp(x);
 // 开方，返回根号下x
 sqrt(x);
 ```
-
-## queue使用
-先进先出，FIFO，成员函数与栈（stack）类似
-```C++
-queue<string> q;
-//队列加入一个元素
-q.push("first");
-q.push("second");
-cout<<q.front()<<endl;//输出first
-
-//删除队尾元素
-q.pop();
-cout<<q.front()<<endl;//输出second
-```
-

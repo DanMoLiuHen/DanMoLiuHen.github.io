@@ -4,7 +4,9 @@ date: 2023/3/3 19:02:23
 categories: learning-notes
 excerpt: 记录C++中的细枝末节
 hide: true
-tag: markdown，C++
+tag: 
+- markdown
+- C++
 ---
 函数后面加const表示函数不可以修改class的成员
 ## 动态申请
