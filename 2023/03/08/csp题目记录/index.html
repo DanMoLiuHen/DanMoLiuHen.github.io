@@ -16,24 +16,24 @@
   <meta name="author" content="YeBao">
   <meta name="keywords" content="">
   
-    <meta name="description" content="记录在虚拟机上使用ubuntu-server镜像的一些琐事，包括但不限于换源、使用root账户、vim行号设置">
+    <meta name="description" content="由于csp题目答案比较难找到，所以特此记录拿到过满分的题目">
 <meta property="og:type" content="article">
-<meta property="og:title" content="socket网络编程">
-<meta property="og:url" content="https://danmoliuhen.github.io./2022/11/26/ubuntu-server%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:title" content="csp做题记录">
+<meta property="og:url" content="https://danmoliuhen.github.io./2023/03/08/csp%E9%A2%98%E7%9B%AE%E8%AE%B0%E5%BD%95/index.html">
 <meta property="og:site_name" content="YeBao&#39;blog">
-<meta property="og:description" content="记录在虚拟机上使用ubuntu-server镜像的一些琐事，包括但不限于换源、使用root账户、vim行号设置">
+<meta property="og:description" content="由于csp题目答案比较难找到，所以特此记录拿到过满分的题目">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-11-26T12:14:12.000Z">
-<meta property="article:modified_time" content="2022-12-15T11:00:04.929Z">
+<meta property="article:published_time" content="2023-03-08T11:38:55.549Z">
+<meta property="article:modified_time" content="2023-03-08T15:31:32.728Z">
 <meta property="article:author" content="YeBao">
-<meta property="article:tag" content="markdown">
+<meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary_large_image">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>socket网络编程 - YeBao&#39;blog</title>
+  <title>csp做题记录 - YeBao&#39;blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -201,7 +201,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="socket网络编程"></span>
+            <span id="subtitle" data-typed-text="csp做题记录"></span>
           
         </div>
 
@@ -212,8 +212,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-11-26 20:14" pubdate>
-          2022年11月26日 晚上
+        <time datetime="2023-03-08 19:38" pubdate>
+          2023年3月8日 晚上
         </time>
       </span>
     
@@ -224,7 +224,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.2k 字
+          1.1k 字
         
       </span>
     
@@ -281,12 +281,12 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">socket网络编程</h1>
+            <h1 style="display: none">csp做题记录</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2022年12月15日 晚上
+                    本文最后更新于：2023年3月8日 晚上
                   
                 
               </p>
@@ -294,16 +294,20 @@
             
               <div class="markdown-body">
                 
-                <h1 id="ubuntu-server使用"><a href="#ubuntu-server使用" class="headerlink" title="ubuntu-server使用"></a>ubuntu-server使用</h1><h2 id="换源"><a href="#换源" class="headerlink" title="换源"></a>换源</h2><p>使用<code>vim /etc/apt/sources.list</code>修改源配置文件，在首行添加以下内容</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 阿里源</span><br>deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse<br>deb http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse<br>deb http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse<br>deb http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse<br>deb http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse<br>deb-src http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse<br>deb-src http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse<br>deb-src http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse<br>deb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse<br>deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse<br></code></pre></td></tr></table></figure>
+                <h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>以下注意事项均针对csp中选择Dev-cpp(C++语言)条件</p>
+<ol>
+<li>使用<code>pow()</code>函数需要加上<code>cmath</code>库否则编译错误，与在vs中仅添加<code>iostream</code>有区别</li>
+<li>二维数组声明时注意空格如<code>vector&lt;vector&lt;int&gt; &gt;</code>，写为<code>&gt;&gt;</code>出现编译错误</li>
+</ol>
+<h2 id="202209-1如此编码"><a href="#202209-1如此编码" class="headerlink" title="202209-1如此编码"></a>202209-1如此编码</h2><p>根据提示完成即可，比较简单</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;vector&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	<span class="hljs-type">int</span> n, m;<br>	cin &gt;&gt; n &gt;&gt; m;<br>	vector&lt;<span class="hljs-type">int</span>&gt;<span class="hljs-built_in">a</span>(n+<span class="hljs-number">1</span>);<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)<br>		cin &gt;&gt; a[i];<br>	vector&lt;<span class="hljs-type">int</span>&gt;<span class="hljs-built_in">c</span>(n+<span class="hljs-number">1</span>);<br>	vector&lt;<span class="hljs-type">int</span>&gt;<span class="hljs-built_in">b</span>(n+<span class="hljs-number">1</span>);<br>	c[<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>		c[i] = c[i - <span class="hljs-number">1</span>] * a[i];<br>		b[i] = (m % c[i] - m % c[i - <span class="hljs-number">1</span>]) / c[i - <span class="hljs-number">1</span>];<br>	&#125;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)<br>		cout &lt;&lt; b[i] &lt;&lt; <span class="hljs-string">&quot; &quot;</span>;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-
-<h2 id="使用root账户"><a href="#使用root账户" class="headerlink" title="使用root账户"></a>使用root账户</h2><p>ubuntu初始没有root账户，需要登录后创建，输入指令<code>sudo passwd root</code>即可创建root用户，后续登录可以使用root登录，（在root角色下不需要执行<code>sudo</code>获取权限）</p>
-<p>可以使用<code>su</code>进入root用户，退出root用户</p>
-<p>若需要禁用root账户，执行即可<code>sudo passwd -l root</code></p>
-<h2 id="vim行号设置"><a href="#vim行号设置" class="headerlink" title="vim行号设置"></a>vim行号设置</h2><p>输入<code>vim</code>进入vim界面，按<code>esc</code>+<code>:</code>进入底行模式，输入指令<code>echo $VIM</code>查看<code>vim</code>的环境变量</p>
-<p>我的是<code>/usr/share/vim</code>，因此进入该目录修改<code>vimrc</code>文件即可，在文件末尾加上<code>set number</code>即可永久查看行号</p>
-<h2 id="时区设置"><a href="#时区设置" class="headerlink" title="时区设置"></a>时区设置</h2><h1 id="socket网络编程"><a href="#socket网络编程" class="headerlink" title="socket网络编程"></a>socket网络编程</h1>
+<h2 id="202209-2何以包邮"><a href="#202209-2何以包邮" class="headerlink" title="202209-2何以包邮"></a>202209-2何以包邮</h2><p>如果遍历所有的可能的取法，会有$2^{n}$种，运算量比较大，会有超时，只能拿下70分</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;vector&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;cmath&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	<span class="hljs-type">int</span> n, x;<br>	cin &gt;&gt; n &gt;&gt; x;<br>	<span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">a</span><span class="hljs-params">(n)</span></span>;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++)<br>		cin &gt;&gt; a[i];<br>	<span class="hljs-comment">//遍历</span><br>	<span class="hljs-type">int</span> res = INT_MAX;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-built_in">pow</span>(<span class="hljs-number">2</span>, n); i &gt; <span class="hljs-number">0</span>; i--) &#123;<br>		<span class="hljs-type">int</span> sum = <span class="hljs-number">0</span>;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; n &amp;&amp; (i &gt;&gt; j); j++) &#123;<br>			<span class="hljs-keyword">if</span> ((i &gt;&gt; j) &amp; <span class="hljs-number">1</span>) &#123;<br>				sum += a[j];<br>			&#125;<br>		&#125;<br>		res = sum &gt;= x ? <span class="hljs-built_in">min</span>(sum, res) : res;<br>	&#125;<br>	cout &lt;&lt; res;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>考虑dfs+剪枝优化，同样是遍历，但通过计算节点后续能拿到的最大金额是否大于x，能够剪枝</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs C++"><br></code></pre></td></tr></table></figure>
+<p>但感觉还能用dp快速求解</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs C++"><br></code></pre></td></tr></table></figure>
                 
               </div>
             
@@ -336,7 +340,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/markdown/">#markdown</a>
+        <a href="/tags/C/">#C++</a>
       
     </div>
   
@@ -348,8 +352,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>socket网络编程</div>
-      <div>https://danmoliuhen.github.io./2022/11/26/ubuntu-server使用/</div>
+      <div>csp做题记录</div>
+      <div>https://danmoliuhen.github.io./2023/03/08/csp题目记录/</div>
     </div>
     <div class="license-meta">
       
@@ -361,7 +365,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年11月26日</div>
+          <div>2023年3月8日</div>
         </div>
       
       
@@ -393,18 +397,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/01/28/%E4%B8%80%E4%BA%9B%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/" title="一些算法学习的笔记">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">一些算法学习的笔记</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/09/27/%E7%88%AC%E8%99%AB%E5%AD%A6%E4%B9%A0/" title="爬虫学习">
-                        <span class="hidden-mobile">爬虫学习</span>
+                      <a href="/2023/02/19/C++STL%E6%B3%9B%E5%9E%8B/" title="C++STL泛型">
+                        <span class="hidden-mobile">C++STL泛型</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -458,6 +456,12 @@
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -675,6 +679,49 @@
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

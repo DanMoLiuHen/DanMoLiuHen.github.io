@@ -16,24 +16,25 @@
   <meta name="author" content="YeBao">
   <meta name="keywords" content="">
   
-    <meta name="description" content="记录在虚拟机上使用ubuntu-server镜像的一些琐事，包括但不限于换源、使用root账户、vim行号设置">
+    <meta name="description" content="记录C++中的细枝末节">
 <meta property="og:type" content="article">
-<meta property="og:title" content="socket网络编程">
-<meta property="og:url" content="https://danmoliuhen.github.io./2022/11/26/ubuntu-server%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:title" content="C++学习笔记">
+<meta property="og:url" content="https://danmoliuhen.github.io./2023/03/03/C++%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="YeBao&#39;blog">
-<meta property="og:description" content="记录在虚拟机上使用ubuntu-server镜像的一些琐事，包括但不限于换源、使用root账户、vim行号设置">
+<meta property="og:description" content="记录C++中的细枝末节">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-11-26T12:14:12.000Z">
-<meta property="article:modified_time" content="2022-12-15T11:00:04.929Z">
+<meta property="article:published_time" content="2023-03-03T11:02:23.000Z">
+<meta property="article:modified_time" content="2023-03-09T15:35:35.701Z">
 <meta property="article:author" content="YeBao">
 <meta property="article:tag" content="markdown">
+<meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary_large_image">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>socket网络编程 - YeBao&#39;blog</title>
+  <title>C++学习笔记 - YeBao&#39;blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -201,7 +202,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="socket网络编程"></span>
+            <span id="subtitle" data-typed-text="C++学习笔记"></span>
           
         </div>
 
@@ -212,8 +213,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-11-26 20:14" pubdate>
-          2022年11月26日 晚上
+        <time datetime="2023-03-03 19:02" pubdate>
+          2023年3月3日 晚上
         </time>
       </span>
     
@@ -224,7 +225,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.2k 字
+          846 字
         
       </span>
     
@@ -235,7 +236,7 @@
         
         
         
-          10 分钟
+          8 分钟
         
       </span>
     
@@ -281,12 +282,12 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">socket网络编程</h1>
+            <h1 style="display: none">C++学习笔记</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2022年12月15日 晚上
+                    本文最后更新于：2023年3月9日 晚上
                   
                 
               </p>
@@ -294,16 +295,66 @@
             
               <div class="markdown-body">
                 
-                <h1 id="ubuntu-server使用"><a href="#ubuntu-server使用" class="headerlink" title="ubuntu-server使用"></a>ubuntu-server使用</h1><h2 id="换源"><a href="#换源" class="headerlink" title="换源"></a>换源</h2><p>使用<code>vim /etc/apt/sources.list</code>修改源配置文件，在首行添加以下内容</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 阿里源</span><br>deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse<br>deb http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse<br>deb http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse<br>deb http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse<br>deb http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse<br>deb-src http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse<br>deb-src http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse<br>deb-src http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse<br>deb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse<br>deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse<br></code></pre></td></tr></table></figure>
+                <p>函数后面加const表示函数不可以修改class的成员</p>
+<h2 id="动态申请"><a href="#动态申请" class="headerlink" title="动态申请"></a>动态申请</h2><p>申请与释放一维数组</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-comment">//一维数组</span><br><span class="hljs-type">int</span> *a=<span class="hljs-keyword">new</span> <span class="hljs-type">int</span>[<span class="hljs-number">10</span>];<br><span class="hljs-keyword">delete</span>[] a;<br><br><span class="hljs-comment">//二维数组(申请10行9列二维数组)</span><br><span class="hljs-type">int</span> **a=<span class="hljs-keyword">new</span> <span class="hljs-type">int</span>*[<span class="hljs-number">10</span>];<br><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">10</span>;i++)<br>  a[i]=<span class="hljs-keyword">new</span> <span class="hljs-type">int</span>[<span class="hljs-number">9</span>];<br><br><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">10</span>;i++)<br>  <span class="hljs-keyword">delete</span>[] a[i];<br><span class="hljs-keyword">delete</span>[] a;<br></code></pre></td></tr></table></figure>
 
+<h2 id="析构函数"><a href="#析构函数" class="headerlink" title="析构函数"></a>析构函数</h2><ol>
+<li>析构函数没有参数，没有返回值，不能重载。</li>
+<li>虚构函数必须是public权限</li>
+<li>纯虚析构函数必须有定义<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">test3</span> &#123;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-keyword">virtual</span>  ~<span class="hljs-built_in">test3</span>() = <span class="hljs-number">0</span>;<br>&#125;;<br>test3::~<span class="hljs-built_in">test3</span>() &#123; cout &lt;&lt; <span class="hljs-string">&quot;test3&quot;</span> &lt;&lt; endl; &#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">test4</span> :<span class="hljs-keyword">public</span> test3 &#123;<br><span class="hljs-keyword">public</span>:<br>	~<span class="hljs-built_in">test4</span>() &#123; cout &lt;&lt; <span class="hljs-string">&quot;test4&quot;</span> &lt;&lt; endl; &#125;<br>&#125;;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	test4 t;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><span class="hljs-comment">//输出：</span><br><span class="hljs-comment">//test4</span><br><span class="hljs-comment">//test3</span><br><span class="hljs-comment">//缺少~test3()实现则会报错</span><br></code></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h2><ol>
+<li>迭代器overview，一种迭代器满足位于它上面的迭代器的所有性质，例如双向迭代器满足前向迭代器的所有性质<table>
+<thead>
+<tr>
+<th>名称</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>输入迭代器</td>
+</tr>
+<tr>
+<td>前向迭代器</td>
+</tr>
+<tr>
+<td>双向迭代器</td>
+</tr>
+<tr>
+<td>随机访问迭代器</td>
+</tr>
+<tr>
+<td>连续迭代器</td>
+</tr>
+</tbody></table>
+</li>
+<li>每种迭代器支持的操作不一致，输入迭代器支持的操作有<table>
+<thead>
+<tr>
+<th>英</th>
+<th>中</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Dereference Operator (*)</td>
+<td>解引用运算符（*）</td>
+</tr>
+<tr>
+<td>Increment Operator (++)</td>
+<td>增量运算符（++）</td>
+</tr>
+<tr>
+<td>Equal to Operator (&#x3D;&#x3D;)</td>
+<td>等于运算符（&#x3D;&#x3D;）</td>
+</tr>
+<tr>
+<td>Not Equal to Operator (!&#x3D;)</td>
+<td>不等于运算符（！&#x3D;）</td>
+</tr>
+</tbody></table>
+</li>
+</ol>
 
-<h2 id="使用root账户"><a href="#使用root账户" class="headerlink" title="使用root账户"></a>使用root账户</h2><p>ubuntu初始没有root账户，需要登录后创建，输入指令<code>sudo passwd root</code>即可创建root用户，后续登录可以使用root登录，（在root角色下不需要执行<code>sudo</code>获取权限）</p>
-<p>可以使用<code>su</code>进入root用户，退出root用户</p>
-<p>若需要禁用root账户，执行即可<code>sudo passwd -l root</code></p>
-<h2 id="vim行号设置"><a href="#vim行号设置" class="headerlink" title="vim行号设置"></a>vim行号设置</h2><p>输入<code>vim</code>进入vim界面，按<code>esc</code>+<code>:</code>进入底行模式，输入指令<code>echo $VIM</code>查看<code>vim</code>的环境变量</p>
-<p>我的是<code>/usr/share/vim</code>，因此进入该目录修改<code>vimrc</code>文件即可，在文件末尾加上<code>set number</code>即可永久查看行号</p>
-<h2 id="时区设置"><a href="#时区设置" class="headerlink" title="时区设置"></a>时区设置</h2><h1 id="socket网络编程"><a href="#socket网络编程" class="headerlink" title="socket网络编程"></a>socket网络编程</h1>
                 
               </div>
             
@@ -338,6 +389,8 @@
       
         <a href="/tags/markdown/">#markdown</a>
       
+        <a href="/tags/C/">#C++</a>
+      
     </div>
   
 </div>
@@ -348,8 +401,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>socket网络编程</div>
-      <div>https://danmoliuhen.github.io./2022/11/26/ubuntu-server使用/</div>
+      <div>C++学习笔记</div>
+      <div>https://danmoliuhen.github.io./2023/03/03/C++学习笔记/</div>
     </div>
     <div class="license-meta">
       
@@ -361,7 +414,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年11月26日</div>
+          <div>2023年3月3日</div>
         </div>
       
       
@@ -388,29 +441,6 @@
 
 
 
-              
-                <div class="post-prevnext my-3">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2023/01/28/%E4%B8%80%E4%BA%9B%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/" title="一些算法学习的笔记">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">一些算法学习的笔记</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2022/09/27/%E7%88%AC%E8%99%AB%E5%AD%A6%E4%B9%A0/" title="爬虫学习">
-                        <span class="hidden-mobile">爬虫学习</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
               
             </div>
 
