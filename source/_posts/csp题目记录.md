@@ -10,6 +10,7 @@ tag: C++
 以下注意事项均针对csp中选择Dev-cpp(C++语言)条件
 1. 使用`pow()`函数需要加上`cmath`库否则编译错误，与在vs中仅添加`iostream`有区别
 2. 二维数组声明时注意空格如`vector<vector<int> >`，写为`>>`出现编译错误
+3. 选择C++环境不支持auto智能指针
 
 ## 202209-1如此编码
 根据提示完成即可，比较简单
@@ -69,7 +70,36 @@ int main() {
 ```C++
 
 ```
-但感觉还能用dp快速求解，类似于01背包
+但感觉还能用dp快速求解，类似于01背包，相当于把01背包问题的容量看做价格，用dp[j]表示价格不超过j的这n本书能组成的最大值，那么`dp[j]=max(dp[j],dp[j-a[i]]+a[i])`，该解法满分
 ```C++
+#include<vector>
+#include <iostream>
+using namespace std; 
 
+int main() {
+	int n, x,sum = 0;//sum记录书本总价
+	cin >> n >> x;
+	vector<int>a(n);//记录书本价格
+	for (int i = 0; i < n; i++) {
+		cin >> a[i];
+		sum += a[i];
+	}
+	//构建sum+1个空间，如果x<sum那么符合条件的价格会出现在dp[x]之后所以不能仅仅构建x+1个空间，如果x=sum那么dp[x]就是符合条件的答案
+	vector<int>dp(sum+1);
+	//对于每本书都需要重新修正dp的每一项
+	for (int i = 0; i < n; i++) {
+		for (int j = sum; j >= a[i]; j--) {
+			if (j - a[i] >= 0)
+				dp[j] = max(dp[j], dp[j - a[i]] + a[i]);
+		}
+	}
+	// 不必从开始查找，分析见上述注释
+	for (int i = x; i <sum+1; i++)
+	{
+		if (dp[i] > x) {
+			cout << dp[i];
+			return 0;
+		}
+	}
+}
 ```
