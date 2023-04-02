@@ -92,6 +92,27 @@ int main() {
 | Not Equal to Operator (!=)  | 不等于运算符（！=） |
 | Decrement Operator (–)  | 减量运算符（–） |
 6. 随机访问迭代器（Random-Access Iterator），可以在容器中的任何索引访问数据项。包含双向迭代器的所有属性。可以访问指针减法和加法 
+	- p+=i：使得 p 往后移动 i 个元素。
+	- p-=i：使得 p 往前移动 i 个元素。
+	- p+i：返回 p 后面第 i 个元素的迭代器。
+	- p-i：返回 p 前面第 i 个元素的迭代器。
+	- p[i]：返回 p 后面第 i 个元素的引用。
+
+C++11中容器所具有的的迭代器
+| 容器                                 | 对应的迭代器类型  |
+|------------------------------------|-----------|
+| array                              | 随机访问迭代器   |
+| vector                             | 随机访问迭代器   |
+| deque                              | 随机访问迭代器   |
+| list                               | 双向迭代器     |
+| set / multiset                     | 双向迭代器     |
+| map / multimap                     | 双向迭代器     |
+| forward_list                       | 前向迭代器     |
+| unordered_map / unordered_multimap | 前向迭代器     |
+| unordered_set / unordered_multiset | 前向迭代器     |
+| stack                              | 不支持迭代器    |
+| queue                              | 不支持迭代器    |
+
 
 ## 数据类型
 有三种数据类型

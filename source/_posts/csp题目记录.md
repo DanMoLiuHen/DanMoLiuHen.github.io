@@ -17,9 +17,11 @@ tag: C++
 ```C++
 #include<iostream>
 #include<vector>
+#include <fstream>
 using namespace std;
 
 int main() {
+	ifstream cin("aaa.txt");
 	int n, m;
 	cin >> n >> m;
 	vector<int>a(n+1);

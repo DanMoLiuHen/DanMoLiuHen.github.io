@@ -98,14 +98,14 @@ django含由csrf_token验证，在提交post请求时需要带上该token否则�
 在settings.py中修改数据库的配置
 ```python
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': BASE_DIR / 'db.sqlite3',
-        'USER':'root',
-        'PASSWORD':'123456',
-        'HOST':'123.',
-        'PORT':3306,
-    }
+  'default': {
+    'ENGINE': 'django.db.backends.mysql',
+    'NAME': BASE_DIR / 'db.sqlite3',
+    'USER':'root',
+    'PASSWORD':'123456',
+    'HOST':'123.',
+    'PORT':3306,
+  }
 }
 ```
 

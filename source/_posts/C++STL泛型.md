@@ -2,7 +2,7 @@
 title: C++STL泛型
 date: 2023/2/19 14:14:12
 categories: learning-notes
-excerpt: 总结C++中vector,string,set,list,map等STL使用方式
+excerpt: 总结C++中vector,string,set,list,map等STL使用方式，适合于竞赛了解用法，没有深入
 hide: false
 tag: 
 - markdown
@@ -46,7 +46,31 @@ int main() {
 	sort(a.begin(), a.end(), com);
 }
 ```
-
+### 二分查找函数
+在 log(n) 的时间复杂度内查找给定值
+1. `lower_bound()`在指定区域内查找**不小于目标值**的第一个元素。
+```C++
+// 在 [first, last) 区域内查找第一个不小于目标值的元素。
+ForwardIterator lower_bound (ForwardIterator first, ForwardIterator last,const T& val);
+// 在 [first, last) 区域内查找第一个不符合 comp 规则的元素
+ForwardIterator lower_bound (ForwardIterator first, ForwardIterator last,const T& val, Compare comp);
+```
+2. `upper_bound()`在指定区域内查找**大于目标值**的第一个元素。
+```C++
+//查找[first, last)区域中第一个大于 val 的元素。
+ForwardIterator upper_bound (ForwardIterator first, ForwardIterator last,const T& val);
+//查找[first, last)区域中第一个不符合 comp 规则的元素
+ForwardIterator upper_bound (ForwardIterator first, ForwardIterator last,const T& val, Compare comp);
+```
+3. 如果在序列中有多个（>=1）等于给定值的元素，`lower_bound`函数返回其中等于给定值的第一个迭代器，而`upper_bound`函数返回的是最后一个等于给定值的元素的下一个元素迭代器。如果给定值在序列中不存在，`lower_bound`函数与`upper_bound`函数返回一致，是指向第一个大于该值的元素的迭代器。
+```C++
+vector<int>a = { 1,9,12,30,32,45,174,1345 };
+auto it = upper_bound(a.begin(), a.end(), 30);
+auto it2 = lower_bound(a.begin(), a.end(), 30);
+cout << *it << endl;
+cout << *it2 << endl;
+// 输出32\n30
+```
 
 ## vector使用
 ### vector初始化方式
@@ -165,8 +189,8 @@ string s="1234567";
 s.replace(3,2,"nihao");
 //输出为123nihao67
 ```
-### 搜索字符
-`find()`查找字符串中的第一个字符元素或子串，查到返回下标（从0开始），否则返回4294967295(windows中表现如此，其余未测试)
+### 查找/搜索字符
+`find()`查找字符串中的第一个字符元素或子串，查到返回下标（从0开始），否则返回4,294,967,295(2^32-1,windows中表现如此，其余未测试)
 ```C++
 string s = "1234567";
 cout << s.find('4')<<endl;//返回3
@@ -189,19 +213,11 @@ string a = "a";
 printf(s.c_str());
 ```
 ### 其他
-```C++
-/*
-* str: 指向要填充的内存块。
-* c: 要被设置的值。该值以 int 形式传递，但是函数在填充内存块时是使用该值的无符号字符形式。
-* n: 要被设置为该值的字符数。
-*/
-void *memset(void *str, int c, size_t n)
+#### 1. 截取子串
+`string substr(int pos = 0,int n = n) const;`返回pos开始（包含pos）的n个字符组成的字符串
 
-// 从string对象中取出若干字符存放到数组s中
-// s是字符数组，len表示要取出字符的个数，pos表示要取出字符的开始位置。
-size_t copy (char* s, size_t len, size_t pos = 0) const;
-```
-
+2. 分割字符串
+在STL中
 ---
 
 ## set使用
@@ -329,6 +345,18 @@ int main() {
 	}
 }
 //输出y3:8.9 y2:7.9 yede:3.5
+```
+### 其他
+#### 1. 集合求并集
+需要使用`set_union`函数，`#incldue<algorithm>`
+```C++
+set<int> s1 = { 1,2,3,5,7 };
+set<int>s2 = { 2,4,7,9,12,34,56,45 };
+set<int>s3;
+set_union(s1.begin(), s1.end(), s2.begin(), s2.end(), inserter(s3,s3.begin()));
+for (auto it = s3.begin(); it != s3.end(); it++) {
+	cout << *it << " ";
+}
 ```
 
 ## multiset 多重集合容器
@@ -870,3 +898,7 @@ exp(x);
 // 开方，返回根号下x
 sqrt(x);
 ```
+
+## 参考资料
+[^1]:[C++STL](http://c.biancheng.net/view/6675.html)
+[^2]:[C++STL标准手册](https://cplusplus.com/reference/stl/)
