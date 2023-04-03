@@ -19,7 +19,7 @@ C++标准库的header files不带后缀，如#include<vector>
 ## C++STL六大部件
 容器Containers
 分配器Allocators
-算法Algorithms
+算法Algorithms，函数模板
 迭代器Iterators
 适配器Adapters
 仿函数Functors
@@ -199,10 +199,25 @@ struct iterator_traits<const T*>
 	typedef const T& reference;
 };
 ```
+### 迭代器种类
+五种迭代器category，种类使用对象表现，下一行继承上一行的迭代器（通过类提高算法复用，如实现input_iterator对应的算法，其子类若无特殊性质也可以使用该算法）
+input_iterator_tag/ouput_iterator_tag
+forward_iterator_tag
+bidirectional_iterator_tag
+random_access_iterator_tag
+```C++
+//需要包含#include<typeinfo>
+vector<int>::iterator it;
+// 得到指针的type
+cout << typeid(it).name() << endl;
+cout << typeid(istream_iterator<int>()).name() << endl;
+cout << typeid(ostream_iterator<int>(cout, "")).name() << endl;
+```
 
 ## 容器
 缩进表示后者由前者衍生，复合关系，即后者中有一个前者，通过`sizeof()`函数可以查看容器的大小（与容器的`size()`方法不同，是查看容器中的指针等结构所占大小），如`cout << sizeof(vector<int>) << endl;`
 ```
+<!-- sequence -->
 array
 vector
 	heap
@@ -213,11 +228,13 @@ deque
 	stack
 	queue
 
+<!-- Associative Containers -->
 rb_tree，非公开
 	set
 	map
 	multiset
 	multimap
+<!-- unordered containers -->
 hashtable，非公开
 	hash_set，非标准
 	hash_map，非标准
@@ -265,8 +282,26 @@ array是不能扩充的，一经创建大小就不能改变，没有构造函数
 - 迭代器可以修改元素值
 - 红黑树模板有5个参数，key，value(key+data)，keyOfValue（如何取到key），compare（比较规则），Alloc(分配器)
 ### set/multiset
-以红黑树为底层，value与key合一，value就是key，不能使用迭代器修改元素值（因为key就是value）
-set的insert使用insert_unique；multiset的insert使用insert_equal()
+- 以红黑树为底层，value与key一致，value就是key，不能使用迭代器修改元素值（因为key就是value），通过const_iterator实现
+- set的insert使用红黑树的`insert_unique()`；multiset的insert使用insert_equal()
+- set所有操作依靠红黑树的方法实现，因此也可以将set看做一个container Adapter
+### map/multimap
+- 以红黑树为底层，要求放入四个模板参数（`class Key,class T,class Compare=less<Key>,class Alloc=alloc`）后两个参数有默认值，因此一般只需要给出两个参数即可，调用的底层的红黑树参数`Key, pair<const Key,T>, select1st<pair<const Key,T>>, Compare, Alloc`，在VC6中没有`select1st()`
+禁止修改key而可以修改data，通过设置key为const类型实现
+map可以通过`[]`修改或插入值，但multimap不能。`[]`返回key所对应的data，如果key不存在则新建一个以key，data=默认值的节点并被返回，`[]`内部先`lower_bound()`再调用`insert()`，因此`insert()`效率更高
+### hashtable(非公开)
+- 同一位置出现多个元素使用单向链表（VC使用双向链表），即`separate chaining`
+- hashtable（实际使用vector）中的每一个位置称为一个bucket，一般bucket数量会选择素数，当一个bucket所挂的链表过长时（长度超过总bucket数量），将hashtable进行扩充（扩充为原来2倍附近的素数）以便将元素打散重排，没扩充一次都会将所有元素重新排列
+- hashtable要求给出六个模板参数`<class Value,class Key,class HashFcn, class ExtractKey, class EqualKey, class Alloc=alloc>`，HashFcn仿函数，用于计算编号放入对应的bucket；ExtractKey如何取出key；EqualKey指定什么叫key相等。
+- hash<>具有多个特化版本，用于产生编号以便排序
+- 迭代器根据链表是否为单向或双向，使用bidirectional和forward
+### unordered_set,unordered_multiset,unordered_map,unordered_multimap
+- bucket_size(i)查询第i个bucket含有的元素个数
+- bucket数量一定大于元素个数
 
+## 算法
+算法首先要根据迭代器获取必需的信息（5种associated type）
+iterator traits与type traits对算法效率有较大影响，算法需要根据数据特性选择最高效的算法
+accumulate
 ## 参考资料
 [^1]:[侯捷STL源码剖析](https://www.youtube.com/watch?v=_dzIvOmXfKI&list=PLTcwR9j5y6W2Bf4S-qi0HBQlHXQVFoJrP&index=19)
