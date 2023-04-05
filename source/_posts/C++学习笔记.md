@@ -147,3 +147,8 @@ __extension__
 typedef unsigned long long int  uint64_t;  
 #endif  
 ```
+
+## 虚函数
+当一个类准备被当做父类时才具有虚函数
+
+搬移构造

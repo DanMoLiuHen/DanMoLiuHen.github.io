@@ -9,11 +9,13 @@ tag:
 - C++
 - C
 ---
-## 注意事项
+{% note warning %}
 1. `a.begin() + a.size() == a.end()`a为vector或者string等含有迭代器
 2. 示例代码并不是全部代码，只是核心部分
 3. 忽略某个警告，如忽略4305警告`#pragma warning(disable:4305)`
-4. 有关迭代器的相关内容在C++学习笔记中会有详细说明
+4. 有关迭代器的相关内容在C++STL泛型进阶中会有详细说明
+{% endnote %} 
+
 
 ## algorithm
 在使用时需要`#include<algorithm>`
