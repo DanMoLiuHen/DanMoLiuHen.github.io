@@ -24,7 +24,7 @@
 <meta property="og:description" content="记录一些常用或经典的算法问题，比如二叉树，快速幂，string与数值转化等">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-01-28T06:14:12.000Z">
-<meta property="article:modified_time" content="2023-03-09T11:16:17.922Z">
+<meta property="article:modified_time" content="2023-03-27T07:35:09.982Z">
 <meta property="article:author" content="YeBao">
 <meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary_large_image">
@@ -173,6 +173,18 @@
             </li>
           
         
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
         
           <li class="nav-item" id="search-btn">
             <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
@@ -224,7 +236,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.9k 字
+          4.2k 字
         
       </span>
     
@@ -235,7 +247,7 @@
         
         
         
-          25 分钟
+          36 分钟
         
       </span>
     
@@ -286,7 +298,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2023年3月9日 晚上
+                    本文最后更新于：2023年3月27日 下午
                   
                 
               </p>
@@ -294,7 +306,10 @@
             
               <div class="markdown-body">
                 
-                <h2 id="string对象与数值相互转化"><a href="#string对象与数值相互转化" class="headerlink" title="string对象与数值相互转化"></a>string对象与数值相互转化</h2><p>需要<code>#include&lt;sstream&gt;</code>，注意两个自定义的函数，提高转化效率</p>
+                <h2 id="竞赛提升性能"><a href="#竞赛提升性能" class="headerlink" title="竞赛提升性能"></a>竞赛提升性能</h2><p><code>sync_with_stdio</code>将C++语言和C的输出解绑，提升输出效率，<code>cin.tie(0)</code>将C++输入与C输入解绑，提升输入效率，解绑之后<code>cin</code>与<code>cout</code>速度大幅提升，但不能与<code>scanf</code>和<code>printf</code>混用</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs C++">std::ios::<span class="hljs-built_in">sync_with_stdio</span>(<span class="hljs-literal">false</span>);<br>std::cin.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br>std::cout.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br></code></pre></td></tr></table></figure>
+
+<h2 id="string对象与数值相互转化"><a href="#string对象与数值相互转化" class="headerlink" title="string对象与数值相互转化"></a>string对象与数值相互转化</h2><p>需要<code>#include&lt;sstream&gt;</code>，注意两个自定义的函数，提高转化效率</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;sstream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;string&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-comment">//数值转化为string</span><br><span class="hljs-function">string <span class="hljs-title">convertToString</span><span class="hljs-params">(<span class="hljs-type">double</span> x)</span> </span>&#123;<br>	ostringstream o; <br>	<span class="hljs-keyword">if</span> (o &lt;&lt; x) <br>		<span class="hljs-keyword">return</span> o.<span class="hljs-built_in">str</span>();<br>	<span class="hljs-keyword">return</span> <span class="hljs-string">&quot;conversion error&quot;</span>;<span class="hljs-comment">//if error</span><br>&#125;<br><span class="hljs-comment">//string转化为数值</span><br><span class="hljs-function"><span class="hljs-type">double</span> <span class="hljs-title">convertFromString</span><span class="hljs-params">(<span class="hljs-type">const</span> string&amp; s)</span> </span>&#123;<br>	<span class="hljs-function">istringstream <span class="hljs-title">i</span><span class="hljs-params">(s)</span></span>; <br>	<span class="hljs-type">double</span> x; <br>	<span class="hljs-keyword">if</span> (i &gt;&gt; x) <br>		<span class="hljs-keyword">return</span> x; <br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0.0</span>;<span class="hljs-comment">//if error</span><br>&#125;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	string s = <span class="hljs-built_in">convertToString</span>(<span class="hljs-number">1947.9</span>);<br>	<span class="hljs-type">int</span> p = <span class="hljs-built_in">convertFromString</span>(<span class="hljs-string">&quot;2048&quot;</span>) + <span class="hljs-number">4</span>;<br>	cout &lt;&lt; s &lt;&lt; <span class="hljs-string">&quot;*\n&quot;</span> &lt;&lt; p &lt;&lt; endl;<br><br>&#125;<br></code></pre></td></tr></table></figure>
 
 <h2 id="使用map实现数字分离"><a href="#使用map实现数字分离" class="headerlink" title="使用map实现数字分离"></a>使用map实现数字分离</h2><p>对数字的各位进行分离使用取余等数学方法较慢，可以把数字看做字符串使用map映照</p>
@@ -314,10 +329,12 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">BNode</span> &#123;<br><span class="hljs-keyword">private</span>:<br>	BNode&lt;T&gt;* left, * right;<br>	T data;<br>&#125;;<br></code></pre></td></tr></table></figure>
 <h3 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h3><p>类似于set容器背后的结构，通过前向迭代器从<code>begin()</code>到<code>end()</code>的遍历完成树的中序遍历，比较困难，还不会写。</p>
 <h2 id="大数运算"><a href="#大数运算" class="headerlink" title="大数运算"></a>大数运算</h2><p>相较于python等语言，C++对于数据类型的处理更精细，繁琐。比如浮点数的精度和大数字运算，C++都需要特殊处理，这是由于C++中数据类型的位数有限所导致，因此需要通过自定义数据类型实现大数运算</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-comment">// 直接将输入的数字读取为string类型</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;vector&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;string&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	string a, b;<br>	cin &gt;&gt; a&gt;&gt;b;<br>	<span class="hljs-type">int</span> alen = a.<span class="hljs-built_in">size</span>();<br>	<span class="hljs-type">int</span> blen = b.<span class="hljs-built_in">size</span>();<br>	<span class="hljs-built_in">reverse</span>(a.<span class="hljs-built_in">begin</span>(), a.<span class="hljs-built_in">end</span>());<br>	<span class="hljs-built_in">reverse</span>(b.<span class="hljs-built_in">begin</span>(), b.<span class="hljs-built_in">end</span>());<br>	<span class="hljs-type">int</span> maxlen = <span class="hljs-built_in">max</span>(alen, blen);<br>	vector&lt;<span class="hljs-type">int</span>&gt;<span class="hljs-built_in">res</span>(maxlen + <span class="hljs-number">1</span>);<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; maxlen+<span class="hljs-number">1</span>; i++) &#123;<br>		<span class="hljs-keyword">if</span> (i &lt; alen &amp;&amp; i &lt; blen)<br>			res[i] = a[i] - <span class="hljs-string">&#x27;0&#x27;</span> + b[i] - <span class="hljs-string">&#x27;0&#x27;</span> + res[i];<br>		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (i &lt; alen)<br>			res[i] = a[i] - <span class="hljs-string">&#x27;0&#x27;</span> + res[i];<br>		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (i &lt; blen)<br>			res[i] = b[i] - <span class="hljs-string">&#x27;0&#x27;</span> + res[i];<br>		<span class="hljs-keyword">if</span> (res[i] &gt;= <span class="hljs-number">10</span>) &#123;<br>			res[i + <span class="hljs-number">1</span>] = res[i] / <span class="hljs-number">10</span> + res[i + <span class="hljs-number">1</span>];<br>			res[i] = res[i] % <span class="hljs-number">10</span>;<br>		&#125;<br>	&#125;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = res[maxlen] == <span class="hljs-number">0</span> ? maxlen - <span class="hljs-number">1</span> : maxlen; i &gt;= <span class="hljs-number">0</span>; i--)<br>		cout &lt;&lt; res[i];<br>&#125;<br></code></pre></td></tr></table></figure>
+
 <h2 id="快速幂"><a href="#快速幂" class="headerlink" title="快速幂"></a>快速幂</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/95902286">推荐网站</a>，快速幂算法比较经典，能够以<code>O(logn)</code>的时间复杂度计算乘方，在一些算法问题中常有输出结果较大，需要<code>mod 1e+7</code>再输出，该类问题也可以应用快速幂实现，同样有着递归和非递归两种方式</p>
 <h3 id="递归快速幂"><a href="#递归快速幂" class="headerlink" title="递归快速幂"></a>递归快速幂</h3><p>如果n是偶数（不为0），先计算a的n&#x2F;2次方，后平方；如果n是奇数，先计算a的n-1次方，再乘a；递归出口是a的0次方为1。递推公式如下：<br>$a^{n}&#x3D;a^{n-1} \cdot a$  , if n is odd<br>$a^{n}&#x3D;a^{\frac{n}{2}\cdot \frac{n}{2}  } $  ,if n is even but not 0<br>$a^{n}&#x3D;1$,if n&#x3D;0</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">qpow</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> n)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">if</span> (n == <span class="hljs-number">0</span>)<br>			<span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (n % <span class="hljs-number">2</span> == <span class="hljs-number">1</span>)<br>			<span class="hljs-keyword">return</span> <span class="hljs-built_in">qpow</span>(a, n - <span class="hljs-number">1</span>) * a;<br>	<span class="hljs-keyword">else</span><br>	&#123;<br>			<span class="hljs-type">int</span> tmp = <span class="hljs-built_in">qpow</span>(a, n / <span class="hljs-number">2</span>);<br>			<span class="hljs-keyword">return</span> tmp * tmp;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-<h3 id="非递归快速幂"><a href="#非递归快速幂" class="headerlink" title="非递归快速幂"></a>非递归快速幂</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs C++"><br></code></pre></td></tr></table></figure>
+<h3 id="非递归快速幂"><a href="#非递归快速幂" class="headerlink" title="非递归快速幂"></a>非递归快速幂</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-type">double</span> <span class="hljs-title">Pow</span><span class="hljs-params">(<span class="hljs-type">double</span> x, <span class="hljs-type">int</span> n)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-type">double</span> result = <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">while</span> (n)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (n &amp; <span class="hljs-number">1</span>)<span class="hljs-comment">// n为奇数</span><br>            result *= x;<br>        n &gt;&gt;= <span class="hljs-number">1</span>; <span class="hljs-comment">// n/2</span><br>        x *= x;  <br>    &#125;<br>    <span class="hljs-keyword">return</span> result;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>对一个大素数取模，可以用上述的大数运算，但没有必要，直接在快速幂中取模，<br>非递归方式</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs C++"><br></code></pre></td></tr></table></figure>
 
@@ -326,7 +343,10 @@
 <p>对结果取模的快速乘，做了部分简化，比如b为奇数时的处理可以与b为偶数时的处理合并</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">typedef</span> <span class="hljs-type">long</span> <span class="hljs-type">long</span> ll;<br><span class="hljs-type">const</span> ll mod = <span class="hljs-number">1e9</span>+<span class="hljs-number">7</span>;<br><span class="hljs-function">ll <span class="hljs-title">qpow</span><span class="hljs-params">(ll a,ll b)</span> </span>&#123;<br>	ll s = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">while</span> (b) &#123;<br>		<span class="hljs-keyword">if</span> (b &amp; <span class="hljs-number">1</span>) <span class="hljs-comment">//b为奇数</span><br>			s = (s + a) % mod;<br>		a = (a + a) % mod;<span class="hljs-comment">//b为偶数或者已经对奇数处理结束（后续b/2时会将奇数变为偶数），a扩大一倍</span><br>		b &gt;&gt;= <span class="hljs-number">1</span>;<span class="hljs-comment">//b除以2</span><br>	&#125;<br>	<span class="hljs-keyword">return</span> s;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<h2 id="最短路径算法"><a href="#最短路径算法" class="headerlink" title="最短路径算法"></a>最短路径算法</h2><h3 id="floyd算法"><a href="#floyd算法" class="headerlink" title="floyd算法"></a>floyd算法</h3>
+<h2 id="最短路径算法"><a href="#最短路径算法" class="headerlink" title="最短路径算法"></a>最短路径算法</h2><h3 id="floyd算法"><a href="#floyd算法" class="headerlink" title="floyd算法"></a>floyd算法</h3><h2 id="常用算法"><a href="#常用算法" class="headerlink" title="常用算法"></a>常用算法</h2><h3 id="gcd最大公约数"><a href="#gcd最大公约数" class="headerlink" title="gcd最大公约数"></a>gcd最大公约数</h3><p><code>greatest common divisor</code>，只要两数不相等，就反复用大数减小数， 直到相等为止，此相等的数就是两数的最大公约数</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">gcd</span><span class="hljs-params">(<span class="hljs-type">int</span> x, <span class="hljs-type">int</span> y)</span> </span>&#123;<br>	<span class="hljs-keyword">while</span> (x != y) &#123;<br>		<span class="hljs-keyword">if</span> (x &gt; y)<br>			x = x - y;<br>		<span class="hljs-keyword">else</span><br>			y = y - x;<br>	&#125;<br>	<span class="hljs-keyword">return</span> x;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="最小公倍数"><a href="#最小公倍数" class="headerlink" title="最小公倍数"></a>最小公倍数</h3><p>最小公倍数&#x3D;X<em>Y&#x2F;gcd(x,y)，由于X</em>Y可能超出INT_MAX所以跟换顺序<code>X/gcd(x,y)*Y</code></p>
+<h2 id="线段树"><a href="#线段树" class="headerlink" title="线段树"></a>线段树</h2>
                 
               </div>
             

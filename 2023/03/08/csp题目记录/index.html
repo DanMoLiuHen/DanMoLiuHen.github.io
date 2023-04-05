@@ -24,7 +24,7 @@
 <meta property="og:description" content="由于csp题目答案比较难找到，所以特此记录拿到过满分的题目">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-03-08T11:38:55.549Z">
-<meta property="article:modified_time" content="2023-03-08T15:31:32.728Z">
+<meta property="article:modified_time" content="2023-03-20T06:08:17.168Z">
 <meta property="article:author" content="YeBao">
 <meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary_large_image">
@@ -173,6 +173,18 @@
             </li>
           
         
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
         
           <li class="nav-item" id="search-btn">
             <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
@@ -224,7 +236,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.1k 字
+          1.9k 字
         
       </span>
     
@@ -235,7 +247,7 @@
         
         
         
-          10 分钟
+          17 分钟
         
       </span>
     
@@ -286,7 +298,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2023年3月8日 晚上
+                    本文最后更新于：2023年3月20日 下午
                   
                 
               </p>
@@ -298,16 +310,17 @@
 <ol>
 <li>使用<code>pow()</code>函数需要加上<code>cmath</code>库否则编译错误，与在vs中仅添加<code>iostream</code>有区别</li>
 <li>二维数组声明时注意空格如<code>vector&lt;vector&lt;int&gt; &gt;</code>，写为<code>&gt;&gt;</code>出现编译错误</li>
+<li>选择C++环境不支持auto智能指针</li>
 </ol>
 <h2 id="202209-1如此编码"><a href="#202209-1如此编码" class="headerlink" title="202209-1如此编码"></a>202209-1如此编码</h2><p>根据提示完成即可，比较简单</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;vector&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	<span class="hljs-type">int</span> n, m;<br>	cin &gt;&gt; n &gt;&gt; m;<br>	vector&lt;<span class="hljs-type">int</span>&gt;<span class="hljs-built_in">a</span>(n+<span class="hljs-number">1</span>);<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)<br>		cin &gt;&gt; a[i];<br>	vector&lt;<span class="hljs-type">int</span>&gt;<span class="hljs-built_in">c</span>(n+<span class="hljs-number">1</span>);<br>	vector&lt;<span class="hljs-type">int</span>&gt;<span class="hljs-built_in">b</span>(n+<span class="hljs-number">1</span>);<br>	c[<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>		c[i] = c[i - <span class="hljs-number">1</span>] * a[i];<br>		b[i] = (m % c[i] - m % c[i - <span class="hljs-number">1</span>]) / c[i - <span class="hljs-number">1</span>];<br>	&#125;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)<br>		cout &lt;&lt; b[i] &lt;&lt; <span class="hljs-string">&quot; &quot;</span>;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;vector&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;fstream&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	<span class="hljs-function">ifstream <span class="hljs-title">cin</span><span class="hljs-params">(<span class="hljs-string">&quot;aaa.txt&quot;</span>)</span></span>;<br>	<span class="hljs-type">int</span> n, m;<br>	cin &gt;&gt; n &gt;&gt; m;<br>	vector&lt;<span class="hljs-type">int</span>&gt;<span class="hljs-built_in">a</span>(n+<span class="hljs-number">1</span>);<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)<br>		cin &gt;&gt; a[i];<br>	vector&lt;<span class="hljs-type">int</span>&gt;<span class="hljs-built_in">c</span>(n+<span class="hljs-number">1</span>);<br>	vector&lt;<span class="hljs-type">int</span>&gt;<span class="hljs-built_in">b</span>(n+<span class="hljs-number">1</span>);<br>	c[<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>		c[i] = c[i - <span class="hljs-number">1</span>] * a[i];<br>		b[i] = (m % c[i] - m % c[i - <span class="hljs-number">1</span>]) / c[i - <span class="hljs-number">1</span>];<br>	&#125;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)<br>		cout &lt;&lt; b[i] &lt;&lt; <span class="hljs-string">&quot; &quot;</span>;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <h2 id="202209-2何以包邮"><a href="#202209-2何以包邮" class="headerlink" title="202209-2何以包邮"></a>202209-2何以包邮</h2><p>如果遍历所有的可能的取法，会有$2^{n}$种，运算量比较大，会有超时，只能拿下70分</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;vector&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;cmath&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	<span class="hljs-type">int</span> n, x;<br>	cin &gt;&gt; n &gt;&gt; x;<br>	<span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">a</span><span class="hljs-params">(n)</span></span>;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++)<br>		cin &gt;&gt; a[i];<br>	<span class="hljs-comment">//遍历</span><br>	<span class="hljs-type">int</span> res = INT_MAX;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-built_in">pow</span>(<span class="hljs-number">2</span>, n); i &gt; <span class="hljs-number">0</span>; i--) &#123;<br>		<span class="hljs-type">int</span> sum = <span class="hljs-number">0</span>;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; n &amp;&amp; (i &gt;&gt; j); j++) &#123;<br>			<span class="hljs-keyword">if</span> ((i &gt;&gt; j) &amp; <span class="hljs-number">1</span>) &#123;<br>				sum += a[j];<br>			&#125;<br>		&#125;<br>		res = sum &gt;= x ? <span class="hljs-built_in">min</span>(sum, res) : res;<br>	&#125;<br>	cout &lt;&lt; res;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>考虑dfs+剪枝优化，同样是遍历，但通过计算节点后续能拿到的最大金额是否大于x，能够剪枝</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs C++"><br></code></pre></td></tr></table></figure>
-<p>但感觉还能用dp快速求解</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs C++"><br></code></pre></td></tr></table></figure>
+<p>但感觉还能用dp快速求解，类似于01背包，相当于把01背包问题的容量看做价格，用dp[j]表示价格不超过j的这n本书能组成的最大值，那么<code>dp[j]=max(dp[j],dp[j-a[i]]+a[i])</code>，该解法满分</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;vector&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std; <br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	<span class="hljs-type">int</span> n, x,sum = <span class="hljs-number">0</span>;<span class="hljs-comment">//sum记录书本总价</span><br>	cin &gt;&gt; n &gt;&gt; x;<br>	vector&lt;<span class="hljs-type">int</span>&gt;<span class="hljs-built_in">a</span>(n);<span class="hljs-comment">//记录书本价格</span><br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>		cin &gt;&gt; a[i];<br>		sum += a[i];<br>	&#125;<br>	<span class="hljs-comment">//构建sum+1个空间，如果x&lt;sum那么符合条件的价格会出现在dp[x]之后所以不能仅仅构建x+1个空间，如果x=sum那么dp[x]就是符合条件的答案</span><br>	vector&lt;<span class="hljs-type">int</span>&gt;<span class="hljs-built_in">dp</span>(sum+<span class="hljs-number">1</span>);<br>	<span class="hljs-comment">//对于每本书都需要重新修正dp的每一项</span><br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = sum; j &gt;= a[i]; j--) &#123;<br>			<span class="hljs-keyword">if</span> (j - a[i] &gt;= <span class="hljs-number">0</span>)<br>				dp[j] = <span class="hljs-built_in">max</span>(dp[j], dp[j - a[i]] + a[i]);<br>		&#125;<br>	&#125;<br>	<span class="hljs-comment">// 不必从开始查找，分析见上述注释</span><br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = x; i &lt;sum+<span class="hljs-number">1</span>; i++)<br>	&#123;<br>		<span class="hljs-keyword">if</span> (dp[i] &gt; x) &#123;<br>			cout &lt;&lt; dp[i];<br>			<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>		&#125;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
                 
               </div>
             
@@ -396,6 +409,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2023/03/20/C++STL%E6%B3%9B%E5%9E%8B%E8%BF%9B%E9%98%B6/" title="C++STL泛型进阶">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">C++STL泛型进阶</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
