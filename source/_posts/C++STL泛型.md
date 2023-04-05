@@ -218,6 +218,18 @@ printf(s.c_str());
 
 2. 分割字符串
 在STL中
+```C++
+vector<string> mysplit(string a,const string& b) {
+	vector<string>res;
+	for (int tmp = a.find(b);tmp<a.size();tmp=a.find(b)) {
+		res.emplace_back(a.substr(0, tmp));
+		a = a.substr(tmp + b.size(), a.size());
+	}
+	res.emplace_back(a);
+	return res;
+}
+```
+
 ---
 
 ## set使用

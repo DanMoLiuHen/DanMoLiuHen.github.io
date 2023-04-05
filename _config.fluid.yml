@@ -1000,12 +1000,12 @@ links:
       link: "https://ikko-debug.github.io/",
       avatar: "/img/favicon.png"
     }
-    # - {
-    #   title: "Fluid Docs",
-    #   intro: "主题使用指南",
-    #   link: "https://hexo.fluid-dev.com/docs/",
-    #   avatar: "/img/favicon.png"
-    # }
+    - {
+      title: "Fluid Docs",
+      intro: "主题使用指南",
+      link: "https://hexo.fluid-dev.com/docs/",
+      avatar: "/img/favicon.png"
+    }
     # - {
     #   title: "Fluid Repo",
     #   intro: "主题 GitHub 仓库",

@@ -16,7 +16,7 @@ C++标准库的header files不带后缀，如#include<vector>
 旧式的`header files`带.h后缀，仍可用，#include<stdio.h>
 新式`headers`的所有组件封装在`namespace std`中
 旧式headers内组件不会封装在namespace std中
-## C++STL六大部件
+## C++STL六大部件概览
 容器Containers
 分配器Allocators
 算法Algorithms，函数模板
@@ -145,6 +145,7 @@ struct __type<int,T2>
 	typedef int miao;
 };
 ```
+
 ## 分配器
 GNU4.9中，在`__gnu_cxx`命名空间，需要`#include<ext\array_allocator>`，有以下分配器
 1. array_allocator
@@ -302,6 +303,128 @@ map可以通过`[]`修改或插入值，但multimap不能。`[]`返回key所对�
 ## 算法
 算法首先要根据迭代器获取必需的信息（5种associated type）
 iterator traits与type traits对算法效率有较大影响，算法需要根据数据特性选择最高效的算法
-accumulate
+### 部分算法举例
+- `accumulate(InputIterator first,InputIterator last,T init,BinaryOperation binary_op)`将first至last中的元素使用binary_op操作累计给init并返回
+- `for_each(InputIterator first,InputIterator last,Function f)`对`[first,last]`的元素使用函数f
+- `replace(ForwardIterator first,ForwardIterator last,const T&old_value,const T&new_value)`将`[first,last]`中所有等于old_value的元素更换为 new_value
+- `replace_if(ForwardIterator first,ForwardIterator last,Predicate pred,const T&old_value,const T&new_value)`将`[first,last]`内满足pred条件（返回true or false）的取代
+- `replace_copy(InputIterator first,InputIterator last,OutputIterator result,const T&old_value,const T&new_value)`将`[first,last]`中等于old_value的元素放入result区间中
+- `count(..)`（循序计数），`count_if(..)`,`find(..)`（循序查找）,`find_if(..)`,`sort(..)`（快排）五种函数使用方式类似(省略了参数)，在部分容器中有自己的同名成员函数
+	- 容器不带`count()`,`find(..)`:array,vector,list,forward_list,deque
+	- 容器带有`count()`,`find(..)`:set/multiset,map/multimap,unordered_set/unordered_multiset,unordered_map/unordered_multimap 
+	- 除了`list`和`forward_list`	都没有成员函数`sort()`，且不能使用算法中的`std::sort()`（set等容器自带排序）
+- `binary_search()`使用二分查找必需是已排序的容器，底层调用`lower_bound()`
+- `lower_bound(ForwardIterator first,ForwardIterator last,const T&val)`将val插入已排序容器所能存在的最低点，`upper_bound(ForwardIterator first,ForwardIterator last,const T&val)`将val插入已排序容器所能存在的最高点
+
+## Functors仿函数
+把类当做函数用，只为算法服务，比如排序默认使用从小到大，通过仿函数实现从大到小排序，都是对操作符`()`进行重载，是个对象但像函数
+三类仿函数：
+1. 算术类Arithmetic
+2. 逻辑运算类Logical
+3. 相对关系类（比大小）Relational
+```C++
+// 算术类仿函数如下
+template<class T>
+struct plus:public binary_function<T,T,T>{
+	T operator()(const T& x, const T& y)const {
+		return x + y;
+	}
+};
+template<class T>
+struct minus :public binary_function<T, T, T> {
+	T operator()(const T& x, const T& y)const {
+		return x - y;
+	}
+}; 
+```
+STL中的仿函数都继承了`binary_function<T,T,T>`或者另一个类`unary_function()`，其类的实现示例如下，使仿函数可适配化，没有继承在一些算法(比如`sort()`)中可以使用，但当需要适配器时将无法使用
+```C++
+template<class Arg, class Result>
+struct unary_function {
+	typedef Arg argument_type;
+	typedef Result result_type;
+};
+
+template<class Arg1,class Arg2,class Result>
+struct binary_function {
+	typedef Arg1 first_argument_type;
+	typedef Arg2 second_argument_type;
+	typedef Result result_type;
+};
+```
+
+## 适配器
+在仿函数，迭代器，容器中都有适配器出现
+`typename`使用typename关键字修饰，编译器将这个名字当做是类型（避免在编译时才能确认是变量还是类型）
+- 容器迭代器：stack，queue
+- 函数迭代器：`binder2nd(const Operation&op,const T&x)`（已被`bind()`取代），将op的第二个参数绑定为x，要求op必须继承`binary_function`；`not1(const Predicate& pred)`
+`bind()`绑定函数，使用_2（第二实参），_1（第一实参）等作为占位符，可以指定模板类型，表示返回类型，可以绑定四种类型functions，function objects,member functions,data members
+```C++
+// bind example
+#include <iostream>     // std::cout
+#include <functional>   // std::bind
+
+// a function: (also works with function object: std::divides<double> my_divide;)
+double my_divide (double x, double y) {return x/y;}
+
+struct MyPair {
+  double a,b;
+  double multiply() {return a*b;}
+};
+
+int main () {
+  using namespace std::placeholders;    // adds visibility of _1, _2, _3,...
+
+  // binding functions:
+  auto fn_five = std::bind (my_divide,10,2);               // returns 10/2
+  std::cout << fn_five() << '\n';                          // 5
+
+  auto fn_half = std::bind (my_divide,_1,2);               // returns x/2
+  std::cout << fn_half(10) << '\n';                        // 5
+
+  auto fn_invert = std::bind (my_divide,_2,_1);            // returns y/x
+  std::cout << fn_invert(10,2) << '\n';                    // 0.2
+
+  auto fn_rounding = std::bind<int> (my_divide,_1,_2);     // returns int(x/y)
+  std::cout << fn_rounding(10,3) << '\n';                  // 3
+
+  MyPair ten_two {10,2};
+
+  // binding members:
+  auto bound_member_fn = std::bind (&MyPair::multiply,_1); // returns x.multiply()
+  std::cout << bound_member_fn(ten_two) << '\n';           // 20
+
+  auto bound_member_data = std::bind (&MyPair::a,ten_two); // returns ten_two.a
+  std::cout << bound_member_data() << '\n';                // 10
+
+  return 0;
+}
+```
+- 迭代器适配器，`reverse_iterator`，`inserter`,在`copy()`函数中，是直接将一段数据复制到（通过赋值实现）另一个容器中，如果另一个容器空间不够将出错，通过inserter可以将赋值操作改为`insert()`，从而不用担心空间问题。
+- istream_iterator,ostream_iterator
+```C++
+#include <iostream>     // std::cout
+#include <functional>   // std::bind
+#include<vector>
+#include<iterator>
+int main() {
+	std::vector<int> a = { 1,6,3,8,3,0,123 };
+	std::ostream_iterator<int> out_it(std::cout, ",");//内部对指针++，相当于再次执行对应操作
+	std::copy(a.begin(), a.end(), out_it);
+	return 0;
+}
+```
+```C++
+std::vector<int>c;
+std::istream_iterator<int>iit(std::cin), eos;//在这一行就已经开始等待输入了
+copy(iit, eos, std::inserter(c, c.begin()));
+```
+
+## STL周边
+hash_function
+
 ## 参考资料
 [^1]:[侯捷STL源码剖析](https://www.youtube.com/watch?v=_dzIvOmXfKI&list=PLTcwR9j5y6W2Bf4S-qi0HBQlHXQVFoJrP&index=19)
+[^2]:[Cplusplus](https://cplusplus.com/)
+[^3]:[gcc.gnu](https://gcc.gnu.org/)
+[^4]:[cppreference](https://en.cppreference.com/w/)
