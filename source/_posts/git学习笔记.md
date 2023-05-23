@@ -115,6 +115,7 @@ vim .gitignore
 
 ### 抓取与拉取
 抓取指令`git fetch [remote name] [branch name]`
+- 需要在在抓取之后`git merge origin/master`才能查看到代码的内容
 - 将远程仓库里的更新都抓取到本地，不会进行合并
 - 不指定远程仓库名和分支名则抓取所有分支
 

@@ -39,4 +39,6 @@ ubuntu初始没有root账户，需要登录后创建，输入指令`sudo passwd 
 
 ## 时区设置
 
-# socket网络编程
+# 一些指令
+`top`指令
+

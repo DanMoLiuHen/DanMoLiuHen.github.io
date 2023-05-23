@@ -61,6 +61,7 @@ first
 ### 模板语法
 从函数中向页面传参，包括变量，列表，字典等数据类型，即为`return render(req,'user_add.html' , {'n1':name,'n2':test_list,'n3':test_dic})`中的render()函数添加第三个参数传参
 支持for循环
+for循环中有一些内置变量如`{{ forloop.counter }}`整型，计数器,`{{forloop.counter0}}`,`{{forloop.first}}`布尔值
 ```html
 <!-- 输出n3字典中的键和值 -->
 {% for k,v in n3.items %}
