@@ -2,7 +2,7 @@
 title: neon优化
 date: 2023/5/20 14:14:12
 categories: practical-experience
-excerpt: 在armv8平台上进行neon优化的一些经验与总结
+excerpt: 在armv8平台上进行neon优化的一些经验与总结，使用项目ceres-solver，涉及eigen等库
 hide: true
 tag: markdown
 ---
@@ -100,3 +100,7 @@ inline void neon_4x4_matrix_4x1_vector_multiply(float64_t* A, float64_t* B, floa
     vst1q_f64(C+2, C1);
 }
 ```
+
+## eigen使用
+1. lazyProduct works better than .noalias() for matrix-vector
+`Aref.transpose().lazyProduct(bref);//Aref matrix, Bref vector`
