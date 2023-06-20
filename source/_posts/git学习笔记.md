@@ -46,6 +46,13 @@ git config --global user.email "your_email@youremail.com"
 
 # 查看工作区状态
 git status
+
+# 创建并切换分支到某个tag上（能够在tag基础上修改代码）
+git checkout -b branch_name tag_name
+
+# 与上游分支同步，master是当前本地分支
+git fetch upstream
+git merge upstream/master
 ```
 # 理解
 

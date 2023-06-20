@@ -39,7 +39,10 @@ Flags:                           fp asimd evtstrm aes pmull sha1 sha2 crc32 cpui
 {% endnote %} 
 
 ## 概述
-neon是arm提供的一套SIMD，可以借此实现并行运算，达到提速目的，在C++中`#include<arm_neon.h>`即可使用封装好的`Intrinsics`，[intrinsics参考网站](https://developer.arm.com/architectures/instruction-sets/intrinsics/#f:@navigationhierarchiessimdisa=[Neon]&first=160)
+neon是arm提供的一套SIMD，可以借此在arm平台上实现并行运算，达到提速目的，在C++中`#include<arm_neon.h>`即可使用封装好的`Intrinsics`，[intrinsics参考网站](https://developer.arm.com/architectures/instruction-sets/intrinsics/#f:@navigationhierarchiessimdisa=[Neon]&first=160)，使用`Intrinsics`只是提速的方法之一，还可以通过汇编等操作寄存器，实现更高效使用。
+
+## neon优化基础
+neon寄存器是128位，共有32个寄存器，
 
 ## neon优化实例
 1. 2x3矩阵转置，涉及的核心函数为`vtrn1q_f64(A0,A1)`，作用是将A0,A1向量中的奇数位取出(`vtrn2q_f64(A0,A1)`取出偶数位)
