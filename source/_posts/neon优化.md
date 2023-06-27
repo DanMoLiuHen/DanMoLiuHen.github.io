@@ -3,8 +3,10 @@ title: neon优化
 date: 2023/5/20 14:14:12
 categories: practical-experience
 excerpt: 在armv8平台上进行neon优化的一些经验与总结，使用项目ceres-solver，涉及eigen等库，包括linux下使用perf分析性能
-hide: true
-tag: markdown
+hide: false
+tag: 
+- markdown
+- C++
 ---
 {% note info %}
 交叉编译，arm平台环境如下所示
