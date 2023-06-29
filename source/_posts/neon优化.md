@@ -45,6 +45,17 @@ neon是arm提供的一套SIMD，可以借此在arm平台上实现并行运算，
 
 ## neon优化基础
 neon寄存器是128位，共有32个寄存器，
+### 数据类型
+neon中类型格式如下所示，表示向量
+```
+<type><size>x<number_of_lanes>x<length_of_array>_t 
+
+float16x4_t	float16x8_t
+float32x2_t	float32x4_t
+poly8x8_t	poly8x16_t
+```
+
+
 
 ## neon优化实例
 1. 2x3矩阵转置，涉及的核心函数为`vtrn1q_f64(A0,A1)`，作用是将A0,A1向量中的奇数位取出(`vtrn2q_f64(A0,A1)`取出偶数位)
