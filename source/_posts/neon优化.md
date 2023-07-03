@@ -302,3 +302,6 @@ Samples: 86  of event 'cache-misses', Event count (approx.): 140933
 +   21.63%     0.00%  two      [kernel.kallsyms]    [k] do_syscall_64
 +   18.19%     0.00%  two      two                  [.] fun
 ```
+
+## 参考资料
+(12-Linux性能优化实战)[http://juconcurrent.com/books-jksj-11-20/]
