@@ -304,4 +304,4 @@ Samples: 86  of event 'cache-misses', Event count (approx.): 140933
 ```
 
 ## 参考资料
-(12-Linux性能优化实战)[http://juconcurrent.com/books-jksj-11-20/]
+[^1]:[12-Linux性能优化实战](http://juconcurrent.com/books-jksj-11-20/)

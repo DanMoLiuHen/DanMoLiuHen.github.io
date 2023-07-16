@@ -3,7 +3,7 @@ title: hexo+githubPage创建博客
 date: 2022/8/23 14:14:12
 categories: practical-experience
 excerpt: 记录作者用hexo+githubPage+travis创建博客的全部过程，官方虽有教程，但有些粗略，尤其是部署上，并且有几个坑没有说..
-hide: false
+hide: true
 tag: markdown
 ---
 想要拥有和本网站类似的博客吗？本篇博客记录作者用hexo+githubPage+travis创建博客的全部过程，部分步骤官方教程比较详细，因此本博客将结合官方教程和个人经历进行说明，主要是讲讲几个踩过的坑，
