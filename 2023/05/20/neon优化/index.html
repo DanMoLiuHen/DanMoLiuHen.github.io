@@ -1,0 +1,751 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon-ye1.png">
+  <link rel="icon" href="/img/favicon-ye2.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="YeBao">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="在armv8平台上进行neon优化的一些经验与总结，使用项目ceres-solver，涉及eigen等库，包括linux下使用perf分析性能">
+<meta property="og:type" content="article">
+<meta property="og:title" content="neon优化">
+<meta property="og:url" content="https://danmoliuhen.github.io./2023/05/20/neon%E4%BC%98%E5%8C%96/index.html">
+<meta property="og:site_name" content="YeBao&#39;blog">
+<meta property="og:description" content="在armv8平台上进行neon优化的一些经验与总结，使用项目ceres-solver，涉及eigen等库，包括linux下使用perf分析性能">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-05-20T06:14:12.000Z">
+<meta property="article:modified_time" content="2023-07-03T14:14:40.586Z">
+<meta property="article:author" content="YeBao">
+<meta property="article:tag" content="markdown">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>neon优化 - YeBao&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"danmoliuhen.github.io.","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>YeBao</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/2.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="neon优化"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-05-20 14:14" pubdate>
+          2023年5月20日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          9.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          76 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">neon优化</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：2023年7月3日 晚上
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <div class="note note-info">
+            <p>交叉编译，arm平台环境如下所示</p><figure class="highlight nestedtext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs nestedtext"><span class="hljs-attribute">Architecture</span><span class="hljs-punctuation">:</span> <span class="hljs-string">                   aarch64</span><br><span class="hljs-attribute">CPU op-mode(s)</span><span class="hljs-punctuation">:</span> <span class="hljs-string">                 32-bit, 64-bit</span><br><span class="hljs-attribute">Byte Order</span><span class="hljs-punctuation">:</span> <span class="hljs-string">                     Little Endian</span><br><span class="hljs-attribute">CPU(s)</span><span class="hljs-punctuation">:</span> <span class="hljs-string">                         2</span><br><span class="hljs-attribute">On-line CPU(s) list</span><span class="hljs-punctuation">:</span> <span class="hljs-string">            0,1</span><br><span class="hljs-attribute">Thread(s) per core</span><span class="hljs-punctuation">:</span> <span class="hljs-string">             1</span><br><span class="hljs-attribute">Core(s) per socket</span><span class="hljs-punctuation">:</span> <span class="hljs-string">             2</span><br><span class="hljs-attribute">Socket(s)</span><span class="hljs-punctuation">:</span> <span class="hljs-string">                      1</span><br><span class="hljs-attribute">Vendor ID</span><span class="hljs-punctuation">:</span> <span class="hljs-string">                      ARM</span><br><span class="hljs-attribute">Model</span><span class="hljs-punctuation">:</span> <span class="hljs-string">                          0</span><br><span class="hljs-attribute">Model name</span><span class="hljs-punctuation">:</span> <span class="hljs-string">                     Cortex-A72</span><br><span class="hljs-attribute">Stepping</span><span class="hljs-punctuation">:</span> <span class="hljs-string">                       r1p0</span><br><span class="hljs-attribute">BogoMIPS</span><span class="hljs-punctuation">:</span> <span class="hljs-string">                       400.00</span><br><span class="hljs-attribute">L1d cache</span><span class="hljs-punctuation">:</span> <span class="hljs-string">                      64 KiB</span><br><span class="hljs-attribute">L1i cache</span><span class="hljs-punctuation">:</span> <span class="hljs-string">                      96 KiB</span><br><span class="hljs-attribute">L2 cache</span><span class="hljs-punctuation">:</span> <span class="hljs-string">                       1 MiB</span><br><span class="hljs-attribute">Vulnerability Itlb multihit</span><span class="hljs-punctuation">:</span> <span class="hljs-string">    Not affected</span><br><span class="hljs-attribute">Vulnerability L1tf</span><span class="hljs-punctuation">:</span> <span class="hljs-string">             Not affected</span><br><span class="hljs-attribute">Vulnerability Mds</span><span class="hljs-punctuation">:</span> <span class="hljs-string">              Not affected</span><br><span class="hljs-attribute">Vulnerability Meltdown</span><span class="hljs-punctuation">:</span> <span class="hljs-string">         Not affected</span><br><span class="hljs-attribute">Vulnerability Spec store bypass</span><span class="hljs-punctuation">:</span> <span class="hljs-string">Vulnerable</span><br><span class="hljs-attribute">Vulnerability Spectre v1</span><span class="hljs-punctuation">:</span> <span class="hljs-string">       Mitigation; __user pointer sanitization</span><br><span class="hljs-attribute">Vulnerability Spectre v2</span><span class="hljs-punctuation">:</span> <span class="hljs-string">       Not affected</span><br><span class="hljs-attribute">Vulnerability Srbds</span><span class="hljs-punctuation">:</span> <span class="hljs-string">            Not affected</span><br><span class="hljs-attribute">Vulnerability Tsx async abort</span><span class="hljs-punctuation">:</span> <span class="hljs-string">  Not affected</span><br><span class="hljs-attribute">Flags</span><span class="hljs-punctuation">:</span> <span class="hljs-string">                          fp asimd evtstrm aes pmull sha1 sha2 crc32 cpuid</span><br></code></pre></td></tr></table></figure>
+          </div> 
+
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>neon是arm提供的一套SIMD，可以借此在arm平台上实现并行运算，达到提速目的，在C++中<code>#include&lt;arm_neon.h&gt;</code>即可使用封装好的<code>Intrinsics</code>，<a target="_blank" rel="noopener" href="https://developer.arm.com/architectures/instruction-sets/intrinsics/#f:@navigationhierarchiessimdisa=[Neon]&first=160">intrinsics参考网站</a>，使用<code>Intrinsics</code>只是提速的方法之一，还可以通过汇编等操作寄存器，实现更高效使用。</p>
+<h2 id="neon优化基础"><a href="#neon优化基础" class="headerlink" title="neon优化基础"></a>neon优化基础</h2><p>neon寄存器是128位，共有32个寄存器，</p>
+<h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><p>neon中类型格式如下所示，表示向量</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs arduino">&lt;type&gt;&lt;size&gt;x&lt;number_of_lanes&gt;x&lt;length_of_array&gt;<span class="hljs-type">_t</span> <br><br><span class="hljs-type">float16x4_t</span>	<span class="hljs-type">float16x8_t</span><br><span class="hljs-type">float32x2_t</span>	<span class="hljs-type">float32x4_t</span><br><span class="hljs-type">poly8x8_t</span>	<span class="hljs-type">poly8x16_t</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="neon优化实例"><a href="#neon优化实例" class="headerlink" title="neon优化实例"></a>neon优化实例</h2><ol>
+<li><p>2x3矩阵转置，涉及的核心函数为<code>vtrn1q_f64(A0,A1)</code>，作用是将A0,A1向量中的奇数位取出(<code>vtrn2q_f64(A0,A1)</code>取出偶数位)</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-comment">// neon优化的2x3矩阵转置，A是待转置矩阵(按行主序展开)，B是转置结果(行主序)</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">neon_2x3_matrix_transpose</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">float64_t</span>* A,<span class="hljs-type">float64_t</span>* B)</span></span>&#123;<br>  <span class="hljs-type">float64x2_t</span> A0=<span class="hljs-built_in">vld1q_f64</span>(A);<br>  <span class="hljs-type">float64x2_t</span> A1=<span class="hljs-built_in">vld1q_f64</span>(A+<span class="hljs-number">3</span>);<br>  <span class="hljs-type">float64x2_t</span> A2=<span class="hljs-built_in">vld1q_f64</span>(A+<span class="hljs-number">2</span>);<br>  <span class="hljs-type">float64x2_t</span> A3=<span class="hljs-built_in">vld1q_f64</span>(A+<span class="hljs-number">5</span>);<br><br>  <span class="hljs-type">float64x2_t</span> C0,C1,C2;<br>  C0=<span class="hljs-built_in">vtrn1q_f64</span>(A0,A1);<br>  C1=<span class="hljs-built_in">vtrn2q_f64</span>(A0,A1);<br>  C2=<span class="hljs-built_in">vtrn1q_f64</span>(A2,A3);<br><br>  <span class="hljs-built_in">vst1q_f64</span>(B, C0);<br>  <span class="hljs-built_in">vst1q_f64</span>(B+<span class="hljs-number">2</span>, C1);<br>  <span class="hljs-built_in">vst1q_f64</span>(B+<span class="hljs-number">4</span>, C2);<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>矩阵乘法</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-comment">/*</span><br><span class="hljs-comment">* 4x4矩阵乘以4x1列向量，矩阵按列主序展开为数组表示</span><br><span class="hljs-comment">*/</span><br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> <span class="hljs-title">neon_4x4_matrix_4x1_vector_multiply</span><span class="hljs-params">(<span class="hljs-type">float64_t</span>* A, <span class="hljs-type">float64_t</span>* B, <span class="hljs-type">float64_t</span>* C)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-type">float64x2_t</span> A0=<span class="hljs-built_in">vld1q_f64</span>(A);<br>    <span class="hljs-type">float64x2_t</span> A1=<span class="hljs-built_in">vld1q_f64</span>(A+<span class="hljs-number">2</span>);<br>    <span class="hljs-type">float64x2_t</span> A2=<span class="hljs-built_in">vld1q_f64</span>(A+<span class="hljs-number">4</span>);<br>    <span class="hljs-type">float64x2_t</span> A3=<span class="hljs-built_in">vld1q_f64</span>(A+<span class="hljs-number">6</span>);<br>    <span class="hljs-type">float64x2_t</span> A4=<span class="hljs-built_in">vld1q_f64</span>(A+<span class="hljs-number">8</span>);<br>    <span class="hljs-type">float64x2_t</span> A5=<span class="hljs-built_in">vld1q_f64</span>(A+<span class="hljs-number">10</span>);<br>    <span class="hljs-type">float64x2_t</span> A6=<span class="hljs-built_in">vld1q_f64</span>(A+<span class="hljs-number">12</span>);<br>    <span class="hljs-type">float64x2_t</span> A7=<span class="hljs-built_in">vld1q_f64</span>(A+<span class="hljs-number">14</span>);<br><br>    <span class="hljs-type">float64x2_t</span> B0=<span class="hljs-built_in">vld1q_f64</span>(B);<br>    <span class="hljs-type">float64x2_t</span> B1=<span class="hljs-built_in">vld1q_f64</span>(B+<span class="hljs-number">2</span>);<br>    <br>    <span class="hljs-type">float64x2_t</span> C0,C1;<br>    <span class="hljs-comment">// set C0 = &#123;0,0&#125;</span><br>    C0 = <span class="hljs-built_in">vmovq_n_f64</span>(<span class="hljs-number">0</span>);<br>    C1 = <span class="hljs-built_in">vmovq_n_f64</span>(<span class="hljs-number">0</span>);<br><br>    <span class="hljs-comment">// return C0+A0*B0[0]</span><br>    C0 = <span class="hljs-built_in">vfmaq_laneq_f64</span>(C0, A0, B0, <span class="hljs-number">0</span>);<br>    C0 = <span class="hljs-built_in">vfmaq_laneq_f64</span>(C0, A2, B0, <span class="hljs-number">1</span>);<br>    C0 = <span class="hljs-built_in">vfmaq_laneq_f64</span>(C0, A4, B1, <span class="hljs-number">0</span>);<br>    C0 = <span class="hljs-built_in">vfmaq_laneq_f64</span>(C0, A6, B1, <span class="hljs-number">1</span>);<br><br>    C1 = <span class="hljs-built_in">vfmaq_laneq_f64</span>(C1, A1, B0, <span class="hljs-number">0</span>);<br>    C1 = <span class="hljs-built_in">vfmaq_laneq_f64</span>(C1, A3, B0, <span class="hljs-number">1</span>);<br>    C1 = <span class="hljs-built_in">vfmaq_laneq_f64</span>(C1, A5, B1, <span class="hljs-number">0</span>);<br>    C1 = <span class="hljs-built_in">vfmaq_laneq_f64</span>(C1, A7, B1, <span class="hljs-number">1</span>);<br>    <span class="hljs-built_in">vst1q_f64</span>(C, C0);<br>    <span class="hljs-built_in">vst1q_f64</span>(C+<span class="hljs-number">2</span>, C1);<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="eigen使用"><a href="#eigen使用" class="headerlink" title="eigen使用"></a>eigen使用</h2><ol>
+<li>lazyProduct works better than .noalias() for matrix-vector<br><code>Aref.transpose().lazyProduct(bref);//Aref matrix, Bref vector</code></li>
+</ol>
+<h2 id="perf使用"><a href="#perf使用" class="headerlink" title="perf使用"></a>perf使用</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>每隔一个固定的时间，在CPU上（每个核上都有）产生一个中断，在中断上看当前是哪个pid，哪个函数，然后给对应的pid和函数加一个统计值，由此可知CPU有百分几的时间在某个pid，或者某个函数上</p>
+<h3 id="使用perf对程序概览"><a href="#使用perf对程序概览" class="headerlink" title="使用perf对程序概览"></a>使用perf对程序概览</h3><p>linux下可以使用perf分析程序性能，执行<code>perf stat ./your_program</code>(可能需要sudo权限)，输出程序的性能概览，如下所示：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs bash">       141.56 msec task-clock                <span class="hljs-comment">#    0.998 CPUs utilized          </span><br>            2      context-switches          <span class="hljs-comment">#   14.129 /sec                   </span><br>            0      cpu-migrations            <span class="hljs-comment">#    0.000 /sec                   </span><br>        1,537      page-faults               <span class="hljs-comment">#   10.858 K/sec                  </span><br>  488,545,772      cycles                    <span class="hljs-comment">#    3.451 GHz                    </span><br>1,238,032,409      instructions              <span class="hljs-comment">#    2.53  insn per cycle         </span><br>  179,236,314      branches                  <span class="hljs-comment">#    1.266 G/sec                  </span><br>      620,952      branch-misses             <span class="hljs-comment">#    0.35% of all branches        </span><br><br>  0.141870608 seconds time elapsed<br><br>  0.141916000 seconds user<br>  0.000000000 seconds sys<br></code></pre></td></tr></table></figure>
+<p><code>sudo perf top -g</code>可以实时显示当前系统的性能信息</p>
+<p><a target="_blank" rel="noopener" href="http://ceres-solver.org/nnls_modeling.html">Modeling Non-linear Least Squares</a></p>
+<p>上述指标的含义如下：</p>
+<ul>
+<li>task-clock：任务时钟，表示程序运行期间占用了xx的任务时钟周期，该值高，说明程序的多数时间花费在 CPU 计算上而非 IO</li>
+<li>context-switches：上下文切换次数，表示程序执行过程中发生的上下文切换的总次数。上下文切换是指CPU从一个进程或线程切换到另一个进程或线程的操作。</li>
+<li>cpu-migrations：CPU迁移次数，表示程序执行过程中发生的CPU迁移的总次数。用户程序原本在一个CPU上运行，后来迁移到另一个CPU</li>
+<li>page-faults：页错误次数，表示程序执行期间发生的页错误（Page Fault）的总次数。页错误是指程序访问的页面不在主存中，需要从磁盘或其他存储介质加载到主存中的情况。</li>
+<li>Cycles：CPU周期数，表示程序执行期间所消耗的CPU周期数。</li>
+<li>Instructions：指令数，表示程序执行期间的指令数量。</li>
+<li>Branches：分支数，表示程序执行期间发生的总分支数。</li>
+<li>Branch misses：分支未命中次数，表示程序执行期间发生的分支未命中的总次数。</li>
+</ul>
+<h3 id="perf可以监视的事件"><a href="#perf可以监视的事件" class="headerlink" title="perf可以监视的事件"></a>perf可以监视的事件</h3><p>指令<code>sudo perf list</code>可以列出所有的事件，如下所示：</p>
+<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs prolog"><span class="hljs-symbol">List</span> of pre-defined events (to be used in -e):<br><br>  branch-instructions <span class="hljs-symbol">OR</span> branches                    [<span class="hljs-symbol">Hardware</span> event]<br>  branch-misses                                      [<span class="hljs-symbol">Hardware</span> event]<br>  bus-cycles                                         [<span class="hljs-symbol">Hardware</span> event]<br>  cache-misses                                       [<span class="hljs-symbol">Hardware</span> event]<br>  cache-references                                   [<span class="hljs-symbol">Hardware</span> event]<br>  cpu-cycles <span class="hljs-symbol">OR</span> cycles                               [<span class="hljs-symbol">Hardware</span> event]<br>  instructions                                       [<span class="hljs-symbol">Hardware</span> event]<br>  ref-cycles                                         [<span class="hljs-symbol">Hardware</span> event]<br><br>  alignment-faults                                   [<span class="hljs-symbol">Software</span> event]<br>  bpf-output                                         [<span class="hljs-symbol">Software</span> event]<br>  cgroup-switches                                    [<span class="hljs-symbol">Software</span> event]<br>  context-switches <span class="hljs-symbol">OR</span> cs                             [<span class="hljs-symbol">Software</span> event]<br>  cpu-clock                                          [<span class="hljs-symbol">Software</span> event]<br>  cpu-migrations <span class="hljs-symbol">OR</span> migrations                       [<span class="hljs-symbol">Software</span> event]<br>  dummy                                              [<span class="hljs-symbol">Software</span> event]<br>  emulation-faults                                   [<span class="hljs-symbol">Software</span> event]<br>  major-faults                                       [<span class="hljs-symbol">Software</span> event]<br>  minor-faults                                       [<span class="hljs-symbol">Software</span> event]<br>  page-faults <span class="hljs-symbol">OR</span> faults                              [<span class="hljs-symbol">Software</span> event]<br>  task-clock                                         [<span class="hljs-symbol">Software</span> event]<br>  ...<br></code></pre></td></tr></table></figure>
+
+<h3 id="perf-record记录采集的数据"><a href="#perf-record记录采集的数据" class="headerlink" title="perf record记录采集的数据"></a><code>perf record</code>记录采集的数据</h3><p><code>sudo perf record -g ./ceres_lba_os</code>,记录采集的数据,<code>-g</code>表示记录程序的调用栈，如果调用栈过多可能显示会出问题，执行之后在目录下会生成一个<code>perf.data</code>文件(<code>perf.data.old</code>是上一次的执行结果)，该文件需要使用<code>report</code>指令打开，比较常用的参数还有<code>-e</code>表示记录的事件，如<code>sudo perf record -e cache-misses -g ./ceres_lba_os</code>，详细的参数可以使用<code>perf record --help</code>查看</p>
+<p><code>-g</code>参数作用： 比如fun1()中调用fun11()和fun12()两个函数，没有<code>-g</code>统计时单独统计，可能会出现fun11()时间大于fun1()，加上<code>-g</code>表示启动堆栈跟踪，在击中fun11()函数时将向上追溯调用栈，即fun11()的耗时会算在fun1()内</p>
+<p><code>sudo perf report -i perf.data</code>打开<code>perf.data</code>文件，有如下所示内容，<code>record</code>缺省事件为<code>cycles</code></p>
+<figure class="highlight zephir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs zephir">Samples: <span class="hljs-number">561</span>  of event <span class="hljs-string">&#x27;cycles&#x27;</span>, Event count (approx.): <span class="hljs-number">500263139</span><br>  Children      Self  Command       Shared Object            Symbol<br>+   <span class="hljs-number">23.17</span>%     <span class="hljs-number">0.00</span>%  ceres_lba_os  [unknown]                [.] <span class="hljs-number">0x000055c220ce6e40</span><br>+   <span class="hljs-number">20.14</span>%     <span class="hljs-number">2.32</span>%  ceres_lba_os  libceres-debug.so<span class="hljs-number">.2</span><span class="hljs-number">.1</span><span class="hljs-number">.0</span>  [.] std::_Function_handler&lt;void (<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>), ceres::internal::ProgramEvaluator&lt;ceres::internal::BlockEvaluatePreparer, ceres<br>+   <span class="hljs-number">14.98</span>%     <span class="hljs-number">0.00</span>%  ceres_lba_os  libceres-debug.so<span class="hljs-number">.2</span><span class="hljs-number">.1</span><span class="hljs-number">.0</span>  [.] ceres::internal::ParallelFor<br>+   <span class="hljs-number">14.62</span>%     <span class="hljs-number">7.31</span>%  ceres_lba_os  libceres-debug.so<span class="hljs-number">.2</span><span class="hljs-number">.1</span><span class="hljs-number">.0</span>  [.] ceres::internal::ResidualBlock::Evaluate<br>+   <span class="hljs-number">13.19</span>%     <span class="hljs-number">0.71</span>%  ceres_lba_os  libceres-debug.so<span class="hljs-number">.2</span><span class="hljs-number">.1</span><span class="hljs-number">.0</span>  [.] ceres::internal::SchurEliminator&lt;<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">6</span>&gt;::Eliminate(ceres::internal::BlockSparseMatrixData <span class="hljs-keyword">const</span>&amp;, <span class="hljs-keyword">double</span> <span class="hljs-keyword">const</span>*, doub<br>     <span class="hljs-number">9.80</span>%     <span class="hljs-number">9.80</span>%  ceres_lba_os  libm<span class="hljs-number">-2.31</span>.so             [.] __sincos<br>+    <span class="hljs-number">9.63</span>%     <span class="hljs-number">2.67</span>%  ceres_lba_os  libceres-debug.so<span class="hljs-number">.2</span><span class="hljs-number">.1</span><span class="hljs-number">.0</span>  [.] ceres::internal::SchurEliminator&lt;<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">6</span>&gt;::ChunkDiagonalBlockAndGradient<br>+    <span class="hljs-number">7.67</span>%     <span class="hljs-number">7.49</span>%  ceres_lba_os  libceres-debug.so<span class="hljs-number">.2</span><span class="hljs-number">.1</span><span class="hljs-number">.0</span>  [.] ceres::internal::SchurEliminator&lt;<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">6</span>&gt;::ChunkOuterProduct<br>+    <span class="hljs-number">6.24</span>%     <span class="hljs-number">0.00</span>%  ceres_lba_os  [unknown]                [.] <span class="hljs-number">0xb5e79a17e7482e00</span><br>+    <span class="hljs-number">6.06</span>%     <span class="hljs-number">0.00</span>%  ceres_lba_os  [unknown]                [.] <span class="hljs-number">0x0000000000841f0f</span><br>+    <span class="hljs-number">6.06</span>%     <span class="hljs-number">0.00</span>%  ceres_lba_os  libceres-debug.so<span class="hljs-number">.2</span><span class="hljs-number">.1</span><span class="hljs-number">.0</span>  [.] ceres::Solver::~Solver<br>+    <span class="hljs-number">6.06</span>%     <span class="hljs-number">0.00</span>%  ceres_lba_os  libceres-debug.so<span class="hljs-number">.2</span><span class="hljs-number">.1</span><span class="hljs-number">.0</span>  [.] ceres::Solve<br>+    <span class="hljs-number">6.06</span>%     <span class="hljs-number">0.00</span>%  ceres_lba_os  libceres-debug.so<span class="hljs-number">.2</span><span class="hljs-number">.1</span><span class="hljs-number">.0</span>  [.] ceres::Solver::Solve<br>+    <span class="hljs-number">5.71</span>%     <span class="hljs-number">0.00</span>%  ceres_lba_os  libceres-debug.so<span class="hljs-number">.2</span><span class="hljs-number">.1</span><span class="hljs-number">.0</span>  [.] ceres::internal::TrustRegionMinimizer::Minimize<br>+    <span class="hljs-number">5.71</span>%     <span class="hljs-number">0.00</span>%  ceres_lba_os  libceres-debug.so<span class="hljs-number">.2</span><span class="hljs-number">.1</span><span class="hljs-number">.0</span>  [.] ceres::internal::TrustRegionMinimizer::EvaluateGradientAndJacobian<br>+    <span class="hljs-number">5.35</span>%     <span class="hljs-number">0.00</span>%  ceres_lba_os  libceres-debug.so<span class="hljs-number">.2</span><span class="hljs-number">.1</span><span class="hljs-number">.0</span>  [.] ceres::internal::TrustRegionMinimizer::HandleSuccessfulStep<br>+    <span class="hljs-number">4.28</span>%     <span class="hljs-number">4.28</span>%  ceres_lba_os  libceres-debug.so<span class="hljs-number">.2</span><span class="hljs-number">.1</span><span class="hljs-number">.0</span>  [.] ceres::internal::BlockSparseMatrix::SquaredColumnNorm<br>+    <span class="hljs-number">3.92</span>%     <span class="hljs-number">3.92</span>%  ceres_lba_os  libceres-debug.so<span class="hljs-number">.2</span><span class="hljs-number">.1</span><span class="hljs-number">.0</span>  [.] ceres::internal::BlockSparseMatrix::ScaleColumns<br>+    <span class="hljs-number">3.92</span>%     <span class="hljs-number">3.92</span>%  ceres_lba_os  libceres-debug.so<span class="hljs-number">.2</span><span class="hljs-number">.1</span><span class="hljs-number">.0</span>  [.] ceres::internal::BlockEvaluatePreparer::Prepare<br>+    <span class="hljs-number">3.92</span>%     <span class="hljs-number">1.43</span>%  ceres_lba_os  libceres-debug.so<span class="hljs-number">.2</span><span class="hljs-number">.1</span><span class="hljs-number">.0</span>  [.] ceres::internal::SchurEliminator&lt;<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">6</span>&gt;::EBlockRowOuterProduct<br>+    <span class="hljs-number">3.92</span>%     <span class="hljs-number">3.92</span>%  ceres_lba_os  libceres-debug.so<span class="hljs-number">.2</span><span class="hljs-number">.1</span><span class="hljs-number">.0</span>  [.] ceres::internal::MatrixMatrixMultiplyNaive&lt;<span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>, <span class="hljs-number">0</span>&gt;<br>     <span class="hljs-number">3.74</span>%     <span class="hljs-number">3.74</span>%  ceres_lba_os  ceres_lba_os             [.] LocalBAProjectUV::Evaluate<br>+    <span class="hljs-number">3.74</span>%     <span class="hljs-number">3.74</span>%  ceres_lba_os  libpthread<span class="hljs-number">-2.31</span>.so       [.] __pthread_mutex_unlock<br>     <span class="hljs-number">3.74</span>%     <span class="hljs-number">3.57</span>%  ceres_lba_os  libceres-debug.so<span class="hljs-number">.2</span><span class="hljs-number">.1</span><span class="hljs-number">.0</span>  [.] ceres::internal::SchurEliminator&lt;<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">6</span>&gt;::BackSubstitute(ceres::internal::BlockSparseMatrixData <span class="hljs-keyword">const</span>&amp;, <span class="hljs-keyword">double</span> <span class="hljs-keyword">const</span>*,<br>+    <span class="hljs-number">3.39</span>%     <span class="hljs-number">0.00</span>%  ceres_lba_os  [unknown]                [.] <span class="hljs-number">0000000000000000</span><br>+    <span class="hljs-number">2.67</span>%     <span class="hljs-number">0.36</span>%  ceres_lba_os  libceres-debug.so<span class="hljs-number">.2</span><span class="hljs-number">.1</span><span class="hljs-number">.0</span>  [.] ceres::internal::BlockSparseMatrix::RightMultiply<br></code></pre></td></tr></table></figure>
+
+
+<p><code>sudo perf diff</code>对比<code>perf.data</code>与<code>perf.data.old</code></p>
+<h2 id="使用perf优化性能的实例"><a href="#使用perf优化性能的实例" class="headerlink" title="使用perf优化性能的实例"></a>使用perf优化性能的实例</h2><p>本示例用于优化cache-misses问题，发生于二重循环中</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><code class="hljs routeros">void fun()&#123;<br>    <span class="hljs-keyword">for</span>(int <span class="hljs-attribute">i</span>=0;i&lt;1e4;i++)&#123;<br>        <span class="hljs-keyword">for</span>(int <span class="hljs-attribute">j</span>=0;j&lt;1e4;j++)&#123;<br>            int <span class="hljs-attribute">a</span>=i+j;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">for</span>(int <span class="hljs-attribute">i</span>=0;i&lt;1e4;i++)&#123;<br>        <span class="hljs-keyword">for</span>(int <span class="hljs-attribute">j</span>=1e4;j&lt;2e4;j++)&#123;<br>            int <span class="hljs-attribute">a</span>=i+j;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">for</span>(int <span class="hljs-attribute">i</span>=0;i&lt;1e4;i++)&#123;<br>        <span class="hljs-keyword">for</span>(int <span class="hljs-attribute">j</span>=2e4;j&lt;3e4;j++)&#123;<br>            int <span class="hljs-attribute">a</span>=i+j;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">for</span>(int <span class="hljs-attribute">i</span>=0;i&lt;1e4;i++)&#123;<br>        <span class="hljs-keyword">for</span>(int <span class="hljs-attribute">j</span>=3e4;j&lt;4e4;j++)&#123;<br>            int <span class="hljs-attribute">a</span>=i+j;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">for</span>(int <span class="hljs-attribute">i</span>=0;i&lt;1e4;i++)&#123;<br>        <span class="hljs-keyword">for</span>(int <span class="hljs-attribute">j</span>=4e4;j&lt;5e4;j++)&#123;<br>            int <span class="hljs-attribute">a</span>=i+j;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">for</span>(int <span class="hljs-attribute">i</span>=0;i&lt;1e4;i++)&#123;<br>        <span class="hljs-keyword">for</span>(int <span class="hljs-attribute">j</span>=5e4;j&lt;6e4;j++)&#123;<br>            int <span class="hljs-attribute">a</span>=i+j;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">for</span>(int <span class="hljs-attribute">i</span>=0;i&lt;1e4;i++)&#123;<br>        <span class="hljs-keyword">for</span>(int <span class="hljs-attribute">j</span>=6e4;j&lt;7e4;j++)&#123;<br>            int <span class="hljs-attribute">a</span>=i+j;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">for</span>(int <span class="hljs-attribute">i</span>=0;i&lt;1e4;i++)&#123;<br>        <span class="hljs-keyword">for</span>(int <span class="hljs-attribute">j</span>=7e4;j&lt;8e4;j++)&#123;<br>            int <span class="hljs-attribute">a</span>=i+j;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">for</span>(int <span class="hljs-attribute">i</span>=0;i&lt;1e4;i++)&#123;<br>        <span class="hljs-keyword">for</span>(int <span class="hljs-attribute">j</span>=8e4;j&lt;9e4;j++)&#123;<br>            int <span class="hljs-attribute">a</span>=i+j;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">for</span>(int <span class="hljs-attribute">i</span>=0;i&lt;1e4;i++)&#123;<br>        <span class="hljs-keyword">for</span>(int <span class="hljs-attribute">j</span>=9e4;j&lt;1e5;j++)&#123;<br>            int <span class="hljs-attribute">a</span>=i+j;<br>        &#125;<br>    &#125;<br>&#125;<br><br>void fun2()&#123;<br>    <span class="hljs-keyword">for</span>(int <span class="hljs-attribute">i</span>=0;i&lt;1e4;i++)&#123;<br>        <span class="hljs-keyword">for</span>(int <span class="hljs-attribute">j</span>=0;j&lt;1e5;j++)&#123;<br>            int <span class="hljs-attribute">a</span>=i+j;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>两个函数都是做二重循环计算，执行的内容和复杂度一致，fun()将fun2()的二重循环拆开（二重循环的内部循环过大，导致计算到内部循环末尾，起始的值已拿出cache，内部循环进入下一次时，重新将起始值放入cache，cache频繁存取影响性能），使用perf查看cache-misses如下所示：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs stylus">Samples: <span class="hljs-number">86</span>  of event <span class="hljs-string">&#x27;cache-misses&#x27;</span>, Event count (approx.): <span class="hljs-number">140933</span><br>  Children      Self  Command  Shared Object        Symbol<br>+   <span class="hljs-number">24.87%</span>     <span class="hljs-number">1.25%</span>  two      two                  <span class="hljs-selector-attr">[.]</span> fun2<br>+   <span class="hljs-number">24.21%</span>     <span class="hljs-number">0.00%</span>  two      <span class="hljs-selector-attr">[kernel.kallsyms]</span>    <span class="hljs-selector-attr">[k]</span> tick_sched_handle<span class="hljs-selector-class">.isra</span>.<span class="hljs-number">0</span><br>+   <span class="hljs-number">23.79%</span>     <span class="hljs-number">0.42%</span>  two      <span class="hljs-selector-attr">[kernel.kallsyms]</span>    <span class="hljs-selector-attr">[k]</span> update_process_times<br>+   <span class="hljs-number">22.25%</span>     <span class="hljs-number">0.17%</span>  two      <span class="hljs-selector-attr">[kernel.kallsyms]</span>    <span class="hljs-selector-attr">[k]</span> scheduler_tick<br>+   <span class="hljs-number">21.63%</span>     <span class="hljs-number">0.00%</span>  two      <span class="hljs-selector-attr">[kernel.kallsyms]</span>    <span class="hljs-selector-attr">[k]</span> entry_SYSCALL_64_after_hwframe<br>+   <span class="hljs-number">21.63%</span>     <span class="hljs-number">0.00%</span>  two      <span class="hljs-selector-attr">[kernel.kallsyms]</span>    <span class="hljs-selector-attr">[k]</span> do_syscall_64<br>+   <span class="hljs-number">18.19%</span>     <span class="hljs-number">0.00%</span>  two      two                  <span class="hljs-selector-attr">[.]</span> fun<br></code></pre></td></tr></table></figure>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>(12-Linux性能优化实战)[<a target="_blank" rel="noopener" href="http://juconcurrent.com/books-jksj-11-20/]">http://juconcurrent.com/books-jksj-11-20/]</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/practical-experience/" class="category-chain-item">practical-experience</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/markdown/">#markdown</a>
+      
+        <a href="/tags/C/">#C++</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>neon优化</div>
+      <div>https://danmoliuhen.github.io./2023/05/20/neon优化/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>YeBao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年5月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/03/20/C++STL%E6%B3%9B%E5%9E%8B%E8%BF%9B%E9%98%B6/" title="C++STL泛型进阶">
+                        <span class="hidden-mobile">C++STL泛型进阶</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>YeBao</span> <i class="iconfont icon-love"></i> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -24,7 +24,7 @@
 <meta property="og:description" content="django学习笔记">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-01-29T08:15:00.000Z">
-<meta property="article:modified_time" content="2023-03-28T02:23:56.101Z">
+<meta property="article:modified_time" content="2023-04-14T06:43:24.943Z">
 <meta property="article:author" content="YeBao">
 <meta property="article:tag" content="markdown">
 <meta name="twitter:card" content="summary_large_image">
@@ -236,7 +236,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          5.5k 字
+          5.6k 字
         
       </span>
     
@@ -247,7 +247,7 @@
         
         
         
-          46 分钟
+          48 分钟
         
       </span>
     
@@ -298,7 +298,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2023年3月28日 上午
+                    本文最后更新于：2023年4月14日 下午
                   
                 
               </p>
@@ -316,7 +316,7 @@
 <h2 id="启动项目"><a href="#启动项目" class="headerlink" title="启动项目"></a>启动项目</h2><p><code>python manage.py runserver</code></p>
 <h2 id="静态模板"><a href="#静态模板" class="headerlink" title="静态模板"></a>静态模板</h2><p>如果在<code>settings.py</code>中配置过<code>&#39;DIRS&#39;: [os.path.join(BASE_DIR,&#39;templates&#39;)]</code>,则根据配置位置寻找templates中的静态网页<br>缺省情况下在一个app文件夹下添加一个templates目录，放置静态网页（html文件），在app中引入该网页时，根据app的注册顺序进行寻找</p>
 <h3 id="静态资源"><a href="#静态资源" class="headerlink" title="静态资源"></a>静态资源</h3><p>在app目录下创建static目录存放css,js,img资源，以供在静态网页中引入<br>在网页中引入时，推荐对静态资源路径统一配置(当静态资源位置移动时，只需要<strong>修改settings.py文件中的静态资源路径</strong>即可)，方法如下：<br>在html网页开头添加<code>&#123;% load static %&#125;</code>以供载入<br>引入时路径可写为(以引入img标签为例)<code>src=&quot;&#123;% static 'img/1.png' %&#125;&quot;</code></p>
-<h3 id="模板语法"><a href="#模板语法" class="headerlink" title="模板语法"></a>模板语法</h3><p>从函数中向页面传参，包括变量，列表，字典等数据类型，即为<code>return render(req,&#39;user_add.html&#39; , &#123;&#39;n1&#39;:name,&#39;n2&#39;:test_list,&#39;n3&#39;:test_dic&#125;)</code>中的render()函数添加第三个参数传参<br>支持for循环</p>
+<h3 id="模板语法"><a href="#模板语法" class="headerlink" title="模板语法"></a>模板语法</h3><p>从函数中向页面传参，包括变量，列表，字典等数据类型，即为<code>return render(req,&#39;user_add.html&#39; , &#123;&#39;n1&#39;:name,&#39;n2&#39;:test_list,&#39;n3&#39;:test_dic&#125;)</code>中的render()函数添加第三个参数传参<br>支持for循环<br>for循环中有一些内置变量如<code>&#123;&#123; forloop.counter &#125;&#125;</code>整型，计数器,<code>&#123;&#123;forloop.counter0&#125;&#125;</code>,<code>&#123;&#123;forloop.first&#125;&#125;</code>布尔值</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-comment">&lt;!-- 输出n3字典中的键和值 --&gt;</span><br>&#123;% for k,v in n3.items %&#125;<br>  <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>&#123;&#123;k&#125;&#125;=&#123;&#123;v&#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br>&#123;% endfor %&#125;<br></code></pre></td></tr></table></figure>
 <p>if语句，<strong>注意：</strong><code>==</code>两侧需要空格，否则报错</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs html">&#123;% if n1 == &quot;ydx&quot; %&#125;<br>  <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>n1是ydx<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span><br>&#123;% elif n1 == &#x27;ydx2&#x27; %&#125;<br>  <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>n1是ydx2<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span><br>&#123;% else %&#125;<br>  <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>n1不是ydx<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span><br>&#123;% endif %&#125;<br></code></pre></td></tr></table></figure>
@@ -445,9 +445,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/02/19/C++STL%E6%B3%9B%E5%9E%8B/" title="C++STL泛型">
+                      <a href="/2023/02/19/C++%E5%A4%9A%E7%BA%BF%E7%A8%8B/" title="C++多线程">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">C++STL泛型</span>
+                        <span class="hidden-mobile">C++多线程</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     

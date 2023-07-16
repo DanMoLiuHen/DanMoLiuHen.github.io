@@ -24,7 +24,7 @@
 <meta property="og:description" content="记录一些常用或经典的算法问题，比如二叉树，快速幂，string与数值转化等">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-01-28T06:14:12.000Z">
-<meta property="article:modified_time" content="2023-03-27T07:35:09.982Z">
+<meta property="article:modified_time" content="2023-07-16T10:31:21.040Z">
 <meta property="article:author" content="YeBao">
 <meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary_large_image">
@@ -298,7 +298,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2023年3月27日 下午
+                    本文最后更新于：2023年7月16日 晚上
                   
                 
               </p>
@@ -325,8 +325,9 @@
 
 <h4 id="中序遍历"><a href="#中序遍历" class="headerlink" title="中序遍历"></a>中序遍历</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">LVR</span><span class="hljs-params">(<span class="hljs-type">const</span> vector&lt;vector&lt;<span class="hljs-type">int</span>&gt;&gt;&amp; tree, <span class="hljs-type">int</span> cur)</span> </span>&#123;<br>	<span class="hljs-keyword">if</span> (cur == <span class="hljs-number">0</span>)<br>		<span class="hljs-keyword">return</span>;<br>	<span class="hljs-built_in">LVR</span>(tree, tree[cur<span class="hljs-number">-1</span>][<span class="hljs-number">0</span>]);<br>	cout &lt;&lt; cur &lt;&lt; <span class="hljs-string">&quot; &quot;</span>;<br>	<span class="hljs-built_in">LVR</span>(tree, tree[cur<span class="hljs-number">-1</span>][<span class="hljs-number">1</span>]);<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<h3 id="非递归"><a href="#非递归" class="headerlink" title="非递归"></a>非递归</h3><p>非递归方式的遍历，完整代码在github仓库。后序遍历相对难度大一点，节点的部分定义如下</p>
+<h3 id="非递归"><a href="#非递归" class="headerlink" title="非递归"></a>非递归</h3><p>非递归方式的遍历，完整代码在<a target="_blank" rel="noopener" href="https://github.com/DanMoLiuHen/Algorithm/tree/master/%E4%BA%8C%E5%8F%89%E6%A0%91">github仓库</a>。后序遍历相对难度大一点;节点的部分定义如下</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">BNode</span> &#123;<br><span class="hljs-keyword">private</span>:<br>	BNode&lt;T&gt;* left, * right;<br>	T data;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
 <h3 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h3><p>类似于set容器背后的结构，通过前向迭代器从<code>begin()</code>到<code>end()</code>的遍历完成树的中序遍历，比较困难，还不会写。</p>
 <h2 id="大数运算"><a href="#大数运算" class="headerlink" title="大数运算"></a>大数运算</h2><p>相较于python等语言，C++对于数据类型的处理更精细，繁琐。比如浮点数的精度和大数字运算，C++都需要特殊处理，这是由于C++中数据类型的位数有限所导致，因此需要通过自定义数据类型实现大数运算</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-comment">// 直接将输入的数字读取为string类型</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;vector&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;string&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	string a, b;<br>	cin &gt;&gt; a&gt;&gt;b;<br>	<span class="hljs-type">int</span> alen = a.<span class="hljs-built_in">size</span>();<br>	<span class="hljs-type">int</span> blen = b.<span class="hljs-built_in">size</span>();<br>	<span class="hljs-built_in">reverse</span>(a.<span class="hljs-built_in">begin</span>(), a.<span class="hljs-built_in">end</span>());<br>	<span class="hljs-built_in">reverse</span>(b.<span class="hljs-built_in">begin</span>(), b.<span class="hljs-built_in">end</span>());<br>	<span class="hljs-type">int</span> maxlen = <span class="hljs-built_in">max</span>(alen, blen);<br>	vector&lt;<span class="hljs-type">int</span>&gt;<span class="hljs-built_in">res</span>(maxlen + <span class="hljs-number">1</span>);<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; maxlen+<span class="hljs-number">1</span>; i++) &#123;<br>		<span class="hljs-keyword">if</span> (i &lt; alen &amp;&amp; i &lt; blen)<br>			res[i] = a[i] - <span class="hljs-string">&#x27;0&#x27;</span> + b[i] - <span class="hljs-string">&#x27;0&#x27;</span> + res[i];<br>		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (i &lt; alen)<br>			res[i] = a[i] - <span class="hljs-string">&#x27;0&#x27;</span> + res[i];<br>		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (i &lt; blen)<br>			res[i] = b[i] - <span class="hljs-string">&#x27;0&#x27;</span> + res[i];<br>		<span class="hljs-keyword">if</span> (res[i] &gt;= <span class="hljs-number">10</span>) &#123;<br>			res[i + <span class="hljs-number">1</span>] = res[i] / <span class="hljs-number">10</span> + res[i + <span class="hljs-number">1</span>];<br>			res[i] = res[i] % <span class="hljs-number">10</span>;<br>		&#125;<br>	&#125;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = res[maxlen] == <span class="hljs-number">0</span> ? maxlen - <span class="hljs-number">1</span> : maxlen; i &gt;= <span class="hljs-number">0</span>; i--)<br>		cout &lt;&lt; res[i];<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -364,7 +365,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/practical-experience/" class="category-chain-item">practical-experience</a>
+  <a href="/categories/learning-notes/" class="category-chain-item">learning-notes</a>
   
   
 
@@ -501,12 +502,6 @@
 
 
   
-
-
-  
-  
-
-
 
 
 
@@ -724,49 +719,6 @@
 
 
   <script>Fluid.plugins.imageCaption();</script>
-
-  
-      <script>
-        if (!window.MathJax) {
-          window.MathJax = {
-            tex    : {
-              inlineMath: { '[+]': [['$', '$']] }
-            },
-            loader : {
-              load: ['ui/lazy']
-            },
-            options: {
-              renderActions: {
-                insertedScript: [200, () => {
-                  document.querySelectorAll('mjx-container').forEach(node => {
-                    let target = node.parentNode;
-                    if (target.nodeName.toLowerCase() === 'li') {
-                      target.parentNode.classList.add('has-jax');
-                    }
-                  });
-                }, '', false]
-              }
-            }
-          };
-        } else {
-          MathJax.startup.document.state(0);
-          MathJax.texReset();
-          MathJax.typeset();
-          MathJax.typesetPromise();
-        }
-
-        Fluid.events.registerRefreshCallback(function() {
-          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
-            MathJax.startup.document.state(0);
-            MathJax.texReset();
-            MathJax.typeset();
-            MathJax.typesetPromise();
-          }
-        });
-      </script>
-    
-
-  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 
