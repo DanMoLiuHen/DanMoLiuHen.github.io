@@ -118,7 +118,11 @@ inline void neon_4x4_matrix_4x1_vector_multiply(float64_t* A, float64_t* B, floa
 ```
 
 ## eigen使用
-1. lazyProduct works better than .noalias() for matrix-vector
+eigen支持的SIMD向量化引擎:
+- SSE{2,3,4}
+- NEON(ARM)
+- Altivec(PowerPC)
+1. 对于 matrix-vector ，lazyProduct 性能比 .noalias() 更好
 `Aref.transpose().lazyProduct(bref);//Aref matrix, Bref vector`
 
 

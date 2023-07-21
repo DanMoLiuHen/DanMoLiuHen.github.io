@@ -104,7 +104,7 @@ target_include_directories(Tutorial PUBLIC
 #define Tutorial_VERSION_MINOR @Tutorial_VERSION_MINOR@
 ```
 #### 运行说明
-在项目路径下运行以下指令
+在项目路径下运行以下指令，后续若指令无区别将不再赘述
 ```
 # 指定路径为build文件夹
 cmake -B biuld
@@ -194,6 +194,72 @@ int mysub(int a,int b){
 cmake -DUSE_MYMATH=OFF -B build
 
 cmake --build build
+```
+
+### 为一个library添加Usage Requirements
+实现自行添加所需的目录。该步骤对应官方教程Step3，在此仅对三种参数做出说明，本人对于该步骤也存在一些疑惑，有待后续补坑
+
+有关三种参数的含义如下所示，其中生产者可以具体为产生library的，消费者是使用library的：
+- PRIVATE：仅供producer使用
+- PUBLIC：consumer 和producer都使用
+- INTERFACE： consumer 使用，producer不使用。面对只有头文件时，无法编译成库，因此只能使用INTERFACE参数
+
+文件结构如下所示，与上一步骤相同：
+```
+├── CMakeLists.txt
+├── MathFunctions
+│   ├── CMakeLists.txt
+│   ├── MathFunctions.cpp
+│   ├── MathFunctions.h # 实现mysub两个整数相减
+│   ├── myadd.cpp
+│   └── myadd.h # 实现myadd两个整数相加
+└── tutorial.cpp # 调用子目录下实现函数
+```
+
+两个cmakelists.txt文件内容如下所示：
+```cmake
+# top-level CMakeLists.txt file
+
+cmake_minimum_required(VERSION 3.10)
+project(Tutorial VERSION 1.0)
+
+add_library(tutorial_compiler_flags INTERFACE)
+# 使用modern cmake设置C++11 
+target_compile_features(tutorial_compiler_flags INTERFACE cxx_std_11)
+
+add_subdirectory(MathFunctions)
+
+list(APPEND EXTRA_INCLUDES "${PROJECT_SOURCE_DIR}/MathFunctions")
+
+add_executable(Tutorial tutorial.cpp)
+
+target_link_libraries(Tutorial PUBLIC MathFunctions tutorial_compiler_flags)
+
+# add the binary tree to the search path for include files
+# so that we will find TutorialConfig.h
+target_include_directories(Tutorial PUBLIC
+                           "${PROJECT_BINARY_DIR}"
+                           )
+```
+
+```cmake
+# MathFunctions/CMakeLists.txt
+
+add_library(MathFunctions MathFunctions.cpp)
+
+option(USE_ADD "Use add" ON)
+if (USE_ADD)
+    add_library(SqrtLibrary STATIC
+                myadd.cpp)
+    target_compile_definitions(MathFunctions PRIVATE "USE_ADD")
+    target_link_libraries(SqrtLibrary PUBLIC tutorial_compiler_flags)
+    target_link_libraries(MathFunctions PUBLIC SqrtLibrary)
+endif()
+
+# INTERFACE means things that consumers require but the producer doesn't.
+target_include_directories(MathFunctions
+                           INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}
+                           )
 ```
 
 
