@@ -310,7 +310,7 @@ using namespace std;
 //自定义比较函数 myComp，重载“()”操作符 
 struct myComp {
 	bool operator()(const int& a, const int& b)const {//形参类型int必须与set中的值类型一致
-		if (a != b)
+		if (a != b) // 取等时需要特殊处理，否则小于等于的情况混杂
 			return a > b;
 		else
 			return a > b;
@@ -333,7 +333,6 @@ int main() {
 #include <set> 
 #include <iostream>
 using namespace std; 
-//自定义比较函数 myComp，重载“()”操作符 
 struct Info {
 	string name;
 	float score;
