@@ -758,6 +758,7 @@ for (auto i = q.begin(); i != q.end(); i++)
 ```
 
 ## bitset位集合容器
+[参考资料](https://en.cppreference.com/w/cpp/utility/bitset)
 - 每个元素只占一个bit位，取值为0或1
 - 使用需要`#include<bitset>`
 - 第0位是最低位，第n位是最高位
