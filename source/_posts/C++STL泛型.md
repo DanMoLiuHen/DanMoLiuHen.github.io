@@ -14,8 +14,8 @@ tag:
 2. 示例代码并不是全部代码，只是核心部分
 3. 忽略某个警告，如忽略4305警告`#pragma warning(disable:4305)`
 4. 有关迭代器的相关内容在C++STL泛型进阶中会有详细说明
+5. 强烈建议把cppreference作为字典使用，非常方便
 {% endnote %} 
-
 
 ## algorithm
 在使用时需要`#include<algorithm>`
@@ -916,3 +916,4 @@ sqrt(x);
 ## 参考资料
 [^1]:[C++STL](http://c.biancheng.net/view/6675.html)
 [^2]:[C++STL标准手册](https://cplusplus.com/reference/stl/)
+[^3]:[cppreference](https://en.cppreference.com/w/)
