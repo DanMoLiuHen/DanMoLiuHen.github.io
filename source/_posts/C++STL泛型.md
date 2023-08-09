@@ -426,10 +426,19 @@ cout << *it << endl;
 ### 创建、插入和遍历
 创建时key和value需要自己定义，比较规则缺省为key的由小到大顺序插入红黑树
 ```C++
-map<string, float> a;
+// 在创建时完成初始化
+std::map<std::string, int> m{{"CPU", 10}, {"GPU", 15}, {"RAM", 20}};
+
+// 通过插入数值完成初始化
+std::map<std::string, float> a;
 a["yede"] = 8.9;
 a["nide"] = 34.5;
 a["hello"] = 4.6;
+
+// 两种遍历方法
+for (const auto& [key, value] : m)
+	std::cout << '[' << key << "] = " << value << "; ";
+
 for (auto it = a.begin(); it != a.end(); it++) {//这里使用auto也可以使用map<string, float>::iterator
   //(*it)的括号是不可省略的，否则相当于*(it.first)，原因考虑优先级
   cout << (*it).first << " : " << (*it).second << " ";
