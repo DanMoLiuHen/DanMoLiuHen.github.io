@@ -426,10 +426,10 @@ cout << *it << endl;
 ### 创建、插入和遍历
 创建时key和value需要自己定义，比较规则缺省为key的由小到大顺序插入红黑树
 ```C++
-// 在创建时完成初始化
+// 构造函数初始化
 std::map<std::string, int> m{{"CPU", 10}, {"GPU", 15}, {"RAM", 20}};
 
-// 通过插入数值完成初始化
+// 插入数值完成初始化
 std::map<std::string, float> a;
 a["yede"] = 8.9;
 a["nide"] = 34.5;
