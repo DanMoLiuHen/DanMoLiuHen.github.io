@@ -23,11 +23,15 @@
 <meta property="og:site_name" content="YeBao&#39;blog">
 <meta property="og:description" content="如题，数据结构笔记">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://danmoliuhen.github.io./img/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/AVL%E5%A4%8D%E8%A1%A1.png">
+<meta property="og:image" content="https://danmoliuhen.github.io./img/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/%E7%AE%97%E6%B3%95%E6%80%A7%E8%83%BD.png">
+<meta property="og:image" content="https://danmoliuhen.github.io./img/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/%E6%8E%92%E5%BA%8F%E6%80%BB%E7%BB%93.png">
 <meta property="article:published_time" content="2023-07-09T08:42:48.117Z">
-<meta property="article:modified_time" content="2023-07-16T10:30:58.214Z">
+<meta property="article:modified_time" content="2023-08-20T08:02:51.347Z">
 <meta property="article:author" content="YeBao">
 <meta property="article:tag" content="markdown">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://danmoliuhen.github.io./img/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/AVL%E5%A4%8D%E8%A1%A1.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -112,7 +116,7 @@
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
-      <strong>YeBao</strong>
+      <strong>CaiYe</strong>
     </a>
 
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
@@ -236,7 +240,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          896 字
+          12k 字
         
       </span>
     
@@ -247,7 +251,7 @@
         
         
         
-          8 分钟
+          98 分钟
         
       </span>
     
@@ -298,7 +302,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2023年7月16日 晚上
+                    本文最后更新于：2023年8月20日 下午
                   
                 
               </p>
@@ -325,12 +329,458 @@
 <p>主定理：<br>分治策略的递推公式形如：$T(n) &#x3D; aT(\frac{n}{b})+\Omicron(f(n))$ ，表示原问题被分为a个规模大小为n&#x2F;b的子任务，任务的耗时f(n)</p>
 <p>最长公共子序列LCS(Longest Common Subsequence)</p>
 <p>平均复杂度<br>分摊复杂度<br>当平均复杂度和分摊复杂度相同时，两个互不蕴含</p>
+<p>递归算法</p>
+<ul>
+<li>时间复杂度：递归实例的个数</li>
+<li>空间复杂度：递归深度</li>
+<li>eg. 斐波那契空间复杂度$\Omicron(n)$，时间复杂度$\Omicron(2^{n})$</li>
+</ul>
 <p>二分查找：</p>
 <ul>
 <li>查找长度：针对查找成功和查找失败，考察关键码的比较次数<ul>
 <li>fibonacci查找，若有n&#x3D;fib(k)-1，二分的分点是mi&#x3D;fib(k-1)-1</li>
 </ul>
 </li>
+</ul>
+<p>插值查找：利用向量元素分布规律，根据目标数值，通过插值估计出其大致所对应的秩，缩小搜索范围，称作插值查找；期望运行时间为 $\Omicron(loglogn)$</p>
+<p><strong>逆序对</strong>：不是升序排列的数对（序列中<code>i&lt;j,且A[i]&gt;A[j]</code>则为一个逆序对）</p>
+<ul>
+<li>通过归并的思想可以在$\Omicron(nlogn)$内计算完逆序对个数，</li>
+</ul>
+<p>起泡排序：</p>
+<ul>
+<li>时间效率，最好 $\Omicron(n)$，最坏 $\Omicron(n^{2})$</li>
+<li>是稳定的（重复元素在输入输出中的相对次序保持不变）</li>
+<li>交换的次数等于序列所含逆序对的总数</li>
+</ul>
+<p>归并排序：</p>
+<ul>
+<li>分治思想，每个一分为二</li>
+<li>时间效率，最坏 $\Omicron(nlogn)$</li>
+<li>是稳定的（出现相同元素，左侧子向量优先）</li>
+<li>为了避免反复new&#x2F;delete可以在算法开始时申请一个足够大的缓冲区，作为全局变量使用</li>
+</ul>
+<p>位图：<br>该数据结构提供<code>set()</code>,<code>clear()</code>,<code>test()</code>三种接口，每个接口的时间复杂度均为 $\Omicron(1)$</p>
+<p>列表</p>
+<ul>
+<li>列表等价于双向链表</li>
+<li>期望复杂度 $(1+2+…+n)&#x2F;n&#x3D;\Omicron(n)$</li>
+<li>插入元素和删除元素的指针顺序</li>
+<li><strong>循环节</strong>，长度不超过n，循环节之间互不相交</li>
+</ul>
+<p>选择排序</p>
+<ul>
+<li>在无序区中选择一个最大的放到有序区的最小部分</li>
+<li>找出最大值后基于交换的选择排序会导致不稳定，采用平移法（选择排序一般是用交换）是稳定的（列表的移动复杂度为常数）</li>
+<li>总体复杂度为 $\Omicron(n^{2})$（最好也是$\Omicron(n^{2})$）</li>
+<li>基于选择排序可以衍生出堆排序（保存了比较中的结果）</li>
+</ul>
+<p>插入排序<br>减而治之</p>
+<ul>
+<li><strong>在线算法</strong>：通过网络传输可以边传输边操作，不必等所有数据都传输完（优点）</li>
+<li>在无序区中取最左边的元素，在有序区中找到合适的位置插入</li>
+<li>逆序对的间距对算法有影响（输入敏感性）<ul>
+<li>I个逆序对，关键码的比较次数不超过$\Omicron(I)$</li>
+<li>有I个逆序对，总运行时间$\Omicron(n+I)$</li>
+</ul>
+</li>
+</ul>
+<p>列表的游标实现：用个数组，一个放数据，另一个放link</p>
+<hr>
+<p>栈</p>
+<ul>
+<li>后进先出</li>
+<li>应用：<ul>
+<li>进制转换：转换后低位在栈低，高位在栈顶，不断出栈即可实现</li>
+<li>括号匹配：遇到左括号进栈，右括号成对消除（分别检查各种括号是否匹配，若分别匹配，则整体匹配的策略错误，反例<code>(&#123;)&#125;</code>）</li>
+<li><strong>栈混洗</strong>(SP,stack permutation)：可能的结果个数<br>$$<br>SP(n)&#x3D;\Sigma_{k&#x3D;1}^{n}SP(k-1)SP(n-k) \<br> &#x3D;catalan(n) \<br> &#x3D;\frac{(2n)!}{(n+1)!(n)!}<br>$$<ul>
+<li>以下情况也是Catalan数：<ul>
+<li>n对括号组成的合法表达式种类，Catalan(n)</li>
+<li>n节点的二叉树形态，Catalan(n)</li>
+<li>n节点互异的BST种数，Catalan(n)</li>
+<li>n叶节点的真二叉树种类，Catalan(n-1)</li>
+</ul>
+</li>
+<li>检测禁形（不可能出现的排列）：对于任意<code>1&lt;=i&lt;j&lt;k&lt;=n</code>,<code>[..., k,...,  i, ..., j, ...&gt;</code>不可能出现(<code>&gt;</code>表示栈顶)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>中缀表达式求值，需要两个栈，一个操作数栈，一个操作符栈</li>
+<li>部分非法表达式也可以得到结果</li>
+<li>逆波兰表达式(Reverse Polish Notation, RPN，后缀表达式)：不使用括号，操作数的次序不变。在求值中只需要一个栈放操作数，从前开始扫描，扫描到操作数入栈，到操作符，操作数栈出栈计算再进栈</li>
+</ul>
+<p>队列</p>
+<ul>
+<li>与栈类似，但先进先出</li>
+</ul>
+<p>Steap&#x3D;Stack+Heap（栈+向量堆）</p>
+<ul>
+<li>具有<code>pop</code>,<code>push</code>,<code>getMax</code>三种操作，用于求栈中的最大值</li>
+<li>本质是一个放实际数据的栈和一个维护最大值的栈</li>
+<li>Steap结构的进栈数据栈照常进栈，最大值栈需要<code>push(max(P.top(),current))</code>即最大值栈顶和当前数据哪个大哪个进栈；出栈时两个栈都出栈即可；获取最大值时，直接返回最大值栈的栈顶即可。上述操作的复杂度均为$\Omicron(1)$</li>
+</ul>
+<p>Queap&#x3D;Queue+Heap</p>
+<ul>
+<li>有进队，出队，获取最大值三种操作</li>
+<li>也是两个队列</li>
+<li>出队两个队列均出队即可；入队时都入队，但最大值队需要根据入队的数据对原来的数据修改，最坏情况下复杂度可达$\Omicron(n)$；获取最大值时返回最大值队的队尾</li>
+</ul>
+<p>双栈当队<br>直方图最大矩阵算法</p>
+<hr>
+<p>树<br>深度：不包括根节点，<strong>根节点深度为0</strong><br>高度：叶子深度最大者为高度，空树高度为-1.<br>一个节点的深度+节点的高度&lt;&#x3D;树的高度，当该节点为最深的叶子节点时取等</p>
+<p>二叉树（节点有序）</p>
+<ul>
+<li>满树：深度为k的节点所在层，最多有$2^{k}$个节点</li>
+<li>设度数（出度）为0,1,2的节点各有$n_{0},n_{1},n_{2}$个<ul>
+<li>边数 $e&#x3D;n-1&#x3D;n_{1}+2n_{2}$</li>
+<li>当$n_{1}&#x3D;0$时，为<strong>真二叉树</strong></li>
+<li>叶节点数$n_{0}&#x3D;n_{2}+1$</li>
+</ul>
+</li>
+<li>树，二叉树，森林之间可以相互转化</li>
+<li>遍历算法<ul>
+<li>前序遍历：VLR，复杂度为$\Omicron(n)$</li>
+<li>中序遍历：LVR，类似于节点在x轴上的投影，单次顺着入栈可能有$\Omega(n)$次，需要$\Omega(n)$时间</li>
+<li>后序遍历：LRV</li>
+<li>层次遍历：使用队列，复杂度$\Omicron(n)$</li>
+</ul>
+</li>
+<li>表达式树：叶节点是操作数，非叶节点为操作符<ul>
+<li>一个表达式可以确定出一个二叉树（给一个序列不能确定出唯一的二叉树）</li>
+</ul>
+</li>
+</ul>
+<p>完全二叉树</p>
+<ul>
+<li>叶节点都在最低两层里，完全二叉树不一定是真二叉树</li>
+<li>左满二叉树，右完全；左完全，右满</li>
+</ul>
+<p>重构</p>
+<ul>
+<li><strong>先序或后序+中序</strong>可以确定一个二叉树</li>
+<li>已知先序和后序不一定能确定一个二叉树（先序根节点的后一个节点一定是左子树，后序根节点的前一个节点一定是右子树，两个节点不同时可以唯一确定），即先序+后序+真二叉树可以唯一确定</li>
+<li>先序+后序可以确定出层次遍历序列</li>
+<li>后+层可推先序</li>
+<li>先+层得不到后</li>
+</ul>
+<p>增强序列</p>
+<ul>
+<li>将NULL的节点补充用”^”替代，构成一个真二叉树，然后输出对应的序列</li>
+<li>在增强的先序、后序遍历中通过分而治之可以重构出二叉树（中序增强序列无法重构树）</li>
+</ul>
+<p>PFC与Huffman编码（<strong>二叉树中左0右1</strong>）</p>
+<ul>
+<li>PFC（前缀无歧义，prefix free code）：不考虑字符权重，字符不必等长，解决歧义。通过平均编码长度考察。字符放在二叉树的叶子节点上</li>
+<li>最优编码树，真完全二叉树是最优编码树</li>
+<li>Huffman树：考虑字符频率（权重），通过平均带权深度考察，构建算法（维护一个优先级队列）<ul>
+<li>每个内部节点都有两个孩子。（即真二叉树）</li>
+<li>对任一内部节点左右子树互换平均带权深度不变（因此不唯一，且高度也不一定一样）</li>
+</ul>
+</li>
+</ul>
+<p>树的直径：任意两个结点路径长度中的最大值。这条路径可能穿过也可能不穿过根结点。</p>
+<hr>
+<p>图<br>简单图：不含自环（同一顶点自我邻接）<br>欧拉环路：各边出现一次<br>哈密顿环路：各顶点出现一次<br>支撑树（生成树，spanning tree）：一个图的支撑树不唯一，总权值最小的是最小支撑树（minimum spanning tree），e&#x3D;n-1<br>平面图：在平面中边与边不产生交叉，必要条件：e&lt;&#x3D;3xn-6<br>欧拉法则：R+V-E&#x3D;2（R区域个数，V顶点个数，E边的个数）<br>连通图：任意两个顶点之间都能够连通<br>有向无环图：DAG（Directed Acyclic Graph）<br>割：将原图分为两个点集<br>关节点：将关节点删除之后，原图的连通分量增加<br>双连通图：没有关节点的图</p>
+<p>图的存储：</p>
+<ul>
+<li>邻接矩阵：顶点的邻接关系，横轴与纵轴表示顶点，交汇处表示有无边，空间$n^{2}$</li>
+<li>关联矩阵：顶点与边的关联管理，纵轴表示顶点，横轴表示边，交汇处表示点是否与边关联，空间$n*e&#x3D;n^{3}$，一行代表了与该顶点连接的边有哪些<ul>
+<li>邻接矩阵与关联矩阵的关系：A邻接矩阵，M关联矩阵，D对角矩阵，表示第i个顶点的度，则$A+D&#x3D;MM^{T}$</li>
+</ul>
+</li>
+<li>邻接多重表：二重列表，每条边只存储一次，一条边一个节点（含有三个指针），空间消耗$\Omicron(n+e)$</li>
+</ul>
+<p>BFS（Breadth-First Search）</p>
+<ul>
+<li>逐圈向外访问，构造出一棵树，使用队列</li>
+<li>应用：找出连通图，最短路径</li>
+<li>BFS过程中，<ul>
+<li>队列中的顶点按到s的距离单调排列</li>
+<li>首末顶点距s的距离不超过1</li>
+<li>从s到v点的路径，是二者在原图中的最短路径</li>
+</ul>
+</li>
+</ul>
+<p>DFS（Depth-First Search）</p>
+<ul>
+<li>顺着一个方向找到低，然后再换个路找到低</li>
+<li>经DFS后确定的树边，不会构成回路</li>
+<li>边的分类<ul>
+<li>tree(v,u)，可以从v进入处于undiscovered状态的u</li>
+<li>backward(v,u)，从v进入处于discovered状态的u（出现backward必有环，后向边&lt;&#x3D;回路数）</li>
+<li>forward(v,u)，从当前v进入处于visited状态的u，且v更早被发现</li>
+<li>cross(v,u)，从当前v进入处于visited状态的u，且u更早被发现</li>
+</ul>
+</li>
+</ul>
+<p>顶点状态：</p>
+<ul>
+<li>UNDISCOVERED：所有点的初始状态</li>
+<li>DISCOVERED：刚开始被发现（bfs中表现为刚入队）</li>
+<li>VISITED：被访问过并且其所有邻接点也被访问过（bfs中表现为出队）</li>
+</ul>
+<p>边的状态：</p>
+<ul>
+<li>UNDETERMINED：未确定的，所有边的初始状态</li>
+<li>TREE：从当前节点v指向undiscovered状态的u节点</li>
+<li>CROSS：dfs与bfs定义不同。bfs指从当前节点v指向非undiscovered状态的u节点；dfs中从当前v进入处于visited状态的u，且u更早被发现</li>
+<li>FORWARD：dfs独有。dfs中从当前v进入处于visited状态的u，且v更早被发现</li>
+<li>BACKWARD：dfs独有。dfs中从当前节点v指向discovered状态的u</li>
+</ul>
+<p>拓扑排序：</p>
+<ul>
+<li>任给一个有向图，将所有顶点排成一个线性序列</li>
+<li>可拓扑排序的有向图，必定无环</li>
+<li>顺序输出零入度顶点</li>
+<li>逆序输出零出度顶点</li>
+</ul>
+<p>优先级搜索：</p>
+<ul>
+<li>优先级数越大&#x2F;小，优先级越低&#x2F;高</li>
+<li>Catley公式：完全图 $K_{n}$ 有 ${n^{n-1}}$ 棵支撑树</li>
+</ul>
+<p>Prim算法：最小生成树<br>Kruskal算法：最小生成树。适用于稀疏图。将所有边按权重排序，迭代每次找最短的边，该边的顶点来自不同的树，将该边连接的两棵树合二为一，共迭代n-1次选出n-1条边。</p>
+<p>Dijkstra算法：两点之间的最短路径（各边权重需要为正）。计算S到其余顶点的最短距离</p>
+<ul>
+<li>某一点到其余点的最短路径的并，形成SPT（shortest path tree）连通且无环，但SPT不一定等于MST</li>
+</ul>
+<p>Floyd算法：计算所有点之间的最短距离</p>
+<ul>
+<li>可以通过调用n次Dijkstra算法$\Omicron(n^{3})$实现folyd一致的结果</li>
+<li>效率为$\Omicron(n^{3})$，可以出现负权边</li>
+<li>$d^{k}(u,v)$表示u中途经过前k个节点到v的最短距离，则$d^{k}(u,v)\&#x3D;w(u,v),if k&#x3D;0\&#x3D;min(d^{k-1}(u,v),d^{k-1}(u,k)+d^{k-1}(k,v),if k≠0)$</li>
+</ul>
+<p>关节点</p>
+<ul>
+<li>DFS树中叶节点一定不是关节点</li>
+<li>hca(v)以v为根的子树经后向边能抵达的最高祖先 </li>
+<li>找关节点划分双连通分量（极大双连通子图）算法，与DFS类似，此处值得<strong>反复揣摩</strong></li>
+</ul>
+<p>并查集：</p>
+<ul>
+<li>控制树高：路径压缩</li>
+</ul>
+<p>搜索二叉树（BST）：</p>
+<ul>
+<li>节点不小于左子树，不大于右子树</li>
+<li>中序遍历，单调非降</li>
+<li>查找方式与二分查找类似，与树高有关</li>
+<li>插入的节点必然是叶节点</li>
+<li>删除：<ul>
+<li>左右子树其一为空，用子节点取代当前节点即可</li>
+<li>左右子树均非空，找中序直接后继（要么单分支，要么叶节点），交换位置后转化为第一种情况再删除</li>
+</ul>
+</li>
+<li>适度平衡的BST称为<strong>平衡二叉搜索树</strong>（BBST包含AVL），高度渐进地不超过$\Omicron(logn)$</li>
+<li>经过不超过$\Omicron(n)$次旋转，等价的BST均可相互转化</li>
+</ul>
+<p>平衡二叉树（AVL Adelson-Velsky &amp; E. Landis）：</p>
+<ul>
+<li>平衡因子：左右子树高度差</li>
+<li>zig顺时针旋转，zag逆时针旋转</li>
+<li>任意一个节点的平衡因子绝对值小于等于1</li>
+<li>AVL树未必理想平衡，但必然适度平衡</li>
+<li>高为h的AVL树，至少包含$S(h)&#x3D;fib(h+3)+1$个节点</li>
+<li>删除可能造成失衡，但至多一个节点失衡，通过旋转复衡后更高祖先可能失衡，需要向上检查，最坏下达$\Omicron(logn)$</li>
+<li>插入可能从祖父开始，每个祖先同时失衡，$\Omicron(1)$</li>
+<li>复衡总结：设g为<strong>最低</strong>失衡节点，沿<strong>最长</strong>分支考察三代g,p,v，按照中序遍历次序命名为<code>a&lt;b&lt;c</code>，他们的四棵子树按中序命名为$T_{0},T_{1},T_{2},T_{3}$则原本以g为根的子树调整为如下所示<img src="/../img/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/AVL%E5%A4%8D%E8%A1%A1.png" srcset="/img/loading.gif" lazyload alt="AVL复衡"></li>
+<li>查找，删除，插入最坏情况复杂度为$\Omicron(logn)$，$\Omicron(n)$空间</li>
+<li>对于一棵树删除一个节点，再将该节点插入，树的拓扑结构可能变化</li>
+</ul>
+<p>伸展树</p>
+<ul>
+<li>原因：被访问后的节点很可能很快再次被访问（局部性）</li>
+<li>节点v一旦被访问（查找）随即推送到根</li>
+<li>推送策略：<ul>
+<li>单层伸展，自下而上逐层旋转，旋转次数呈周期性算术级数，分摊$\Omega(n)$</li>
+<li>双层伸展，zig-zig或zag-zag，分摊$\Omicron(longn)$，若是v只有父亲没有祖父，则只做zig或者zag</li>
+</ul>
+</li>
+<li>插入&#x2F;删除，插入和删除过程自带有一次伸展，因此可以直接在根节点插入删除</li>
+<li>无需记录平衡因子</li>
+<li>分摊复杂度$\Omicron(logn)$（即使不具有局部性）</li>
+<li>局部性强、缓存命中率极高时（即 k &lt;&lt; n &lt;&lt; m） <ul>
+<li>效率为自适应的$\Omicron(log k)$</li>
+<li>任何连续的m次查找，都可在$\Omicron(mlogk+nlogn)$时间内完成</li>
+</ul>
+</li>
+<li>不能杜绝单次最坏情况出现</li>
+</ul>
+<p>B树</p>
+<ul>
+<li>m阶B树，每个超级节点含有[$\lceil m&#x2F;2 \rceil,m$]个分支，节点含有<code>分支数减一</code>个关键码</li>
+<li>B树高度（<strong>包括外部节点</strong>）决定IO次数（一般默认根节点在内存中），$log_{m}(N+1)≤h≤1+log_{\lceil m&#x2F;2 \rceil}\lfloor (N+1)&#x2F;2 \rfloor$，m阶B树，总共有N个关键码</li>
+<li>查找，在每一个节点内顺序查找</li>
+<li>插入，插入后当节点关键码达到限制，取下标为$\lfloor m&#x2F;2 \rfloor$(下标从0开始)关键码上升一层，并分裂（插入也可以通过旋转解决，但优先分裂的策略不会导致空间利用率的显著下降，利用率最低不小于50%）</li>
+<li>删除，对于叶节点，兄弟节点关键码个数足够，可以从兄弟节点借用（旋转），否则将父节点关键点拉下来（合并，可能会向上传播，至多$\Omicron(h)$层）；对于非叶节点，找后继然后交换删除</li>
+<li>任意非叶节点后继均在叶节点中</li>
+</ul>
+<p>B*树</p>
+<ul>
+<li>将内部节点分支数下限提高为$\lceil \frac{2m}{3} \rceil$，空间利用率最低为$\frac{k}{k+1}$</li>
+</ul>
+<p>红黑树</p>
+<ul>
+<li>增设外部节点NULL，成为真二叉树</li>
+<li>树根必为黑色，节点为红则子必黑，外部节点全为黑，外部节点到根途径黑节点数目相等</li>
+<li>n个内部节点的红黑树，高度h满足$log_{2}(n+1)≤h≤2log_{2}(n+1)$</li>
+<li>插入：（插入节点为根节点除外）按照BST规则插入节点x（必为叶节点），x染红，若x的父节点p为黑则成功，p为红需要分两种情况。考察祖父节点g，叔父节点u(g的另一分支的根)<ul>
+<li>u为黑，做局部3+4重构，b转黑，a或c染红（最终ac全红）。<strong>旋转1次，染色2次，结束</strong></li>
+<li>u为红，p和u转黑，g转红，可能会向上传递造成双红，则等效为插入g，直到树根或满足条件。<strong>旋转0次，染色3次，可能双红上传</strong></li>
+</ul>
+</li>
+<li>删除：（最多）按照BST的删除，转为单分支情况，<ul>
+<li>被删节点x和子树根节点r<strong>其一为红</strong>。若x为红，则正常删除；若r为红，与x交换颜色，结束</li>
+<li>x和r<strong>均为黑</strong>，考察x的父节点p，p的另一个子节点s，分四种情况<ul>
+<li>BB-1：s为黑，且至少有一个红孩子t，对t,s,p做3+4重构，r保持黑，a,c染黑，b继承p的颜色。<strong>黑s有红子t，旋转1-2次，染色3次，结束</strong></li>
+<li>BB-2R（两个黑孩子，p为红）：s为黑，且两个孩子均为黑，p为红。p和s换色。<strong>黑s无红子t，染色2次，结束</strong></li>
+<li>BB-2B（两个黑孩子，p为黑）：s为黑，且两个孩子均为黑，p为黑。s染红，r与p保持黑。可能向上传递，相当于删除p的情况，至多$\Omicron(logn)$层。<strong>黑s无红子，染色1次，上传</strong></li>
+<li>BB-3：s为红（p和s的孩子必然黑）。对p单旋，s转黑，p转红，然后按照BB-1或者BB-2R调整即可。<strong>红s，转为BB-1或BB-2R</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>散列</p>
+<ul>
+<li>装填因子：$\lambda&#x3D;\frac{N}{M}$</li>
+<li>设计原则+评价标准：确定，快速，满射，均匀</li>
+</ul>
+<p>开放散列（开散列）</p>
+<ul>
+<li>多槽位：预留若干槽位，可能造成空间浪费，并且槽位有限</li>
+<li>独立链：每个桶有一个列表，任意多次的冲突都可解决，但指针本身占空间，节点动态分配和回收耗时，空间缓存未必连续，系统缓存很难生效</li>
+<li>公共溢出区：单独开辟一块连续空间，将冲突词条存入此区域。最坏情况下，处理冲突词条所需的时间正比于溢出区的规模</li>
+</ul>
+<p>封闭散列（闭散列）</p>
+<ul>
+<li>开放定址：沿试探链逐一查询下一个桶单元，直到命中成功</li>
+<li>线性试探：一旦冲突试探下一个紧邻的桶。无需附加指针，链表等。数据聚集现象严重。在删除时使用<strong>懒惰删除</strong>，即对被删除做标记，在查找时如果该处有标记则继续查找，否则结束。</li>
+<li>平方试探：出现冲突试探下一个平方数(+1,+4,+9,+16)。可以缓解聚集现象，对于大散列IO操作增加。装填因子≤0.5，且M为素数，则一定能够找出</li>
+<li>双向平方试探：表长取M&#x3D;4k+3类的素数，必可以保证查找链前M项互异</li>
+<li>再散列：出现冲突以hash(key)为偏移量重新确定地址</li>
+<li>重散列：集体搬迁到一个更大的散列，将原来散列的数据重新<strong>插入</strong>新的散列中</li>
+</ul>
+<p>散列桶的应用<a target="_blank" rel="noopener" href="https://blog.csdn.net/whutshiliu/article/details/106674509">最大间距</a><br>桶排序</p>
+<ul>
+<li>借助桶实现排序（将10进制数字分别以个位，十位等进行排序）</li>
+<li>底层排序需要保证稳定（若不稳定将导致排序结果错误）</li>
+<li>时间复杂度为$\Omicron(n)$</li>
+<li>常对数密度的整数集，取n个来自$[0,n^{d})$的整数<ul>
+<li>对数密度&#x3D;$\frac{lnn}{lnn^{d}}&#x3D;\frac{1}{d}&#x3D;\Omicron(1)$</li>
+</ul>
+</li>
+</ul>
+<p>计数排序</p>
+<ul>
+<li>记录大于元素和等于且在前出现的元素个数，可以得出元素的秩</li>
+<li>执行时间不超过$\Omicron(n+M)$，来自<code>[0,M)</code>范围内的n个整数，适合小集合，大数据情况</li>
+</ul>
+<p>跳转表</p>
+<ul>
+<li>分了多层，存放重复的数据（一种存储结构）。跳转表高度（与单个塔高有区别）h&#x3D;$\Omicron(logn)$的概率很大</li>
+<li>查找，受纵向和横向的影响。纵向跳转次数，累计不过expected-$\Omicron(logn)$，在同一层连续跳转的时间成本不超过2</li>
+</ul>
+<p>优先级队列</p>
+<ul>
+<li>借助完全二叉堆实现，秩从0开始</li>
+<li>插入。与插入节点的父节点比较，若更大则交换，并向上传播。在$\Omicron(logn)$内完成。数学期望为$\Omicron(1)$</li>
+<li>删除。顶与末尾交换删除，然后根部取左右最大子节点与之比较，若根小则交换，再向下传播，直到满足所有子树的根为最大值。在$\Omicron(logn)$内，数学期望为$logn$</li>
+<li>建堆。Floyd建堆。子堆的逐层合并。$\Omicron(n)$</li>
+<li>为了同时进行最大最小值的维护，可以使用最小最大堆结构<ul>
+<li><a target="_blank" rel="noopener" href="https://www.baeldung.com/java-min-max-heap">最小最大堆</a>，根节点所在层为0，奇数层每个节点大于后代；偶数层每个节点小于后代，根节点为最小值，第二层两个节点之一为最大值，插入与删除在$\Omicron(logn)$内</li>
+</ul>
+</li>
+</ul>
+<p>堆排序：</p>
+<ul>
+<li>借助大顶堆，反复摘出最大值，直至堆空</li>
+<li>复杂度$\Omicron(nlogn)$，空间复杂度$\Omicron(1)$，不稳定的</li>
+</ul>
+<p>k路归并</p>
+<ul>
+<li>k组有序向量，将各向量的队首元素，借助小顶堆，找出最小，然后小顶堆删除最小，插入对应向量的下一个元素，直到所有向量为空</li>
+</ul>
+<p>锦标赛排序</p>
+<ul>
+<li>约定小者胜，叶节点为待排序元素（不足$2^{i}$则需要用正无穷补全），内部节点是两个孩子的胜者。删除根节点元素（包括叶节点，需改为正无穷，重新排除胜者）</li>
+<li>空间复杂度$\Omicron(n)$，时间复杂度$\Omicron(nlogn)$，是稳定的</li>
+<li>败者树<ul>
+<li>内部节点存放败者，同时增加根节点的”父节点”表示冠军(该父节点不是根)，每次都是胜者与胜者比较，败者上升。</li>
+<li>根节点不一定是亚军</li>
+</ul>
+</li>
+</ul>
+<p>多叉堆</p>
+<ul>
+<li>一个节点可以有d个子节点，任意节点i的子节点下标为<code>d*i+1</code>,<code>d*i+2</code>…<code>d*i+d</code></li>
+<li>堆高度为$\Omicron(log_{d}n)$</li>
+<li>上升成本$log_{d}n$，下降成本$d<em>log_{d}n&#x3D;\frac{d</em>ln2}{lnd}<em>log_{2}n$，当$d</em>log_{d}n&gt;2*log_{2}n$时下降成本增大</li>
+<li>对于PFS来说，运行时间约为$(n<em>d+e)log_{d}n$取d约等于$\frac{e}{n}+2$总体性能最优。稀疏图效率$e</em>log_{d}n&#x3D;\Omicron(n*logn)$；稠密图效率$\Omicron(e)$，对稠密图优化较大</li>
+</ul>
+<p>Fib堆</p>
+<ul>
+<li>PFS基于fib堆的运行时间为$\Omicron(e+nlogn)$</li>
+</ul>
+<p>左式堆（Crane堆）</p>
+<ul>
+<li>保持堆序性，增加新条件（左倾性，内部节点x的npl(lx)&gt;&#x3D;npl(rx)），方便堆合并。更多节点分布在左侧分支</li>
+<li>左式堆的子堆必为左式堆</li>
+<li>NPL(Null Path Length)，引入外部节点NULL，构成真二叉树，x到外部节点的最近距离,npl(NULL)&#x3D;0,npl(x)&#x3D;1+min{npl(rx),npl(lx)}</li>
+<li>右侧链，rChain(x)从x出发一直沿右分支前进。右侧链长度为d的左式堆，至少含有$2^{d}-1$个内部节点，$2^{d+1}-1$个节点（无上限）；n节点的左式堆中右侧链长度$d&lt;&#x3D;\lfloor log_{2}(n+1) \rfloor -1&#x3D;\Omicron(logn)$</li>
+<li>合并。合并之后的右侧链不一定是合并前的右侧链</li>
+<li>插入，删除，构建</li>
+</ul>
+<hr>
+<p>串<br>模式匹配</p>
+<ul>
+<li>在字符串T（长度n）中找到子串P（长度m）</li>
+<li>蛮力策略<strong>bf</strong>(brute force)：最好情况为$\Omega(n)$（子串P在T的尾部），最坏$\Omicron(m*n)$（移动n-m次，每次移动后比较m次）</li>
+<li><strong>KMP算法</strong>：指向T串当前位置的指针i永远不需要回退，与指向P串的指针j<ul>
+<li>若比对成功，i,j同前进一次；比对失败，j回退t步，需要确定t</li>
+<li>计算t：准备一个<strong>next表</strong>，<code>next[j]</code>表示<code>P[0,j)</code>串的最长<strong>公共</strong>的<strong>真前后缀</strong>(不包含本身的相同的最大前后缀)的长度，<code>next[0]=-1</code>，在实际计算next表中<code>next[j+1]=next[j]+1 , iff P[j]=P[next[j]]</code></li>
+<li>构造next表的复杂度$\Omicron(m)$</li>
+<li>总体运行时间$\Omicron(m+n)$</li>
+<li>改进版KMP：常数级别的改进，对next表做改进。<strong>改进版next表</strong>构造方法：在程序运行中可直接计算出改进版next表，为了方便理解，可以先计算出原next表再构造，若<code>P[j]=P[next[j]]</code>，递归找到最根本的相等处将其原next值作为改进版<code>next[j]</code>的值；若<code>P[j]!=P[next[j]]</code>，直接挪用原<code>next[j] </code>表的值</li>
+</ul>
+</li>
+<li><strong>BM算法</strong>：预处理模式串P，构造gs表和bc表<ul>
+<li>构建bc表，利用失配比对信息，画家算法，需要预知字符集（以便为bs确定空间）保存字符在P中最靠右的位置，$\Omicron(s+m)$。只使用bc表时，若坏字符（T中与P不匹配的字符）在bc表中的下标大于<code>j</code>（坏字符在P当前指针的右侧）则P右移一次；若坏字符在bc表的下标小于<code>j</code>则左移到与左侧最近的位置</li>
+<li>构建gs表，利用匹配比对信息。与KMP中的next构建类似。ss表，<code>ss[j]</code>表示<code>P[0,j]</code>的所有后缀与<code>P</code>某一个后缀匹配的最长长度，构造ss表$\Omicron(m)$。<code>ss[j]==j+1</code>时，<code>gs[i]=m-j-1</code>，其中<code>(i&lt;m-j-1)</code>，表示某个完整前缀和后缀完全匹配，后缀之前的字符只要失配，P即可后移这么多单位；<code>ss[j]&lt;=j</code>时，<code>gs[m-ss[j]-1]=m-j-1</code>，表示模式串中间的某一段和后缀匹配</li>
+<li>最好情况下$\Omicron(\frac{n}{m})$，最差情况下$\Omicron(m*n)$</li>
+</ul>
+</li>
+<li>算法效率对比，横轴表示单词比对成功的概率，即该字符出现的概率。从图中说明字符集越小，KMP比BF效率更高<img src="/../img/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/%E7%AE%97%E6%B3%95%E6%80%A7%E8%83%BD.png" srcset="/img/loading.gif" lazyload></li>
+<li><strong>FR算法</strong>(Karp-Rabin)。将字符串映射为数字。对于字符集为d的串，用d+1个数与之映射，字符从1开始。对于字符集大且模式串P长的字符串，可以通过散列压缩降低时耗。<ul>
+<li>使用快速指纹更新，利用hash之后的相邻串，前一子串删除首字符后的后缀，与后一子串删除末字符之后的前缀完全相同</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>排序<br>快速排序</p>
+<ul>
+<li>定轴点。轴点左侧数字小于轴点，右侧大于轴点<ul>
+<li>LUG版（less-undetermined-greater）。取一个候选者，<code>[0]</code>向内交替的移动low和high指针，直到low与high一致，将轴点<code>[0]</code>放入L,G之间即可。各元素最多移动1次(候选者2次)，累计$\Omicron(n)$时间，$\Omicron(1)$空间。对于整个算法，<strong>最好情况</strong>下左右划分接近$T(n)&#x3D;2T(\frac{n-1}{2})+\Omicron(n)&#x3D;\Omicron(nlogn)$；<strong>最坏情况</strong>划分$T(n)&#x3D;T(n-1)+T(0)+\Omicron(n)&#x3D;\Omicron(n^{2})$</li>
+<li>DUP版(duplicate)。与LUG原理相似，但指针一旦与轴点相等就交换到另一个指针处理</li>
+<li>LGU版(less-greater-undetermined)。两个指针，一个指向G的最低位，一个指向U，U比轴点小，交换G和U，比轴点大，U前进</li>
+</ul>
+</li>
+<li>递归深度$\  Omicron(logn)$，最差$\Omicron(n)$</li>
+</ul>
+<p>选取众数：摩尔投票法<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/387744743">参考网站</a>，$\Omicron(n)$时间，$\Omicron(1)$空间<br>选取中位数：两个有序向量中找中位数（两边逐次减半）</p>
+<p>shell排序</p>
+<ul>
+<li>插入排序的一种</li>
+<li>选定步长，同一列进行排序</li>
+<li>输入敏感（输入的序列不同，效率不同）</li>
+<li>最好$\Omicron(n)$，既已有序；shell序列最坏$\Omega(n^{2})$</li>
+<li>shell序列，步长为1,2,4,8,..；PS序列为shell序列减一，时间复杂度 $\Omicron(n^{\frac{3}{2}})$，Pratt序列$h_{i}&#x3D;2^{p}*3^{q}$</li>
+</ul>
+<p>排序总结<br><img src="/../img/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/%E6%8E%92%E5%BA%8F%E6%80%BB%E7%BB%93.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li>归位：在算法执行过程中，每一次至少有一个元素在自己最终应该在的位置上</li>
 </ul>
 
                 
@@ -510,7 +960,7 @@
     <div class="footer-inner">
   
     <div class="footer-content">
-       <span>YeBao</span> <i class="iconfont icon-love"></i> 
+       <span>CaiYe</span> <i class="iconfont icon-love"></i> 
     </div>
   
   

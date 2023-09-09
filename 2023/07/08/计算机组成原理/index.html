@@ -23,11 +23,13 @@
 <meta property="og:site_name" content="YeBao&#39;blog">
 <meta property="og:description" content="如题，计算机组成原理笔记">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://danmoliuhen.github.io./img/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/RAID%E7%BA%A7%E5%88%AB.png">
 <meta property="article:published_time" content="2023-07-08T09:06:33.439Z">
-<meta property="article:modified_time" content="2023-07-16T10:30:53.482Z">
+<meta property="article:modified_time" content="2023-09-02T11:58:04.171Z">
 <meta property="article:author" content="YeBao">
 <meta property="article:tag" content="markdown">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://danmoliuhen.github.io./img/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/RAID%E7%BA%A7%E5%88%AB.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -112,7 +114,7 @@
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
-      <strong>YeBao</strong>
+      <strong>CaiYe</strong>
     </a>
 
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
@@ -236,7 +238,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.9k 字
+          7.2k 字
         
       </span>
     
@@ -247,7 +249,7 @@
         
         
         
-          16 分钟
+          61 分钟
         
       </span>
     
@@ -298,7 +300,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2023年7月16日 晚上
+                    本文最后更新于：2023年9月2日 晚上
                   
                 
               </p>
@@ -311,6 +313,15 @@
           </div> 
 <p>冯诺依曼计算机结构：存储器，控制器，运算器，输入设备，输出设备（I&#x2F;O）<br>特点：存储程序，二进制</p>
 <p>指令是计算机运行的最小功能单元</p>
+<p>层次结构：</p>
+<ul>
+<li>高级语言层</li>
+<li>汇编语言层</li>
+<li>操作系统层</li>
+<li>指令系统层</li>
+<li>微体系结构层</li>
+<li>数字逻辑层</li>
+</ul>
 <p>指令的功能：</p>
 <ul>
 <li>数据运算</li>
@@ -350,14 +361,25 @@
 <ul>
 <li>正数三者相同</li>
 <li>负数<ul>
-<li>原码：符号位||数的绝对值</li>
+<li>原码：符号位||数的绝对值（符号位为1表示负数，后同）</li>
 <li>反码：符号位||绝对值按位取反</li>
 <li>补码：反码+1</li>
 </ul>
 </li>
-<li>原码和反码存在+0,-0，补码中只有一个0，补码比其余两者多一个数<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;bits/stdc++.h&gt;</span> </span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>  <span class="hljs-type">int</span> a=INT_MAX;<br>  cout&lt;&lt;a&lt;&lt;endl;<span class="hljs-comment">//      0111,1111,1111,1111,1111,1111,1111,1111，补码</span><br>  cout&lt;&lt;a+<span class="hljs-number">1</span>&lt;&lt;endl;<span class="hljs-comment">//    1000,0000,0000,0000,0000,0000,0000,0000，在补码中该数字表示-2147483648，不存在原码和反码</span><br>  cout&lt;&lt;-a&lt;&lt;endl;<span class="hljs-comment">//     1000,0000,0000,0000,0000,0000,0000,0001</span><br>  <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">32</span>;i++)&#123;<br>    <span class="hljs-keyword">if</span>(i%<span class="hljs-number">4</span>==<span class="hljs-number">0</span>&amp;&amp;i!=<span class="hljs-number">0</span>)&#123;<br>      cout&lt;&lt;<span class="hljs-string">&#x27; &#x27;</span>;<br>    &#125;<br>    cout&lt;&lt;(((-a)&gt;&gt;i)&amp;<span class="hljs-number">1</span>);<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li>原码和反码存在+0,-0，补码中只有一个0，补码比其余两者多一个数</li>
 </ul>
-<p>补码符号位扩展：符号位进行扩展</p>
+<p>移码：用于浮点数的阶码中，只用于表示定点整数。在原值的基础上加一个正的常数，将负数统一转为正数，一般是加上 $2^{n-1}$</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;bits/stdc++.h&gt;</span> </span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>  <span class="hljs-type">int</span> a=INT_MAX;<br>  cout&lt;&lt;a&lt;&lt;endl;<span class="hljs-comment">//      0111,1111,1111,1111,1111,1111,1111,1111，补码</span><br>  cout&lt;&lt;a+<span class="hljs-number">1</span>&lt;&lt;endl;<span class="hljs-comment">//    1000,0000,0000,0000,0000,0000,0000,0000，在补码中该数字表示-2147483648，不存在原码和反码</span><br>  cout&lt;&lt;-a&lt;&lt;endl;<span class="hljs-comment">//     1000,0000,0000,0000,0000,0000,0000,0001</span><br>  <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">32</span>;i++)&#123;<br>    <span class="hljs-keyword">if</span>(i%<span class="hljs-number">4</span>==<span class="hljs-number">0</span>&amp;&amp;i!=<span class="hljs-number">0</span>)&#123;<br>      cout&lt;&lt;<span class="hljs-string">&#x27; &#x27;</span>;<br>    &#125;<br>    cout&lt;&lt;(((-a)&gt;&gt;i)&amp;<span class="hljs-number">1</span>);<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>定点数运算：</p>
+<ul>
+<li>加法（减法可转为加法）溢出判断<ul>
+<li>符号位的进位和数值最高位的进位不同，溢出</li>
+<li>两个加数符号位与和的符号位不同，溢出</li>
+</ul>
+</li>
+<li>乘法：布斯算法</li>
+</ul>
 <p>大小端：</p>
 <ul>
 <li>大端：数据低位存在内存的高位</li>
@@ -417,11 +439,368 @@
 </ul>
 <p>浮点数</p>
 <ul>
+<li>符号位</li>
 <li>尾数</li>
-<li>阶码（指数部分）<br>IEEE浮点数标准754</li>
-<li>阶码使用移码</li>
-<li>尾数使用原码</li>
+<li>阶码（指数部分）</li>
 </ul>
+<p>IEEE浮点数标准754</p>
+<ul>
+<li>阶码使用移码， $阶码&#x3D;原值+2^{n-1}-1$，阶码值全0和全1有特殊含义</li>
+<li>尾数使用原码</li>
+<li>32位单精度，1bit 符号, 8bit 阶码（偏置常数127）, 23bit 尾数，</li>
+<li>64位双精度，1bit 符号, 11bit 阶码（偏置常数1047）, 52bit 尾数</li>
+</ul>
+<p>浮点数运算：</p>
+<ul>
+<li>加减运算5个步骤<ul>
+<li>对阶，阶码小的数尾数右移阶码差值位</li>
+<li>尾数加减</li>
+<li>规格化处理</li>
+<li>舍入操作（可能在此规格化处理</li>
+<li>判断结果正确性</li>
+</ul>
+</li>
+<li>注：浮点数的加减不满足结合律，并且也不能进行相等比较</li>
+</ul>
+<hr>
+<p>指令系统</p>
+<ul>
+<li>指令使计算机运行的最小的功能单元</li>
+<li>功能和分类：<ul>
+<li>算术与逻辑运算指令</li>
+<li>位移操作指令</li>
+<li>数据传送指令</li>
+<li>输入输出指令</li>
+<li>转移指令</li>
+<li>子程序调用与返回指令</li>
+<li>堆栈操作指令</li>
+<li>其他指令</li>
+</ul>
+</li>
+<li>组成：操作码，地址码</li>
+<li>指令字长：一条指令的二进制位数</li>
+</ul>
+<p>定长操作码：操作码位数固定不变<br>变长操作码：一地址，二地址，三地址，多地址等</p>
+<p>寻址方式：</p>
+<ul>
+<li>立即数寻址：操作数在地址字段直接给出,</li>
+<li>直接寻址：地址码为操作数在存储器中的地址,EA&#x3D;A</li>
+<li>寄存器寻址：地址码为寄存器编号（地址），寄存器中存放操作数</li>
+<li>寄存器间接寻址：地址码为寄存器编号（地址），寄存器存放内存编号，内存中存放操作数</li>
+<li>变址寻址：操作数地址由变址寄存器的内容和变址偏移量相加得到</li>
+<li>相对寻址：由程序计数器PC内容和相对寻址偏移量相加得到，偏移量用补码表示</li>
+<li>间接寻址：地址码给出操作数地址的地址</li>
+<li>基址寻址：基址寄存器内容和地址码中的偏移量相加得到操作数地址</li>
+<li>堆栈寻址：</li>
+</ul>
+<p>指令系统的两种设计思路：</p>
+<ul>
+<li>RISC（精简指令集）：通用寄存器较多，采用<strong>组合逻辑电路控制</strong>，使用Load&#x2F;Store型指令设计风格，典型的精简指令集MIPS</li>
+<li>CISC（复杂指令集）：通用寄存器较少，采用<strong>微程序控制</strong>，指令周期长</li>
+</ul>
+<p>MIPS指令格式，均为<strong>32位</strong>宽度：</p>
+<ul>
+<li>指令格式：<ul>
+<li>寄存器型（R）：6位OP，5位rs，5位rt，5位rd，5位shamt，6位funct。操作码OP为“000000”，操作类型由funct字段指定<ul>
+<li>双目运算类指令，rs和rt内容对应第一和第二源操作数，结果给rd</li>
+<li>移位指令，对rt内容移位，结果送rd，移位数由sa字段给出</li>
+<li>寻址方式只有寄存器寻址</li>
+</ul>
+</li>
+<li>立即数型(I):6位OP，5位rs，5位rt，其余address&#x2F;immediate<ul>
+<li>双目运算类指令，将rs内容和立即数分别作为第一和第二源操作数，结果送rt</li>
+<li>Load&#x2F;Store指令，则将rs内容和立即数符号扩展后（符号位扩展，最高位符号是什么扩展什么；0扩展，全部补0）的内容相加作为存储单元地址，Load指令将内存单元内容送rt，Store将rt内容送内存单元</li>
+<li>分支指令，对rs和rt内容进行指定运算，根据运算结果，决定是否转到转移目标地址处执行，转移目标地址通过相对寻址方式得到</li>
+<li>有寄存器寻址，立即数寻址，相对寻址，基址，变址寻址</li>
+</ul>
+</li>
+<li>转移性(J):6位OP，其余target。<ul>
+<li>无条件跳转指令，指令中给出的26位是直接地址，将PC的高4位拼上26位直接地址，最后添加两个“0”（字节对齐地址必为4的倍数）<code>PC[31:28]||target[25:0]||[00]</code>即可得到32位转移目标地址</li>
+<li>只有直接寻址</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>操作数寻址方式：<ul>
+<li>基址加16位位移量的访存寻址</li>
+<li>立即数寻址</li>
+<li>寄存器寻址</li>
+</ul>
+</li>
+<li>指令特点：<ul>
+<li>指令长度固定32位</li>
+<li>寄存器位置固定（目的寄存器位置有所变动，但源寄存器位置固定）</li>
+</ul>
+</li>
+</ul>
+<p>MIPS常见指令</p>
+<figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs inform7">1. addu/subu <br>  - addu rd rs rt # R<span class="hljs-comment">[rd]</span>=R<span class="hljs-comment">[rs]</span>+R<span class="hljs-comment">[rt]</span><br>  - subu rd rs rt # R<span class="hljs-comment">[rd]</span>=R<span class="hljs-comment">[rs]</span>+R<span class="hljs-comment">[rt]</span><br>2. ori <br>  - ori rt rs imm # R<span class="hljs-comment">[rt]</span> OR ZeroExt(imm)，ZeroExt表示0扩展<br>3. load/store<br>  - lw rt rs imm # Addr=R<span class="hljs-comment">[rs]</span>+SignExt(imm), R<span class="hljs-comment">[rt]</span>=MEM<span class="hljs-comment">[Addr]</span><br>  - st rt rs imm # Addr=R<span class="hljs-comment">[rs]</span>+SignExt(imm), MEM<span class="hljs-comment">[Addr]</span>=R<span class="hljs-comment">[rt]</span><br>4. beq<br>  - beq rs rt imm # if R<span class="hljs-comment">[rs]</span>=R<span class="hljs-comment">[rt]</span> then PC=(PC+4)+SignExt(imm) else PC=PC+4 (一个指令4字节，故+4，若写作+1表示加一个指令字)<br>5. Jump<br>  - j target # PC<span class="hljs-comment">[31:28]</span>||target<span class="hljs-comment">[25:0]</span>||<span class="hljs-comment">[00]</span><br></code></pre></td></tr></table></figure>
+<p>指令的执行过程：</p>
+<ul>
+<li>读取指令      取指（IF,instruction fetch）  IM、PC、总线</li>
+<li>指令译码      译码（ID,instruction decode）  寄存器组，控制信号生成部件</li>
+<li>执行运算      执行（EX）  ALU</li>
+<li>存储器读写    访存（MEM） DM(data memery)、总线</li>
+<li>写回          写回（WB）  寄存器组</li>
+</ul>
+<p>MIPS中：</p>
+<ul>
+<li>ID完成所有的读操作</li>
+<li>WB完成所有的写操作</li>
+</ul>
+<hr>
+<p>单周期CPU：全部指令都是用一个CPU周期完成，CPU周期时间固定</p>
+<ul>
+<li>缺点：信号竞争，地址、数据和“写使能”之间存在竞争，组成部件利用率不高</li>
+</ul>
+<p>多周期CPU：</p>
+<ul>
+<li>将指令执行的过程分解为多个步骤，<strong>每个步骤的时钟周期固定</strong></li>
+<li>有锁存器</li>
+<li>两种控制器：<ul>
+<li>硬连线控制器（组合逻辑控制器）</li>
+<li>微程序控制器：采用控制存储器存储每条指令所需的控制信号</li>
+</ul>
+</li>
+<li>部件利用率偏低</li>
+</ul>
+<p>指令流水线CPU：</p>
+<ul>
+<li>计算机各个部件均可使用流水线（指令流水线，操作部件流水线，宏流水线）</li>
+<li>有锁存器（保存本流水段的结果）</li>
+<li>每条指令5个时钟周期（指令执行过程）</li>
+<li>性能指标：<ul>
+<li>吞吐率：单位时间执行的指令数量</li>
+<li>加速比：与串行执行相比速度提高的比率</li>
+</ul>
+</li>
+</ul>
+<p>寄存器可以同时读和写<br>在访存中分为指令存储器（IM）和数据存储器（DM）避免存储器争用的冲突</p>
+<p>三种冲突：</p>
+<ul>
+<li><strong>结构冲突</strong>，硬件资源冲突<ul>
+<li>暂停流水线，插入等待周期，流水线性能降低。软件上，在编译时插入空操作指令；硬件上，硬件阻塞阻止后续指令执行，插入气泡</li>
+<li>增加资源，解决资源冲突</li>
+</ul>
+</li>
+<li><strong>数据冲突</strong>，也称为局部冲突，一条指令依赖于前面指令的执行结果<ul>
+<li><strong>数据冲突分类</strong>，按照指令读写寄存器的顺序对数据冲突进行分类。i，j指令依次进入流水线<ol>
+<li><strong>写后读</strong>（RAW）：在i写入结果前j读取寄存器<ul>
+<li>旁路技术，需要用到之前指令的数据，从流水线的锁存器中取数据放入。指令的IF，ID照常执行，直到EXE前才从锁存器取数据</li>
+</ul>
+</li>
+<li><strong>写后写</strong>（WAW）：j在i写入前写入寄存器，写入顺序错误（MIPS指令流水中不会发生WAW冲突）</li>
+<li><strong>读后写</strong>（WAR）：j在i读取前对寄存器写入（MIPS中不会发生WAR冲突）</li>
+</ol>
+</li>
+<li><strong>数据冲突检测</strong>，<ul>
+<li>EXE段冲突检测点：当前指令的ID&#x2F;EX段和上一条指令的EX&#x2F;MEM</li>
+<li>MEM段冲突,</li>
+</ul>
+</li>
+<li>解决方法。数据旁路，暂停流水线，编译器调度（也称为静态调度，调整指令顺序），动态调度（硬件动态调整指令执行顺序，异常处理不精确）</li>
+</ul>
+</li>
+<li><strong>控制冲突</strong>，全局冲突，分支等需要改写PC的指令造成的冲突（主要讨论条件跳转）<ul>
+<li>解决方法<ul>
+<li>暂停流水线。直到有正确的转移地址才继续。直到分支指令达到MEM段确定新的PC值。可以尽早算出分支是否转移和转移后的PC</li>
+<li>预测分支失败。顺序执行下一条指令，预测’失败后清除错误启动的指令</li>
+<li>预测分支成功</li>
+<li>动态预测。分支目标缓存技术，将分支的转移成功的分支指令及其目标地址放在缓冲区保存，即分支历史记录表（BHT）。可以使用1位预测位，或2位预测位（需要连续预测失败2次，才改变预测方向，对多重循环预测准确率有提高）</li>
+<li>编译器处理（静态调度，延迟槽）。本质是通过指令调度改变指令执行顺序。有三种调度策略。MIPS处理器的分支延迟槽数为1（RISC-V不采用该技术）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><strong>调度策略</strong></th>
+<th><strong>所受限制</strong></th>
+<th><strong>对流水线性能的影响</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>来自分支前</td>
+<td>被调度指令与分支指令不相关</td>
+<td>可以提高流水线性能</td>
+</tr>
+<tr>
+<td>来自目标地址</td>
+<td>转移失败需要清除影响</td>
+<td>转移成功可以提高流水线性能。由于需要复制指令可能加大程序空间</td>
+</tr>
+<tr>
+<td>来自延迟槽后</td>
+<td>若分支转移成功，被调度指令对程序的执行没有影响</td>
+<td>分支转移失败时可以提高流水线性能</td>
+</tr>
+</tbody></table>
+<hr>
+<p>多周期CPU下MIPS指令执行步骤：</p>
+<ul>
+<li>取指：1步</li>
+<li>在取指之后<ul>
+<li>J型指令，<code>PC[31:28]</code>与target拼接，1步</li>
+<li>相对转移I型指令（beq），读寄存器堆，ALU运算，2步</li>
+<li>R型指令，读寄存器堆，ALU运算，结果写回，3步</li>
+<li>读内存I型指令，读寄存器堆，ALU算地址，读内存数据到DR，把DR内容写入寄存器堆，4步</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>层次存储器</p>
+<ul>
+<li>按工作性质&#x2F;存取方式分类<ul>
+<li>随机存取存储器（Random Access Memory, RAM）</li>
+<li>顺序存取存储器（Sequential Access Memory, SAM）</li>
+<li>直接存取存储器（Direct Access Memory, DAM），有随机的部分也有顺序的部分</li>
+<li>相联存储器（Associate Memory, AM，CAM）</li>
+</ul>
+</li>
+</ul>
+<p>存储器的设计目标：大容量，高速度，低成本，高可靠性</p>
+<p>动态存储器（DRAM），静态存储器（SRAM）：</p>
+<ul>
+<li>DRAM破坏性读出 ，需定期刷新（有集中刷新，分散刷新，异步刷新），快速分页组织；DRAM和SRAM都是易失性</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>SRAM</th>
+<th>DRAM</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>存储信息</td>
+<td>触发器</td>
+<td>电容</td>
+</tr>
+<tr>
+<td>破坏性读出</td>
+<td>非</td>
+<td>是</td>
+</tr>
+<tr>
+<td>需要刷新</td>
+<td>不要</td>
+<td>需要</td>
+</tr>
+<tr>
+<td>送行列地址</td>
+<td>同时送</td>
+<td>分两次送</td>
+</tr>
+<tr>
+<td>访问速度</td>
+<td>快</td>
+<td>慢</td>
+</tr>
+<tr>
+<td>集成度</td>
+<td>低</td>
+<td>高</td>
+</tr>
+<tr>
+<td>发热量</td>
+<td>大</td>
+<td>小</td>
+</tr>
+<tr>
+<td>存储成本</td>
+<td>高</td>
+<td>低</td>
+</tr>
+</tbody></table>
+<p>连续编址与交叉编址</p>
+<hr>
+<p>Cache</p>
+<ul>
+<li>设置于主存和CPU之间的存储器，用SRAM实现</li>
+<li>与CPU运行速度一致，对程序员透明</li>
+<li>命中率（HR）：命中次数&#x2F;访问次数</li>
+<li>Cache总位数，包含有效位，标记位和数据；Cache容量只有数据</li>
+<li><strong>全相联映射</strong>。主存的字块可以和Cache的任何字块对应，利用率高，标志位较长。主存地址为标记+块内地址</li>
+<li><strong>直接映射</strong>。主存的字块只能和Cache的固定字块对应，利用率低，标志位短，比较成本低。主存地址为标记+索引+块内地址。通过索引直接定位Cache块，通过标记对比是否是所需要的块</li>
+<li><strong>N组相联映射</strong>。二路组相联（Cache分为多个组，每组分为两部分）。映射到组后策略与全相联策略相似</li>
+</ul>
+<p>块替换策略</p>
+<ul>
+<li>直接映射不需要替换策略</li>
+<li>全相联映射，主存中的一块可以映射到Cache中的任意一个位置</li>
+<li>N路组相联映射，主存中的一块可以选择映射到Cache中的N个位置</li>
+<li>对于全相联映射和N路组相联映射有LRU（硬件实现复杂），FIFO，RAND（随机替换）</li>
+</ul>
+<p>一致性保证</p>
+<ul>
+<li>写直达（write through）。强一致性保证，效率低，在Cache命中同时修改Cache和主存的内容</li>
+<li>拖后写（write back）。弱一致性保证，替换时再写</li>
+</ul>
+<p>提高存储访问的性能：</p>
+<ul>
+<li>提高命中率，缩短缺失时的访问时间，提高Cache本身的速度</li>
+</ul>
+<p>Cache缺失的原因：</p>
+<ul>
+<li>必然缺失。首次访问数据块。预取</li>
+<li>容量缺失。活动数据集超过Cache大小。增加Cache容量可以缓解</li>
+<li>冲突缺失。多个内存块映射到同一Cache块。增加相联组或Cache容量</li>
+<li>无效缺失。其他进程修改了主存数据。</li>
+</ul>
+<p>影响命中率的因素：Cache容量，Cache块大小，地址映射方式，替换算法，多级Cache</p>
+<p>Cache接入系统的体系结构：</p>
+<ul>
+<li>侧接法，与入出设备类似，结构简单，成本低；不利于降低总线占有率</li>
+<li>隔断法，提高总线利用率，支持总线并发操作；结构复杂</li>
+</ul>
+<p>磁盘</p>
+<ul>
+<li>访问方式：随机访问，串行访问（访问时间与存储位的物理位置有关）</li>
+<li>主要指标：存储密度（单位长度或密度磁层表面所存储的二进制信息），存储容量，寻址时间，数据传输率，误码率，价格</li>
+<li>访问过程：寻道，寻找扇区，数据传输</li>
+<li>磁盘访问时间&#x3D;寻道时间+旋转延迟（旋转半圈的时间）+传输时间+磁盘控制器延迟</li>
+</ul>
+<p>RAID</p>
+<ul>
+<li>RAID0。没有冗余，可靠性差，不算真正的RAID；适合数据请求量大的情况</li>
+<li>RAID1。四块主盘，四块辅盘，写操作进行两次，可靠性高</li>
+<li>RAID2。驱动器必须同时旋转，</li>
+<li>RAID3。驱动器之间必须严格同步，采用奇偶校验生成单个冗余盘</li>
+<li>RAID4。冗余盘存放奇偶校验位，采用大数据块交叉方法</li>
+<li>RAID5。减少校验盘负载，将校验位循环均匀分布在所有驱动器上</li>
+<li>RAID6。二维校验</li>
+<li>RAID7。使用了Cache</li>
+</ul>
+<p><img src="/../img/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/RAID%E7%BA%A7%E5%88%AB.png" srcset="/img/loading.gif" lazyload><br>固态硬盘可以随机访问</p>
+<hr>
+<p>异常和中断的区别：异常来自CPU，中断来自外部设备</p>
+<ul>
+<li>内部异常：可分为故障，自陷，终止</li>
+<li>外部中断：</li>
+</ul>
+<p>MIPS异常和中断处理流程：</p>
+<ol>
+<li>异常和中断检测</li>
+<li>异常和中断响应：保存断点，EPC和程序状态字</li>
+<li>异常和中断处理</li>
+<li>异常和中断返回：返回到断点处继续处理</li>
+</ol>
+<p>状态寄存器SR（status register）：32位，其中EXL<br>Cause寄存器：查看ExcCode确认何种异常</p>
+<p>MIPS异常处理的流程（1-4为硬件，5-10为软件）：</p>
+<ol>
+<li>设置EPC指向重新开始的地址（保存断点）</li>
+<li>设置SR(EXL)位，强制CPU进入内核状态，并禁用中断（关中断）</li>
+<li>设置Cause寄存器（保存异常原因），地址异常时，BadVAddr也要设置</li>
+<li>从异常入口点取指令，之后交给软件处理</li>
+<li>通过k0和k1寄存器引用一段可以保存其他寄存器的内存空间来实现（保护现场）</li>
+<li>区分不同的异常（读取异常原因，识别中断源），Cause寄存器的ExcCode域</li>
+<li>处理异常</li>
+<li>恢复寄存器（恢复现场），清零Cause寄存器</li>
+<li>ERET指令返回EPC指向的地址（恢复断点）</li>
+<li>ERET指令修改Status寄存器（开中断）</li>
+</ol>
 
                 
               </div>
@@ -600,7 +979,7 @@
     <div class="footer-inner">
   
     <div class="footer-content">
-       <span>YeBao</span> <i class="iconfont icon-love"></i> 
+       <span>CaiYe</span> <i class="iconfont icon-love"></i> 
     </div>
   
   
