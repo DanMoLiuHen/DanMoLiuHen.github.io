@@ -6,6 +6,8 @@ hide: false
 math: true
 tag: C++
 ---
+是我蠢了，这玩意官方有[解析](https://dl.ccf.org.cn/index.html?_ack=1)
+
 ## 注意事项
 以下注意事项均针对csp中选择Dev-cpp(C++语言)条件
 1. 使用`pow()`函数需要加上`cmath`库否则编译错误，与在vs中仅添加`iostream`有区别
