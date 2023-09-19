@@ -26,8 +26,9 @@
 <meta property="og:image" content="https://danmoliuhen.github.io./img/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/%E8%BF%9B%E7%A8%8B5%E6%80%81.png">
 <meta property="og:image" content="https://danmoliuhen.github.io./img/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D.png">
 <meta property="og:image" content="https://danmoliuhen.github.io./img/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95.png">
+<meta property="og:image" content="https://danmoliuhen.github.io./img/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/%E6%96%87%E4%BB%B6%E5%88%86%E9%85%8D.png">
 <meta property="article:published_time" content="2023-06-26T08:14:46.929Z">
-<meta property="article:modified_time" content="2023-09-08T08:47:03.735Z">
+<meta property="article:modified_time" content="2023-09-18T03:18:36.698Z">
 <meta property="article:author" content="CaiYe">
 <meta property="article:tag" content="markdown">
 <meta name="twitter:card" content="summary_large_image">
@@ -240,7 +241,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          5.8k 字
+          7.3k 字
         
       </span>
     
@@ -251,7 +252,7 @@
         
         
         
-          49 分钟
+          61 分钟
         
       </span>
     
@@ -302,7 +303,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2023年9月8日 下午
+                    本文最后更新于：2023年9月18日 上午
                   
                 
               </p>
@@ -311,7 +312,7 @@
               <div class="markdown-body">
                 
                 <div class="note note-warning">
-            <p>需要加强的部分：</p><ol><li>二级页表计算</li></ol>
+            <p>需要加强的部分：</p><ol><li>二级页表计算</li></ol><p>重点:<br>进程，内存</p>
           </div> 
 
 <p>操作系统定义：</p>
@@ -516,6 +517,8 @@
 <li>PV操作是原子操作</li>
 <li>PV成对使用</li>
 <li>不能避免死锁问题</li>
+<li>同步量，有条件的限制其先后顺序的量。如缓冲区满了，生产者不能生产，缓冲区空了的时候，消费者不能消费。满的时候得等消费者消费之后生产者才能生成。这个条件（缓冲区满了）满足的时候，就有进程的执行就有一个先后的顺序。</li>
+<li>互斥量，互斥地访问临界资源用的。如缓冲区互斥访问，和顺序无关，无论是生产者还是消费者，访问临界资源就要P一下子这个mutex</li>
 </ul>
 <p>管程：</p>
 <ul>
@@ -545,8 +548,63 @@
 <p>死锁解决：</p>
 <ul>
 <li>死锁预防：破坏必要条件（对于循环等待破坏是按照资源排序的顺序请求资源）</li>
-<li>死锁避免：确保系统不会进入死锁状态（安全状态下一定没有死锁）</li>
+<li>死锁避免：确保系统不会进入死锁状态（安全状态下一定没有死锁）。银行家算法（利用额外先验信息，在分配资源时判断是否会出现死锁）</li>
+<li>死锁检测和恢复：允许系统进入死锁状态，定期检测死锁情况并恢复。恢复使用资源抢占</li>
 </ul>
+<p>进程间通信（IPC）</p>
+<ul>
+<li>独立进程：进程与其他进程无交互</li>
+<li>协作进程：两个或多个进程之间有交互</li>
+<li>直接通信：两个进程不需要内核的中转；间接通信：进程通过系统调用和内核中转（除了共享内存机制，其余IPC都经过内核中转）</li>
+<li>实现方法：<ul>
+<li>管道：单方向传输字节流。shell中的<code>|</code>不支持任意两个进程间的通信</li>
+<li>消息队列：按照先进先出组成一个队列</li>
+<li>共享内存</li>
+<li>信号：Linux中62种信号</li>
+<li>套接字</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>文件系统</p>
+<ul>
+<li>硬链接<br>通过<code>ln</code>创建硬链接，在创建链接的目录中创建另一个名称，指向原文件相同的inode号，未发生复制。在删除时检查引用计数（有多少个不同的文件名链接到该inode），当引用计数达到零后释放inode和相关数据块。不能创建目录的硬链接</li>
+<li>软链接（符号链接）<br>通过<code>ln -s</code>创建。软链接相当于被链接文件的路径名，每次访问的开销较大，当共享文件删除后软链接失效</li>
+</ul>
+<p>文件卷控制块(superblock)，每个文件系统一个<br>文件控制块，每个文件一个<br>数据块(data note)，目录和文件的数据块<br>bitmap块，inode与dnode使用与否的标记位</p>
+<p>分配方式：</p>
+<ul>
+<li>连续分配：文件头指定起始块和长度，最先匹配，最佳匹配。有碎片</li>
+<li>链式分配：链表方式存储，文件头包含起始指针和结束指针。创建，增大，缩小很容易，几乎没有碎片。随机访问效率低，可靠性差（有<strong>隐式连接</strong>目录项中有第一个指针和最后一个指针，每个盘块中有一个指针指向下一个盘块和<strong>显示连接</strong>，各物理块的指针放在内存的一张链表中）</li>
+<li>索引分配：文件头包含索引数据块指针，索引数据块中的索引是文件数据块的指针。几乎没有碎片。存储索引开销较大（链式索引块，多级索引块）<br><img src="/../img/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/%E6%96%87%E4%BB%B6%E5%88%86%E9%85%8D.png" srcset="/img/loading.gif" lazyload></li>
+</ul>
+<p>设备管理<br>常见设备：</p>
+<ul>
+<li>字符设备（GPIO，鼠标，串口），以字节为单位顺序访问</li>
+<li>块设备（磁盘，磁带），均匀的数据块访问</li>
+<li>网络设备（网卡），格式化报文交换</li>
+</ul>
+<p>层次结构：自顶向下（用户进程，内核IO子系统，设备驱动，中断处理例程，硬件设备）<strong>先传后中断</strong></p>
+<p>IO执行模式：</p>
+<ul>
+<li>阻塞IO：用户进程发出IO系统调用后，进程等待直至该IO操作完成</li>
+<li>非阻塞式IO：用户进程不会被内核阻塞，而是需要不断地主动询问内核所需数据是否准备好</li>
+<li>多路复用IO：将多个非阻塞IO请求轮询操作合并到一个select或epoll里执行</li>
+<li>信号驱动IO：利用信号机制完成从内核到应用进程的事件通知</li>
+<li>异步IO：不会导致请求进程阻塞</li>
+</ul>
+<p>磁盘调度：</p>
+<ul>
+<li>FIFO，FCFS</li>
+<li>最短服务时间（SSTF，shortest seek time first），总是选择最短的寻道时间</li>
+<li>扫描算法（SCAN），也称为电梯算法，在一个方向走到头再去另一个方向</li>
+<li>循环扫描算法（C-SCAN），一直按一个方向扫描到头，再从头开始</li>
+<li>C-LOOK，达到最后一个请求处立即反转（与C-SCAN有区别）</li>
+<li>N步扫描算法，将磁盘请求队列分为长度为N的子队列，按照FIFO处理所有子队列，扫描算法处理每个队列</li>
+</ul>
+<p>SSD没有移动磁头，通常使用FIFO</p>
+<p>磁头黏着：SSTF，SCAN和CSCAN中可能出现磁头停留在某处不动，</p>
+<p>访问频率置换算法（FBR），对密集引用不计数，短周期使用LRU，长周期使用LFU</p>
 
                 
               </div>
